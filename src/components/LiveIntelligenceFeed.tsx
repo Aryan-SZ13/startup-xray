@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Radio, ArrowRight, ShieldCheck, AlertCircle, FileText, DollarSign, Users, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Radio, ArrowRight, ShieldCheck, FileText, DollarSign, Users, ChevronRight, Filter } from 'lucide-react';
 import { intelligenceEvents } from '../data';
+
+type EventFilter = 'ALL' | 'FUNDING' | 'REGULATORY' | 'HIRING' | 'TECH';
 
 export const LiveIntelligenceFeed: React.FC = () => {
   const navigate = useNavigate();
+  const [filter, setFilter] = useState<EventFilter>('ALL');
 
   const getEventIcon = (headline: string) => {
     const text = headline.toLowerCase();
@@ -26,109 +29,141 @@ export const LiveIntelligenceFeed: React.FC = () => {
     return null;
   };
 
+  const filteredEvents = intelligenceEvents.filter(ev => {
+    if (filter === 'ALL') return true;
+    const t = ev.headline.toLowerCase();
+    if (filter === 'FUNDING') return t.includes('raise') || t.includes('round') || t.includes('funding') || t.includes('mezzanine');
+    if (filter === 'REGULATORY') return t.includes('filing') || t.includes('sebi') || t.includes('drhp') || t.includes('disclosure');
+    if (filter === 'HIRING') return t.includes('hire') || t.includes('team') || t.includes('scientists') || t.includes('poach');
+    if (filter === 'TECH') return t.includes('engine') || t.includes('api') || t.includes('patent') || t.includes('cryogenic');
+    return true;
+  });
+
   return (
-    <div className="relative w-full h-[480px] lg:h-[540px] bg-[#0c0d15] rounded-2xl border border-white/10 overflow-hidden shadow-2xl flex flex-col">
-      {/* Top Header */}
-      <div className="px-4 py-3 bg-[#08080d]/90 border-b border-white/10 flex items-center justify-between backdrop-blur-md">
+    <div className="relative w-full h-[540px] lg:h-[600px] bg-[#090a12] rounded-2xl border border-white/10 overflow-hidden shadow-2xl flex flex-col">
+      
+      {/* 1. Header with live pulsing sensor (Crucix principle) */}
+      <div className="px-4 py-2.5 bg-[#06070b]/95 border-b border-white/10 flex items-center justify-between backdrop-blur-md">
         <div className="flex items-center gap-2">
           <div className="relative flex items-center justify-center">
             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse shadow-[0_0_8px_#ef4444]" />
             <span className="absolute w-4 h-4 rounded-full bg-red-500/30 animate-ping" />
           </div>
           <span className="text-[11px] font-mono font-bold tracking-widest text-white uppercase">
-            LIVE INTELLIGENCE STREAM
+            LIVE DISPATCH // EVENT RADAR
           </span>
         </div>
-        <span className="text-[9px] font-mono text-cyan-400 bg-cyan-950/40 border border-cyan-500/30 px-2 py-0.5 rounded">
-          STREAM ACTIVE
+        <span className="text-[9px] font-mono text-cyan-400 bg-cyan-950/40 border border-cyan-500/30 px-2 py-0.5 rounded font-bold">
+          {filteredEvents.length} ACTIVE
         </span>
       </div>
 
-      {/* Feed list */}
-      <div className="flex-1 overflow-y-auto p-3 space-y-2.5 custom-scrollbar divide-y divide-white/5">
-        {intelligenceEvents.map((event, idx) => {
-          const primaryCompany = event.affectedCompanies?.[0] || 'Entity';
-          const companyId = getCompanyId(primaryCompany);
-
-          return (
-            <motion.div
-              key={event.id}
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3, delay: idx * 0.05 }}
-              onClick={() => {
-                if (companyId) {
-                  navigate(`/company/${companyId}`);
-                } else {
-                  navigate(`/search?q=${encodeURIComponent(primaryCompany)}`);
-                }
-              }}
-              className="pt-2.5 first:pt-0 group cursor-pointer"
-            >
-              <div className="p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-cyan-500/30 hover:bg-white/[0.05] transition-all">
-                {/* Meta line */}
-                <div className="flex items-center justify-between mb-1.5">
-                  <div className="flex items-center gap-1.5">
-                    {getEventIcon(event.headline)}
-                    <span className="text-[10px] font-mono font-bold text-cyan-400">
-                      {event.timeAgo || 'Recent'}
-                    </span>
-                    <span className="text-zinc-600 font-mono text-[9px]">•</span>
-                    <span className="text-[9px] font-mono text-zinc-400 truncate max-w-[110px]">
-                      {event.source.split('/')[0]}
-                    </span>
-                  </div>
-
-                  <span className={`text-[8px] font-mono font-bold px-1.5 py-0.5 rounded uppercase ${
-                    event.impactLevel === 'HIGH' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' :
-                    'bg-cyan-500/10 text-cyan-300 border border-cyan-500/20'
-                  }`}>
-                    {event.impactLevel}
-                  </span>
-                </div>
-
-                {/* Headline */}
-                <h4 className="text-xs font-semibold text-zinc-100 group-hover:text-cyan-300 transition-colors line-clamp-2 leading-snug mb-1.5">
-                  {event.headline}
-                </h4>
-
-                {/* Affected Entities & Domino CTA */}
-                <div className="flex items-center justify-between pt-1">
-                  <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
-                    {event.affectedCompanies.slice(0, 2).map(c => (
-                      <span
-                        key={c}
-                        className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-zinc-300 group-hover:border-cyan-500/30"
-                      >
-                        {c}
-                      </span>
-                    ))}
-                  </div>
-
-                  {event.hasDominoMap && (
-                    <span
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate('/domino');
-                      }}
-                      className="text-[9px] font-mono text-cyan-400 hover:text-white flex items-center gap-0.5 ml-2 whitespace-nowrap bg-cyan-950/40 px-1.5 py-0.5 rounded border border-cyan-500/20"
-                    >
-                      <span>DOMINO</span>
-                      <ChevronRight className="w-2.5 h-2.5" />
-                    </span>
-                  )}
-                </div>
-              </div>
-            </motion.div>
-          );
-        })}
+      {/* 2. Micro Filter Pills */}
+      <div className="px-3 py-1.5 bg-[#0a0b14] border-b border-white/5 flex items-center gap-1 overflow-x-auto no-scrollbar">
+        {(['ALL', 'FUNDING', 'REGULATORY', 'HIRING', 'TECH'] as EventFilter[]).map((f) => (
+          <button
+            key={f}
+            onClick={() => setFilter(f)}
+            className={`text-[9px] font-mono px-2 py-0.5 rounded transition-all cursor-pointer ${
+              filter === f
+                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold'
+                : 'text-zinc-500 hover:text-zinc-300'
+            }`}
+          >
+            {f}
+          </button>
+        ))}
       </div>
 
-      {/* Terminal Footer */}
-      <div className="px-4 py-2 bg-[#08080d] border-t border-white/10 flex items-center justify-between text-[10px] font-mono text-zinc-500">
+      {/* 3. Event List Container */}
+      <div className="flex-1 overflow-y-auto p-3 space-y-2.5 custom-scrollbar divide-y divide-white/5">
+        <AnimatePresence>
+          {filteredEvents.map((event, idx) => {
+            const primaryCompany = event.affectedCompanies?.[0] || 'Entity';
+            const companyId = getCompanyId(primaryCompany);
+
+            return (
+              <motion.div
+                key={event.id}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.2, delay: idx * 0.04 }}
+                onClick={() => {
+                  if (companyId) {
+                    navigate(`/company/${companyId}`);
+                  } else {
+                    navigate(`/search?q=${encodeURIComponent(primaryCompany)}`);
+                  }
+                }}
+                className="pt-2.5 first:pt-0 group cursor-pointer"
+              >
+                <div className="p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-cyan-500/40 hover:bg-white/[0.05] transition-all">
+                  
+                  {/* Meta strip */}
+                  <div className="flex items-center justify-between mb-1.5">
+                    <div className="flex items-center gap-1.5">
+                      {getEventIcon(event.headline)}
+                      <span className="text-[10px] font-mono font-bold text-cyan-400">
+                        {event.timeAgo || 'Recent'}
+                      </span>
+                      <span className="text-zinc-600 font-mono text-[9px]">•</span>
+                      <span className="text-[9px] font-mono text-zinc-400 truncate max-w-[105px]">
+                        {event.source.split('/')[0]}
+                      </span>
+                    </div>
+
+                    <span className={`text-[8px] font-mono font-bold px-1.5 py-0.5 rounded uppercase ${
+                      event.impactLevel === 'HIGH' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' :
+                      'bg-cyan-500/10 text-cyan-300 border border-cyan-500/20'
+                    }`}>
+                      {event.impactLevel}
+                    </span>
+                  </div>
+
+                  {/* Headline */}
+                  <h4 className="text-xs font-semibold text-zinc-100 group-hover:text-cyan-300 transition-colors line-clamp-2 leading-snug mb-2">
+                    {event.headline}
+                  </h4>
+
+                  {/* Entity Tags & Domino CTA */}
+                  <div className="flex items-center justify-between pt-1">
+                    <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
+                      {event.affectedCompanies.slice(0, 2).map(c => (
+                        <span
+                          key={c}
+                          className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-zinc-300 group-hover:border-cyan-500/30"
+                        >
+                          {c}
+                        </span>
+                      ))}
+                    </div>
+
+                    {event.hasDominoMap && (
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate('/domino');
+                        }}
+                        className="text-[9px] font-mono text-cyan-400 hover:text-white flex items-center gap-0.5 ml-2 whitespace-nowrap bg-cyan-950/40 px-1.5 py-0.5 rounded border border-cyan-500/20 hover:border-cyan-500/50"
+                      >
+                        <span>DOMINO</span>
+                        <ChevronRight className="w-2.5 h-2.5" />
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
+      </div>
+
+      {/* Terminal Provenance Footer */}
+      <div className="px-4 py-2 bg-[#06070b] border-t border-white/10 flex items-center justify-between text-[10px] font-mono text-zinc-500">
         <span className="flex items-center gap-1">
           <ShieldCheck className="w-3 h-3 text-emerald-400" />
-          <span>PROVENANCE VERIFIED</span>
+          <span>PROVENANCE LEDGER</span>
         </span>
         <button
           onClick={() => navigate('/companies')}
