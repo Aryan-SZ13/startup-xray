@@ -1,14 +1,23 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Search, Filter, MapPin, Network } from 'lucide-react';
 import { companies } from '../data';
 
 const CompaniesPage: React.FC = () => {
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchParams] = useSearchParams();
+  const initialQ = searchParams.get('q') || '';
+  const [searchTerm, setSearchTerm] = useState(initialQ);
   const [filterIndustry, setFilterIndustry] = useState('ALL');
   const [filterStage, setFilterStage] = useState('ALL');
+
+  useEffect(() => {
+    const q = searchParams.get('q');
+    if (q !== null) {
+      setSearchTerm(q);
+    }
+  }, [searchParams]);
 
   const industries = ['ALL', ...Array.from(new Set(companies.map((c: any) => c.industry)))];
   const stages = ['ALL', ...Array.from(new Set(companies.map((c: any) => c.stage)))];

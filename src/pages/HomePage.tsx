@@ -5,12 +5,13 @@ import {
   Search, TrendingUp, TrendingDown, Minus, ArrowRight, Zap, 
   Eye, Radio, Target, Network, Globe, ChevronRight, 
   ExternalLink, AlertTriangle, Link as LinkIcon, Map, ShieldAlert,
-  Briefcase
+  Briefcase, Activity
 } from 'lucide-react';
 import { useAppState } from '../store/AppContext';
 import { 
   companies, marketSectors, intelligenceEvents, 
-  opportunities, recommendations, earlySignals 
+  opportunities, recommendations, earlySignals,
+  getContextualRecommendations 
 } from '../data';
 
 // --- Helper Components ---
@@ -61,6 +62,14 @@ export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchFocused, setSearchFocused] = useState(false);
   const [currentEcosystem, setCurrentEcosystem] = useState('SRM');
+
+  // Dynamic contextual recommendations based on user research history, ecosystem, and network
+  const activeRecommendations = getContextualRecommendations({
+    investigatedCompanies,
+    linkedInConnected,
+    activeEcosystem: currentEcosystem,
+    allCompanies: companies
+  });
 
   // Hardcoded suggestions for the cinematic effect
   const searchSuggestions = [
@@ -555,11 +564,8 @@ export default function HomePage() {
 
           {investigatedCompanies.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {(recommendations as any[] || [
-                { id: '1', companyName: 'Aerospace Dynamics', type: 'COMPETITOR', reasons: ['Similar cap table structure', 'Targeting same DoD contracts'] },
-                { id: '2', companyName: 'RoboLogix', type: 'ACQUISITION TARGET', reasons: ['Complementary tech stack', 'Founders connected to your network'] }
-              ]).map((rec, i) => (
-                <FadeIn key={rec.id} delay={i * 0.1}>
+              {activeRecommendations.slice(0, 3).map((rec, i) => (
+                <FadeIn key={rec.companyId} delay={i * 0.1}>
                   <div className="p-6 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors h-full flex flex-col">
                     <div className="flex justify-between items-start mb-4">
                       <h3 className="text-lg font-bold text-white">{rec.companyName || rec.companyId}</h3>
@@ -601,7 +607,176 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 9. EARLY SIGNAL RADAR */}
+      {/* 9. UNDER THE RADAR */}
+      <section className="py-24 px-6 border-t border-white/5 bg-gradient-to-b from-[#0a0a0f] via-[#0e0d16] to-[#0a0a0f] relative">
+        <div className="max-w-7xl mx-auto">
+          <FadeIn>
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+              <div>
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-8 h-8 rounded-lg bg-cyan-500/20 flex items-center justify-center border border-cyan-500/30">
+                    <Radio className="w-4 h-4 text-cyan-400" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-white tracking-wide uppercase">Under The Radar</h2>
+                </div>
+                <p className="text-zinc-400 max-w-xl">
+                  Companies you may not know — low public visibility combined with sudden observable signal density.
+                </p>
+              </div>
+              <div className="flex items-center gap-2 text-xs font-mono text-zinc-500 bg-white/5 px-3 py-1.5 rounded-lg border border-white/10">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>FILTER: LOW VISIBILITY + HIGH SIGNAL DENSITY</span>
+              </div>
+            </div>
+          </FadeIn>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {companies.filter(c => c.visibility === 'LOW' || c.signalDensity === 'HIGH').slice(0, 2).map((comp, idx) => (
+              <FadeIn key={comp.id} delay={idx * 0.1}>
+                <div className="p-8 rounded-2xl border border-white/10 bg-gradient-to-br from-[#12111a] to-[#0a0a0f] hover:border-cyan-500/40 hover:shadow-[0_0_35px_rgba(0,212,255,0.08)] transition-all flex flex-col justify-between group">
+                  <div>
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <div className="flex items-center gap-3 mb-1">
+                          <h3 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors">{comp.name}</h3>
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 uppercase">
+                            RESEARCH CANDIDATE
+                          </span>
+                        </div>
+                        <p className="text-sm text-zinc-400">{comp.tagline}</p>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-[10px] font-mono block text-zinc-500">VISIBILITY</span>
+                        <span className="text-xs font-mono font-bold text-amber-400">{comp.visibility || 'LOW'}</span>
+                      </div>
+                    </div>
+
+                    {/* WHY NOW MODULE */}
+                    {comp.whyNow && (
+                      <div className="my-6 p-4 rounded-xl bg-white/[0.03] border border-white/5">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-[11px] font-mono font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
+                            <Zap className="w-3.5 h-3.5 text-cyan-400" /> WHY NOW?
+                          </span>
+                          <span className="text-[10px] font-mono text-zinc-500">{comp.whyNow.catalystTimestamp}</span>
+                        </div>
+                        <div className="space-y-1.5 text-xs text-zinc-300">
+                          <p><span className="text-zinc-500 font-mono">BEFORE:</span> {comp.whyNow.before}</p>
+                          <p><span className="text-cyan-400/90 font-mono">WHAT CHANGED:</span> {comp.whyNow.whatChanged}</p>
+                          <p><span className="text-emerald-400/90 font-mono">WHY IT MATTERS:</span> {comp.whyNow.whyItMatters}</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* SIGNAL STACK */}
+                    {comp.signalStack && comp.signalStack.length > 0 && (
+                      <div className="space-y-2 mb-6">
+                        <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 block mb-1">SIGNAL STACK</span>
+                        {comp.signalStack.map((sig, sIdx) => (
+                          <div key={sIdx} className="flex items-center justify-between p-2 rounded bg-black/40 border border-white/5 text-xs">
+                            <div className="flex items-center gap-2">
+                              <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 uppercase">
+                                {sig.category}
+                              </span>
+                              <span className="text-zinc-300 truncate max-w-[280px]">{sig.headline}</span>
+                            </div>
+                            <span className="text-[10px] font-mono text-zinc-500">{sig.timestamp}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex items-center gap-3 pt-4 border-t border-white/5">
+                    <button 
+                      onClick={() => navigate(`/company/${comp.id}`)}
+                      className="flex-1 py-2.5 rounded-lg bg-white/5 hover:bg-white/10 text-xs font-bold text-white transition-colors text-center border border-white/10"
+                    >
+                      OPEN DOSSIER
+                    </button>
+                    <button 
+                      onClick={() => navigate(`/xray/${comp.id}`)}
+                      className="flex-1 py-2.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-xs font-bold text-cyan-400 transition-colors text-center border border-cyan-500/30 shadow-[0_0_15px_rgba(0,212,255,0.1)]"
+                    >
+                      RUN X-RAY
+                    </button>
+                  </div>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 10. QUIET MOVERS MATRIX */}
+      <section className="py-24 px-6 border-t border-white/5 relative bg-[#0a0a0f]">
+        <div className="max-w-7xl mx-auto">
+          <FadeIn>
+            <div className="flex items-center justify-between mb-12">
+              <div>
+                <h2 className="text-xl font-bold tracking-widest text-white uppercase flex items-center gap-3">
+                  <Activity className="w-5 h-5 text-indigo-400" /> Quiet Movers Matrix
+                </h2>
+                <p className="text-zinc-500 mt-2">Visibility vs Signal Density quadrant analysis</p>
+              </div>
+              <button 
+                onClick={() => navigate('/discover')}
+                className="text-xs font-mono text-cyan-400 hover:text-white flex items-center gap-1 transition-colors"
+              >
+                EXPLORE ALL UNIVERSE <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </FadeIn>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                title: 'Agnikul Cosmos',
+                sector: 'Commercial Space',
+                status: 'QUIET → ACTIVE',
+                signals: '3D Cryogenic Engine Fire • Private Spaceport Access',
+                id: 'c_agnikul',
+                badge: 'HIGH SIGNAL / LOW NOISE'
+              },
+              {
+                title: 'Skyroot Aerospace',
+                sector: 'Satellite Launch',
+                status: 'QUIET → ACTIVE',
+                signals: '4 European Rideshare Contracts • Carbon Composite Stage-3 Patent',
+                id: 'c_skyroot',
+                badge: 'ORBITAL MANIFEST'
+              },
+              {
+                title: 'Zepto',
+                sector: 'Quick Commerce',
+                status: 'EMERGING → MASSIVE',
+                signals: '$450M Pre-IPO Mezzanine • 700 Dark Store Cluster',
+                id: 'c_zepto',
+                badge: 'CAPITAL DENSITY'
+              }
+            ].map((mover, mIdx) => (
+              <FadeIn key={mIdx} delay={mIdx * 0.1}>
+                <div 
+                  onClick={() => navigate(`/company/${mover.id}`)}
+                  className="p-6 rounded-xl border border-white/5 bg-[#111118] hover:border-indigo-500/40 hover:bg-indigo-500/[0.02] transition-all cursor-pointer group"
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 uppercase">
+                      {mover.badge}
+                    </span>
+                    <span className="text-[11px] font-mono font-bold text-emerald-400">{mover.status}</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-1 group-hover:text-cyan-300 transition-colors">{mover.title}</h3>
+                  <p className="text-xs text-zinc-500 mb-4">{mover.sector}</p>
+                  <p className="text-xs text-zinc-300 leading-relaxed pt-3 border-t border-white/5">{mover.signals}</p>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 11. EARLY SIGNAL RADAR */}
       <section className="py-24 px-6 border-t border-white/5 relative overflow-hidden">
         {/* Radar subtle bg effect */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-white/5 rounded-full pointer-events-none opacity-20" />
@@ -645,6 +820,43 @@ export default function HomePage() {
                     <span>Investigate anomaly</span>
                     <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </div>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 12. EVIDENCE WALL */}
+      <section className="py-24 px-6 border-t border-white/5 bg-[#0a0a0f]">
+        <div className="max-w-7xl mx-auto">
+          <FadeIn>
+            <div className="flex items-center justify-between mb-12">
+              <div>
+                <h2 className="text-xl font-bold tracking-widest text-white uppercase flex items-center gap-3">
+                  <ShieldAlert className="w-5 h-5 text-emerald-400" /> Evidence & Provenance Ledger
+                </h2>
+                <p className="text-zinc-500 mt-2">Don't tell me the story. Show me the evidence behind the story.</p>
+              </div>
+            </div>
+          </FadeIn>
+
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
+            {[
+              { status: 'VERIFIED', count: '14,280', color: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10', desc: 'Direct regulatory filings & contracts' },
+              { status: 'REPORTED', count: '8,410', color: 'text-cyan-400 border-cyan-500/30 bg-cyan-500/10', desc: 'Credible financial journalists & press' },
+              { status: 'ESTIMATED', count: '3,290', color: 'text-amber-400 border-amber-500/30 bg-amber-500/10', desc: 'Institutional markups & metrics' },
+              { status: 'INFERRED', count: '2,140', color: 'text-purple-400 border-purple-500/30 bg-purple-500/10', desc: 'Cross-node network calculations' },
+              { status: 'CONFLICTED', count: '412', color: 'text-red-400 border-red-500/30 bg-red-500/10', desc: 'Contradictory source statements' },
+              { status: 'UNKNOWN', count: '1,890', color: 'text-zinc-400 border-zinc-500/30 bg-zinc-500/10', desc: 'Flagged diligence blind spots' }
+            ].map((ledger, lIdx) => (
+              <FadeIn key={lIdx} delay={lIdx * 0.04}>
+                <div className={`p-4 rounded-xl border ${ledger.color} flex flex-col justify-between h-full`}>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] font-mono font-bold tracking-widest uppercase">{ledger.status}</span>
+                  </div>
+                  <span className="text-2xl font-mono font-bold text-white mb-1">{ledger.count}</span>
+                  <p className="text-[10px] text-zinc-400 leading-snug">{ledger.desc}</p>
                 </div>
               </FadeIn>
             ))}

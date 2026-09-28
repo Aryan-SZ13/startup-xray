@@ -17,9 +17,11 @@ const STAGES = [
 export default function AnalystPage() {
   const [searchParams] = useSearchParams();
   const companyId = searchParams.get('company');
+  const urlQ = searchParams.get('q') || searchParams.get('query') || '';
   const company = companyId ? getCompanyById(companyId) : null;
 
-  const [query, setQuery] = useState('');
+  const defaultQ = urlQ || (company ? `What changed in the last 12 months at ${company.name}?` : '');
+  const [query, setQuery] = useState(defaultQ);
   const [isInvestigating, setIsInvestigating] = useState(false);
   const [currentStageIndex, setCurrentStageIndex] = useState(-1);
   const [showResults, setShowResults] = useState(false);
@@ -30,6 +32,12 @@ export default function AnalystPage() {
     setShowResults(false);
     setCurrentStageIndex(0);
   };
+
+  useEffect(() => {
+    if (defaultQ && !showResults && !isInvestigating) {
+      startInvestigation(defaultQ);
+    }
+  }, [defaultQ]);
 
   useEffect(() => {
     if (isInvestigating && currentStageIndex < STAGES.length) {

@@ -6,7 +6,7 @@ import { investigations } from './investigations';
 import { redTeamAnalyses } from './redteam';
 import { comparisons } from './comparisons';
 import { networkConnections, networkPaths } from './network';
-import { recommendations } from './recommendations';
+import { recommendations, getContextualRecommendations } from './recommendations';
 import { dominoEffects } from './domino';
 import { intelligenceEvents } from './intelligence';
 import { earlySignals } from './earlySignals';
@@ -23,6 +23,7 @@ export {
   networkConnections,
   networkPaths,
   recommendations,
+  getContextualRecommendations,
   dominoEffects,
   intelligenceEvents,
   earlySignals

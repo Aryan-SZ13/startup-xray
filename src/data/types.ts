@@ -53,6 +53,22 @@ export interface Company {
   companyDNA: CompanyDNA;
   storyVsSignal?: StoryVsSignal;
   blindSpots: BlindSpot[];
+  visibility?: 'LOW' | 'MEDIUM' | 'HIGH';
+  signalDensity?: 'HIGH' | 'MEDIUM' | 'LOW';
+  whyNow?: {
+    before: string;
+    whatChanged: string;
+    whyItMatters: string;
+    catalystTimestamp?: string;
+  };
+  signalStack?: {
+    category: 'CAPITAL' | 'PRODUCT' | 'COMMERCIAL' | 'TALENT' | 'MARKET' | 'TECHNOLOGY' | 'ECOSYSTEM' | 'REGULATORY';
+    headline: string;
+    timestamp: string;
+    source: string;
+    confidence: ConfidenceLevel;
+    status: EvidenceStatus;
+  }[];
 }
 
 export interface Founder {

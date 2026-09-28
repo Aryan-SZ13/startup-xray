@@ -134,28 +134,42 @@ export default function ThesisPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {results.map((company, i) => (
                   <motion.div
-                    key={i}
+                    key={company.id}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
                     onClick={() => navigate(`/company/${company.id}`)}
-                    className="bg-[#111118] border border-white/5 hover:border-cyan-500/30 rounded-xl p-5 cursor-pointer transition-all"
+                    className="bg-[#111118] border border-white/5 hover:border-cyan-500/30 rounded-xl p-5 cursor-pointer transition-all flex flex-col justify-between group"
                   >
-                    <div className="flex justify-between items-start mb-3">
-                      <h4 className="text-white font-medium">{company.name}</h4>
-                      <span className="text-[10px] px-2 py-1 bg-emerald-950/30 text-emerald-400 border border-emerald-500/30 rounded uppercase">
-                        98% Match
-                      </span>
+                    <div>
+                      <div className="flex justify-between items-start mb-2">
+                        <h4 className="text-white font-bold group-hover:text-cyan-400 transition-colors">{company.name}</h4>
+                        <span className="text-[10px] px-2 py-0.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded font-mono uppercase">
+                          {92 - i * 4}% Match
+                        </span>
+                      </div>
+                      <p className="text-xs text-gray-400 line-clamp-2 mb-3">{company.tagline || company.description}</p>
+                      
+                      {/* Thesis Genome Fit */}
+                      <div className="space-y-1.5 mb-4 p-2.5 rounded bg-black/40 border border-white/5 text-[11px] font-mono">
+                        <div className="flex items-center justify-between text-emerald-400">
+                          <span>SECTOR FIT</span>
+                          <span>✓ {company.sector || company.industry}</span>
+                        </div>
+                        <div className="flex items-center justify-between text-cyan-300">
+                          <span>STAGE FIT</span>
+                          <span>✓ {company.stage}</span>
+                        </div>
+                        <div className="flex items-center justify-between text-zinc-400">
+                          <span>GEOGRAPHY</span>
+                          <span>{company.headquarters || 'India'}</span>
+                        </div>
+                      </div>
                     </div>
-                    <p className="text-xs text-gray-400 line-clamp-2 mb-4">{company.description}</p>
                     
-                    <div className="flex flex-wrap gap-2">
-                      <span className="flex items-center gap-1 text-[10px] px-2 py-1 bg-[#0a0a0f] rounded border border-white/5 text-gray-400">
-                        <MapPin className="w-3 h-3" /> {company.headquarters || (company as any).location || 'India'}
-                      </span>
-                      <span className="flex items-center gap-1 text-[10px] px-2 py-1 bg-[#0a0a0f] rounded border border-white/5 text-gray-400">
-                        <TrendingUp className="w-3 h-3" /> {company.stage || stage}
-                      </span>
+                    <div className="flex items-center justify-between pt-3 border-t border-white/5 text-[11px]">
+                      <span className="text-zinc-500 font-mono">VIEW FULL DOSSIER</span>
+                      <span className="text-cyan-400 font-bold group-hover:translate-x-1 transition-transform">→</span>
                     </div>
                   </motion.div>
                 ))}

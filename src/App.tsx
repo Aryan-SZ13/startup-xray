@@ -23,6 +23,7 @@ export default function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/search" element={<CompaniesPage />} />
           <Route path="/company/:id" element={<CompanyPage />} />
           <Route path="/companies" element={<CompaniesPage />} />
           <Route path="/xray/:id" element={<XRayPage />} />

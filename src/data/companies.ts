@@ -99,6 +99,20 @@ export const companies: Company[] = [
     },
     blindSpots: [
       { area: 'Quick Commerce Unit Economics', known: true, importance: 'CRITICAL', question: 'Can Instamart ever achieve standalone profitability against Zepto/Blinkit?' }
+    ],
+    visibility: 'HIGH',
+    signalDensity: 'HIGH',
+    whyNow: {
+      before: 'Burned $500M+ competing with Zomato in food delivery while operating Instamart at single-digit take rates.',
+      whatChanged: 'SEBI approved draft IPO prospectus; dark store density increased to 600+ across tier-1 & tier-2 corridors.',
+      whyItMatters: 'Public listing forces disclosure of cohort profitability while battle against Zepto moves to pre-IPO war footing.',
+      catalystTimestamp: '28m ago'
+    },
+    signalStack: [
+      { category: 'REGULATORY', headline: 'SEBI clears DRHP for $1.4B public IPO', timestamp: '28m ago', source: 'SEBI Official Gazette', confidence: 'HIGH', status: 'VERIFIED' },
+      { category: 'COMMERCIAL', headline: '150 dark-store cluster lease executed in Tier-2 corridor', timestamp: '1h ago', source: 'State Real Estate Registries', confidence: 'HIGH', status: 'VERIFIED' },
+      { category: 'TALENT', headline: 'VP Engineering poached from Amazon AWS Logistics', timestamp: '2w ago', source: 'LinkedIn Profile Transition', confidence: 'MEDIUM', status: 'REPORTED' },
+      { category: 'CAPITAL', headline: 'Anchor book institutional commitments 3.2x oversubscribed', timestamp: '4h ago', source: 'Merchant Banker Briefing', confidence: 'MEDIUM', status: 'REPORTED' }
     ]
   },
   {
@@ -155,7 +169,22 @@ export const companies: Company[] = [
       technology: 'Scaling highly concurrent systems',
       risks: 'Regulatory caps on commissions, blinkit integration'
     },
-    blindSpots: []
+    blindSpots: [
+      { area: 'Blinkit Take Rate Saturation', known: true, importance: 'HIGH', question: 'How high can delivery and handling fees rise before cart abandonment spikes?' }
+    ],
+    visibility: 'HIGH',
+    signalDensity: 'HIGH',
+    whyNow: {
+      before: 'Struggled with food delivery margins and investor skepticism after Blinkit acquisition in 2022.',
+      whatChanged: 'Blinkit turned EBITDA positive ahead of projections; acquired Paytm events business for Rs 2,048 Cr.',
+      whyItMatters: 'Consolidating into a 4-engine platform (Food, Grocery, Supplies, Going-Out) with superior cash flow generation.',
+      catalystTimestamp: '3h ago'
+    },
+    signalStack: [
+      { category: 'COMMERCIAL', headline: 'District App crosses 5M downloads consolidating going-out', timestamp: '3h ago', source: 'BSE Disclosure', confidence: 'HIGH', status: 'VERIFIED' },
+      { category: 'CAPITAL', headline: 'Board approves $1B QIP allocation for cash balance preservation', timestamp: '1d ago', source: 'Exchange Filing', confidence: 'HIGH', status: 'VERIFIED' },
+      { category: 'TALENT', headline: 'Hyperpure supply chain division scales headcount by 24%', timestamp: '3d ago', source: 'LinkedIn Talent Insights', confidence: 'MEDIUM', status: 'REPORTED' }
+    ]
   },
   {
     id: 'c_zepto',
@@ -205,12 +234,18 @@ export const companies: Company[] = [
     totalFunding: { id: 'ec_ze3', claim: '$560M', value: 560000000, source: 'Crunchbase', sourceType: 'PUBLIC_DATA', retrievedAt: '2024-05-01', status: 'VERIFIED', confidence: 'HIGH' },
     competitors: ['c_swiggy', 'c_zomato'],
     markets: ['India'],
-    signals: [],
+    signals: [
+      { id: 'sig_ze1', type: 'HIRING', title: 'Poached Head of Supply Chain & 14 Leads', description: 'Mass hiring raid on Amazon India & Blinkit', date: '1h ago', strength: 'STRONG', isEarlySignal: true }
+    ],
     legalEvents: [],
     newsEvents: [],
-    ecosystemConnections: [],
+    ecosystemConnections: [
+      { type: 'HIRING', ecosystem: 'SRM', label: 'Campus Hiring Drive', description: 'Recruited 45+ frontend & mobile engineering graduates for Bengaluru tech center', verified: true }
+    ],
     financialMetrics: [],
-    operationSignals: [],
+    operationSignals: [
+      { category: 'Infrastructure', signal: 'Dark Stores', direction: 'UP', evidence: { id: 'ec_ze_d', claim: '700+ stores', source: 'Management Call', sourceType: 'COMPANY_STATEMENT', retrievedAt: '2024-09', status: 'REPORTED', confidence: 'MEDIUM' } }
+    ],
     companyDNA: {
       businessModel: 'Inventory-led quick commerce',
       market: 'India Quick Commerce',
@@ -222,7 +257,22 @@ export const companies: Company[] = [
       technology: 'Demand prediction, real-time inventory',
       risks: 'High burn rate, intense competition from well-capitalized players'
     },
-    blindSpots: []
+    blindSpots: [
+      { area: 'Corporate Governance at Scale', known: true, importance: 'HIGH', question: 'Can undergraduate-dropout leadership structure scale into public audit compliance?' }
+    ],
+    visibility: 'HIGH',
+    signalDensity: 'HIGH',
+    whyNow: {
+      before: 'Underdog startup competing against incumbents Swiggy Instamart and Zomato Blinkit with limited balance sheet.',
+      whatChanged: 'Raised $1B+ within 9 months pushing valuation to $5.0B; poached key warehouse architects from Amazon.',
+      whyItMatters: 'Moving from pure grocery to 10-minute electronics and apparel, attacking Flipkart/Amazon territory.',
+      catalystTimestamp: '45m ago'
+    },
+    signalStack: [
+      { category: 'CAPITAL', headline: 'Closes $450M mezzanine pre-IPO round at $5.0B mark', timestamp: '45m ago', source: 'Bloomberg Tech Dispatch', confidence: 'HIGH', status: 'VERIFIED' },
+      { category: 'TALENT', headline: 'Poaches senior VP logistics and 14 operations leads from Amazon', timestamp: '1h ago', source: 'LinkedIn Executive Moves', confidence: 'HIGH', status: 'VERIFIED' },
+      { category: 'PRODUCT', headline: 'Zepto Cafe pilot rolled out to 120 dark stores in Mumbai & NCR', timestamp: '2d ago', source: 'App Store Changelog', confidence: 'HIGH', status: 'VERIFIED' }
+    ]
   },
   {
     id: 'c_agnikul',
@@ -293,7 +343,22 @@ export const companies: Company[] = [
       technology: 'Single-piece 3D printed semi-cryogenic engine',
       risks: 'High failure rate in rocketry, capital intensive'
     },
-    blindSpots: []
+    blindSpots: [
+      { area: 'Orbital Re-entry and Payload Recovery', known: true, importance: 'HIGH', question: 'Can the single-piece 3D printed chamber withstand multi-flight thermal shock cycling?' }
+    ],
+    visibility: 'LOW',
+    signalDensity: 'HIGH',
+    whyNow: {
+      before: 'Considered an academic research spinoff inside IIT Madras NCRD with unproven hardware.',
+      whatChanged: 'Successfully completed Agnibaan SOrTeD suborbital launch using world-first 3D-printed semi-cryogenic engine.',
+      whyItMatters: 'De-risked core engine architecture; moving into commercial payload booking for smallsat orbital delivery.',
+      catalystTimestamp: '1h ago'
+    },
+    signalStack: [
+      { category: 'TECHNOLOGY', headline: 'Completes continuous 180s cryogenic upper-stage bench fire test', timestamp: '1h ago', source: 'IN-SPACe Telemetry Bulletin', confidence: 'HIGH', status: 'VERIFIED' },
+      { category: 'REGULATORY', headline: 'Private launchpad authorization cleared at Sriharikota spaceport', timestamp: '3d ago', source: 'ISRO Press Dispatch', confidence: 'HIGH', status: 'VERIFIED' },
+      { category: 'TALENT', headline: 'Recruits senior propulsion team leads from European launch consortiums', timestamp: '1w ago', source: 'AviationWeek Career Moves', confidence: 'MEDIUM', status: 'REPORTED' }
+    ]
   },
   {
     id: 'c_skyroot',
@@ -344,7 +409,8 @@ export const companies: Company[] = [
     competitors: ['c_agnikul'],
     markets: ['Global Small Satellites'],
     signals: [
-      { id: 'sig_sk1', type: 'PRODUCT', title: 'Vikram-S Launch', description: 'First private Indian rocket launch', date: '2022-11-18', strength: 'STRONG', isEarlySignal: false }
+      { id: 'sig_sk1', type: 'PRODUCT', title: 'Vikram-S Launch', description: 'First private Indian rocket launch', date: '2022-11-18', strength: 'STRONG', isEarlySignal: false },
+      { id: 'sig_sk2', type: 'TECHNOLOGY', title: 'Patent Granted for Carbon-Composite Stage Separation', description: 'Indigenous Stage-3 pneumatic release patent published', date: '2h ago', strength: 'STRONG', isEarlySignal: true }
     ],
     legalEvents: [],
     newsEvents: [],
@@ -364,7 +430,22 @@ export const companies: Company[] = [
       technology: 'Solid propulsion, carbon composites',
       risks: 'Execution risk of orbital launch'
     },
-    blindSpots: []
+    blindSpots: [
+      { area: 'Launch Insurance Underwriting', known: true, importance: 'HIGH', question: 'Can domestic insurers price orbital satellite failure risk under competitive international rates?' }
+    ],
+    visibility: 'LOW',
+    signalDensity: 'HIGH',
+    whyNow: {
+      before: 'Pioneered suborbital flight with Vikram-S but lacked multi-payload manifest validation.',
+      whatChanged: 'Signed 4 European earth-observation satellite launch agreements for upcoming Vikram-1 flight.',
+      whyItMatters: 'First Indian private vehicle commercializing dedicated orbital slots at 40% discount to legacy launch providers.',
+      catalystTimestamp: '4h ago'
+    },
+    signalStack: [
+      { category: 'COMMERCIAL', headline: 'Secures 4 European Earth-Observation commercial rideshare contracts', timestamp: '4h ago', source: 'French Space Agency / TechCrunch', confidence: 'HIGH', status: 'VERIFIED' },
+      { category: 'TECHNOLOGY', headline: 'Patent published for carbon-composite pneumatic stage-3 separation', timestamp: '2h ago', source: 'Indian Patent Office Gazette', confidence: 'HIGH', status: 'VERIFIED' },
+      { category: 'TALENT', headline: 'Headcount crosses 300 aerospace engineers across Hyderabad cleanrooms', timestamp: '2w ago', source: 'Corporate Registry Annual Return', confidence: 'MEDIUM', status: 'REPORTED' }
+    ]
   },
   {
     id: 'c_openai',
@@ -415,7 +496,9 @@ export const companies: Company[] = [
     valuation: { id: 'ec_oa5', claim: '$86B', value: 86000000000, source: 'Tender Offer', sourceType: 'PUBLIC_DATA', retrievedAt: '2024-05-01', status: 'VERIFIED', confidence: 'HIGH' },
     competitors: [],
     markets: ['Global'],
-    signals: [],
+    signals: [
+      { id: 'sig_oa1', type: 'PRODUCT', title: 'Realtime Voice & Vision API Released', description: 'Sub-300ms multimodal speech-to-speech API made available for production enterprise scale', date: '2h ago', strength: 'STRONG', isEarlySignal: false }
+    ],
     legalEvents: [],
     newsEvents: [],
     ecosystemConnections: [],
@@ -432,6 +515,20 @@ export const companies: Company[] = [
       technology: 'Transformer-based LLMs, RLHF',
       risks: 'Compute constraints, copyright lawsuits, open-source competition'
     },
-    blindSpots: []
+    blindSpots: [
+      { area: 'Inference Cost Amortization', known: true, importance: 'CRITICAL', question: 'Can reasoning model token costs be priced profitably for free-tier and enterprise users?' }
+    ],
+    visibility: 'HIGH',
+    signalDensity: 'HIGH',
+    whyNow: {
+      before: 'Dominated raw text generation with GPT-4 while running steep model training losses.',
+      whatChanged: 'Rolled out low-latency native voice/audio API and multi-step reasoning capabilities.',
+      whyItMatters: 'Expands enterprise TAM into customer care, audio agentics, and multimodal assistants, threatening point solutions.',
+      catalystTimestamp: '2h ago'
+    },
+    signalStack: [
+      { category: 'PRODUCT', headline: 'Realtime voice API natively integrated into Tier-1 cloud architectures', timestamp: '2h ago', source: 'OpenAI Devpost', confidence: 'HIGH', status: 'VERIFIED' },
+      { category: 'CAPITAL', headline: 'Discussions ongoing for $6.5B funding tranche at $150B valuation', timestamp: '1d ago', source: 'Bloomberg Financial Wire', confidence: 'MEDIUM', status: 'REPORTED' }
+    ]
   }
 ];

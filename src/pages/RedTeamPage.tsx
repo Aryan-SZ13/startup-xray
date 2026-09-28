@@ -2,14 +2,18 @@ import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShieldAlert, Zap, Target, Flame, AlertOctagon, HelpCircle, AlertTriangle } from 'lucide-react';
-import { demoRedTeam, getCompanyById } from '../data';
+import { demoRedTeam, getCompanyById, getRedTeamAnalysis } from '../data';
 
 export default function RedTeamPage() {
   const [searchParams] = useSearchParams();
-  const companyId = searchParams.get('company');
-  const company = companyId ? getCompanyById(companyId) : null;
+  const companyId = searchParams.get('company') || 'c_swiggy';
+  const company = getCompanyById(companyId);
 
-  const [thesis, setThesis] = useState("Swiggy has strong growth potential due to its market position in India's food delivery space.");
+  const rawResults = (companyId ? getRedTeamAnalysis(companyId) : null) || demoRedTeam || {};
+
+  const [thesis, setThesis] = useState(
+    rawResults.thesis || (company ? `${company.name} has strong market expansion potential in its core sector.` : "Swiggy has strong growth potential due to its market position in India's food delivery space.")
+  );
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [showResults, setShowResults] = useState(false);
 
@@ -19,10 +23,8 @@ export default function RedTeamPage() {
     setTimeout(() => {
       setIsAnalyzing(false);
       setShowResults(true);
-    }, 2000);
+    }, 1500);
   };
-
-  const rawResults = demoRedTeam || {};
   const formattedFatalFlaws = rawResults.fiveThingsWrong?.map((item: string, idx: number) => {
     const parts = item.split(':');
     if (parts.length > 1) {
