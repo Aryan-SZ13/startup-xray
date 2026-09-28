@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { AppProvider } from './store/AppContext';
 import { Layout } from './components/layout';
 import HomePage from './pages/HomePage';
@@ -43,6 +44,7 @@ export default function App() {
           <Route path="/scenario" element={<ScenarioLabPage />} />
         </Route>
       </Routes>
+      <SpeedInsights />
     </AppProvider>
   );
 }
