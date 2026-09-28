@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GraduationCap, ArrowUpRight, Building2, Users, Network, ChevronRight } from 'lucide-react';
+import { ChevronRight, ArrowUpRight } from 'lucide-react';
 import { companies } from '../data';
 import { ecosystems } from '../data/ecosystems';
 
@@ -9,11 +9,10 @@ export const EcosystemRadarSection: React.FC = () => {
   const [selectedEcosystem, setSelectedEcosystem] = useState<string>('SRM');
 
   const ECOSYSTEM_TABS = [
-    { id: 'SRM', name: 'SRM INSTITUTE', sub: '350+ Startups' },
-    { id: 'IIT_MADRAS', name: 'IIT MADRAS', sub: '850+ DeepTech' },
-    { id: 'CHENNAI', name: 'CHENNAI CORRIDOR', sub: 'SaaS & Hardware' },
-    { id: 'TAMIL_NADU', name: 'TAMIL NADU', sub: 'Industrial Hub' },
-    { id: 'GLOBAL', name: 'GLOBAL FRONTIER', sub: 'Frontier AI' }
+    { id: 'SRM', name: 'SRM' },
+    { id: 'IIT_MADRAS', name: 'IIT Madras' },
+    { id: 'CHENNAI', name: 'Chennai Corridor' },
+    { id: 'GLOBAL', name: 'Global Frontier' }
   ];
 
   const filteredCompanies = companies.filter(c => {
@@ -24,68 +23,63 @@ export const EcosystemRadarSection: React.FC = () => {
 
   const activeEcosystemMeta = ecosystems.find(e => e.id === selectedEcosystem) || {
     name: selectedEcosystem,
-    description: 'Active innovation cluster and institutional network corridor.',
+    description: 'Active institutional talent and deeptech incubation cluster.',
     companyCount: 350,
     founderCount: 420
   };
 
   return (
-    <div className="relative w-full rounded-2xl border border-white/10 bg-[#0a0b12] p-6 lg:p-8 overflow-hidden">
-      {/* Ecosystem Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between pb-6 mb-6 border-b border-white/10 gap-4">
+    <div className="relative w-full rounded-3xl border border-white/[0.08] bg-[#0c0c0e]/70 backdrop-blur-3xl shadow-xl p-6 lg:p-8 overflow-hidden">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between pb-6 mb-6 border-b border-white/[0.06] gap-4">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <GraduationCap className="w-4 h-4 text-cyan-400" />
-            <span className="text-xs font-mono font-bold tracking-widest text-cyan-400 uppercase">
-              ECOSYSTEM RADAR // ACADEMIC & INSTITUTIONAL CORRIDORS
-            </span>
-          </div>
-          <h3 className="text-xl font-bold text-white">
-            {activeEcosystemMeta.name} Network Graph
+          <span className="text-[11px] font-medium text-[#2997ff] uppercase tracking-wider block mb-1">
+            Institutional Corridor
+          </span>
+          <h3 className="text-xl font-semibold text-white tracking-tight">
+            {activeEcosystemMeta.name} Network
           </h3>
-          <p className="text-xs text-zinc-400 mt-1 max-w-xl">
+          <p className="text-xs text-[#86868b] mt-1 max-w-lg">
             {activeEcosystemMeta.description}
           </p>
         </div>
 
-        {/* Tab Selectors */}
-        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar bg-black/40 p-1 rounded-xl border border-white/10">
+        {/* Segmented Control */}
+        <div className="flex items-center p-1 rounded-full bg-white/[0.05] border border-white/[0.06] self-start md:self-center">
           {ECOSYSTEM_TABS.map(tab => (
             <button
               key={tab.id}
               onClick={() => setSelectedEcosystem(tab.id)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all cursor-pointer whitespace-nowrap text-left ${
+              className={`px-3.5 py-1 rounded-full text-xs font-medium transition-all cursor-pointer whitespace-nowrap ${
                 selectedEcosystem === tab.id
-                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold shadow-[0_0_15px_rgba(0,212,255,0.15)]'
-                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/5 border border-transparent'
+                  ? 'bg-white text-black font-semibold shadow-sm'
+                  : 'text-[#86868b] hover:text-white'
               }`}
             >
-              <div>{tab.name}</div>
+              {tab.name}
             </button>
           ))}
         </div>
       </div>
 
-      {/* Corridor Interconnection Map */}
-      <div className="mb-6 p-4 rounded-xl bg-cyan-950/20 border border-cyan-500/20 flex flex-wrap items-center justify-between gap-4 text-xs font-mono">
-        <div className="flex items-center gap-3">
-          <span className="text-zinc-400">INSTITUTIONAL PATHWAYS:</span>
-          <span className="text-cyan-300 font-bold">SRM IST</span>
-          <span className="text-zinc-600">⇄</span>
-          <span className="text-emerald-300 font-bold">IIT MADRAS</span>
-          <span className="text-zinc-600">⇄</span>
-          <span className="text-sky-300 font-bold">ANNA UNIVERSITY</span>
-          <span className="text-zinc-600">⇄</span>
-          <span className="text-purple-300 font-bold">VIT CHENNAI</span>
+      {/* Corridor Connections Strip */}
+      <div className="mb-6 px-4 py-2.5 rounded-2xl bg-white/[0.02] border border-white/[0.05] flex flex-wrap items-center justify-between text-xs text-[#86868b] gap-3">
+        <div className="flex items-center gap-2">
+          <span>SRM IST</span>
+          <span className="text-[#3a3a3c]">⇄</span>
+          <span>IIT Madras</span>
+          <span className="text-[#3a3a3c]">⇄</span>
+          <span>Anna Univ</span>
+          <span className="text-[#3a3a3c]">⇄</span>
+          <span>VIT</span>
         </div>
-
-        <div className="flex items-center gap-4 text-zinc-400">
-          <span>{activeEcosystemMeta.companyCount.toLocaleString()}+ FOUNDED COMPANIES</span>
-          <span>{activeEcosystemMeta.founderCount.toLocaleString()}+ ACTIVE ALUMNI</span>
+        <div className="flex items-center gap-4 text-[11px]">
+          <span>{activeEcosystemMeta.companyCount}+ Startups</span>
+          <span>{activeEcosystemMeta.founderCount}+ Founders</span>
         </div>
       </div>
 
-      {/* Connected Companies Grid */}
+      {/* Companies */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {(filteredCompanies.length > 0 ? filteredCompanies : companies).slice(0, 3).map((comp) => {
           const conn = comp.ecosystemConnections?.find(ec => ec.ecosystem.toUpperCase() === selectedEcosystem.toUpperCase()) || comp.ecosystemConnections?.[0];
@@ -94,48 +88,40 @@ export const EcosystemRadarSection: React.FC = () => {
             <div
               key={comp.id}
               onClick={() => navigate(`/company/${comp.id}`)}
-              className="p-5 rounded-xl border border-white/5 bg-white/[0.02] hover:border-cyan-500/40 hover:bg-white/[0.05] transition-all cursor-pointer group flex flex-col justify-between"
+              className="p-5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.05] hover:border-white/[0.12] transition-all cursor-pointer group flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-start justify-between mb-2">
-                  <div>
-                    <h4 className="text-base font-bold text-white group-hover:text-cyan-300 transition-colors">
-                      {comp.name}
-                    </h4>
-                    <span className="text-[10px] font-mono text-zinc-400">{comp.industry}</span>
-                  </div>
-                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                  <h4 className="text-sm font-semibold text-white group-hover:text-[#2997ff] transition-colors">
+                    {comp.name}
+                  </h4>
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/[0.05] text-[#86868b]">
                     {comp.stage}
                   </span>
                 </div>
-
-                <p className="text-xs text-zinc-300 line-clamp-2 mb-4 leading-relaxed">
+                <p className="text-xs text-[#86868b] line-clamp-2 leading-relaxed mb-4">
                   {comp.tagline}
                 </p>
               </div>
 
-              <div className="pt-3 border-t border-white/5">
-                <div className="flex items-center gap-1.5 text-[11px] font-mono text-cyan-300 bg-cyan-950/40 border border-cyan-500/20 p-2 rounded-lg">
-                  <Network className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                  <span className="truncate">{conn?.label || `${selectedEcosystem} ALUMNI / RESEARCH`}</span>
-                </div>
+              <div className="pt-3 border-t border-white/[0.05] text-[11px] text-[#2997ff] flex items-center justify-between">
+                <span>{conn?.label || `${selectedEcosystem} Connection`}</span>
+                <ArrowUpRight size={12} />
               </div>
             </div>
           );
         })}
       </div>
 
-      {/* Footer Explore CTA */}
-      <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
-        <span className="text-xs font-mono text-zinc-500">
-          Showing verified ecosystem relationships across public filings & alumni registers.
-        </span>
+      {/* Footer */}
+      <div className="mt-6 pt-4 border-t border-white/[0.06] flex items-center justify-between text-xs text-[#86868b]">
+        <span>Verified institutional relationships</span>
         <button
           onClick={() => navigate('/ecosystem')}
-          className="text-xs font-mono font-bold text-cyan-400 hover:text-white flex items-center gap-1 cursor-pointer transition-colors"
+          className="text-[#2997ff] hover:text-white flex items-center gap-1 transition-colors cursor-pointer font-medium"
         >
-          <span>VIEW FULL {selectedEcosystem} NETWORK</span>
-          <ChevronRight className="w-3.5 h-3.5" />
+          <span>Explore corridor</span>
+          <ChevronRight size={13} />
         </button>
       </div>
     </div>

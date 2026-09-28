@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Search, ChevronDown, Check } from 'lucide-react';
+import { Search, ChevronDown, Check, Command } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppState } from '../../store/AppContext';
 import { ecosystems } from '../../data/ecosystems';
@@ -33,95 +33,79 @@ export const Navbar: React.FC = () => {
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 h-14 z-50 bg-[#0a0a0f]/90 backdrop-blur-2xl border-b border-cyan-500/20 shadow-[0_4px_30px_rgba(0,212,255,0.05)] flex items-center px-4 md:px-6">
-      {/* Logo */}
-      <NavLink to="/" className="flex-shrink-0 mr-8 flex items-center gap-2.5 cursor-pointer hover:opacity-90 transition-opacity">
-        <div className="relative flex items-center justify-center">
-          <div className="w-2.5 h-2.5 bg-cyan-400 rounded-full animate-pulse shadow-[0_0_12px_#00d4ff]" />
-          <div className="absolute w-5 h-5 bg-cyan-400/20 rounded-full animate-ping" />
+    <header className="fixed top-0 left-0 right-0 h-12 z-50 bg-[#000000]/70 backdrop-blur-2xl border-b border-white/[0.08] flex items-center px-4 md:px-8 transition-all">
+      {/* Brand */}
+      <NavLink to="/" className="flex-shrink-0 mr-8 flex items-center gap-2 cursor-pointer group">
+        <div className="w-5 h-5 rounded-md bg-gradient-to-tr from-[#2997ff] to-[#60a5fa] flex items-center justify-center shadow-[0_0_12px_rgba(41,151,255,0.4)]">
+          <div className="w-2 h-2 rounded-full bg-white" />
         </div>
-        <span className="font-mono font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-zinc-100 to-cyan-300 tracking-wider text-sm">
-          STARTUP X-RAY
-        </span>
-        <span className="hidden sm:inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
-          LIVE FEED
+        <span className="font-semibold text-sm tracking-tight text-white/95 group-hover:text-white transition-colors">
+          Startup X-Ray
         </span>
       </NavLink>
 
       {/* Nav Links */}
       <nav className="flex-1 overflow-x-auto no-scrollbar flex items-center gap-1 min-w-0">
-        <div className="flex items-center gap-1 md:gap-2 pr-4">
+        <div className="flex items-center gap-0.5 md:gap-1">
           {navLinks.map((link) => (
             <NavLink
               key={link.path}
               to={link.path}
               className={({ isActive }) =>
-                `relative px-3 py-1.5 text-sm font-medium transition-colors whitespace-nowrap ${
+                `relative px-3 py-1 rounded-full text-xs font-medium transition-all whitespace-nowrap ${
                   isActive
-                    ? 'text-cyan-400'
-                    : 'text-zinc-500 hover:text-zinc-200'
+                    ? 'text-white bg-white/[0.09] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]'
+                    : 'text-[#86868b] hover:text-white hover:bg-white/[0.04]'
                 }`
               }
             >
-              {({ isActive }) => (
-                <>
-                  {link.label}
-                  {isActive && (
-                    <motion.div
-                      layoutId="nav-indicator"
-                      className="absolute bottom-0 left-2 right-2 h-0.5 bg-cyan-400 rounded-t-full"
-                      initial={false}
-                      transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-                    />
-                  )}
-                </>
-              )}
+              {link.label}
             </NavLink>
           ))}
         </div>
       </nav>
 
       {/* Right Section */}
-      <div className="flex items-center gap-4 flex-shrink-0 ml-4">
+      <div className="flex items-center gap-3 flex-shrink-0 ml-4">
         {/* Search button */}
         <button
           onClick={() => setCommandPaletteOpen(true)}
-          className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded bg-white/5 border border-white/5 text-zinc-400 hover:text-zinc-200 hover:bg-white/10 transition-colors text-sm w-64 text-left"
+          className="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/[0.07] text-[#86868b] hover:text-white hover:bg-white/[0.09] transition-all text-xs w-56 text-left"
         >
-          <Search size={14} className="text-zinc-500" />
-          <span className="flex-1 truncate">Search company, founder, or ask...</span>
-          <kbd className="hidden lg:inline-flex h-5 items-center gap-1 rounded border border-white/10 bg-white/5 px-1.5 font-mono text-[10px] font-medium text-zinc-500">
-            <span className="text-xs">⌘</span>K
+          <Search size={13} className="text-[#86868b]" />
+          <span className="flex-1 truncate">Search or ask...</span>
+          <kbd className="inline-flex h-4 items-center gap-0.5 rounded px-1 font-mono text-[9px] text-[#86868b] bg-white/[0.06] border border-white/[0.08]">
+            ⌘K
           </kbd>
         </button>
         
         {/* Mobile Search Icon */}
         <button 
           onClick={() => setCommandPaletteOpen(true)}
-          className="md:hidden p-2 text-zinc-400 hover:text-zinc-200"
+          className="md:hidden p-1.5 text-[#86868b] hover:text-white"
         >
-          <Search size={18} />
+          <Search size={16} />
         </button>
 
         {/* Ecosystem Dropdown */}
         <div className="relative" ref={dropdownRef}>
           <button
             onClick={() => setDropdownOpen(!dropdownOpen)}
-            className="flex items-center gap-2 px-3 py-1.5 rounded bg-white/5 border border-white/5 text-zinc-300 hover:text-white hover:bg-white/10 transition-colors text-sm"
+            className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.05] border border-white/[0.07] text-[#d2d2d7] hover:text-white hover:bg-white/[0.09] transition-all text-xs font-medium"
           >
-            <span className="hidden sm:inline">Ecosystem:</span>
-            <span className="font-medium text-cyan-400">{ecosystem}</span>
-            <ChevronDown size={14} className={`text-zinc-500 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
+            <span className="text-[#86868b] hidden sm:inline">Lens:</span>
+            <span className="text-white">{ecosystem}</span>
+            <ChevronDown size={12} className={`text-[#86868b] transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
           </button>
 
           <AnimatePresence>
             {dropdownOpen && (
               <motion.div
-                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                initial={{ opacity: 0, y: 6, scale: 0.96 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                transition={{ duration: 0.15, ease: 'easeOut' }}
-                className="absolute right-0 mt-2 w-48 rounded-md bg-[#111118] border border-white/10 shadow-xl overflow-hidden z-50 py-1"
+                exit={{ opacity: 0, y: 6, scale: 0.96 }}
+                transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                className="absolute right-0 mt-2 w-48 rounded-xl bg-[#1c1c1e]/90 backdrop-blur-2xl border border-white/[0.12] shadow-2xl overflow-hidden z-50 py-1"
               >
                 <div className="max-h-60 overflow-y-auto custom-scrollbar">
                   {ecosystems.map((eco) => (
@@ -131,12 +115,12 @@ export const Navbar: React.FC = () => {
                         setEcosystem(eco.id);
                         setDropdownOpen(false);
                       }}
-                      className="w-full text-left px-4 py-2 text-sm flex items-center justify-between hover:bg-white/5 transition-colors group"
+                      className="w-full text-left px-3.5 py-1.5 text-xs flex items-center justify-between hover:bg-white/[0.08] transition-colors group cursor-pointer"
                     >
-                      <span className={`${eco.id === ecosystem ? 'text-white font-medium' : 'text-zinc-400 group-hover:text-zinc-200'}`}>
+                      <span className={`${eco.id === ecosystem ? 'text-white font-medium' : 'text-[#86868b] group-hover:text-white'}`}>
                         {eco.name}
                       </span>
-                      {eco.id === ecosystem && <Check size={14} className="text-cyan-400" />}
+                      {eco.id === ecosystem && <Check size={12} className="text-[#2997ff]" />}
                     </button>
                   ))}
                 </div>
@@ -145,30 +129,6 @@ export const Navbar: React.FC = () => {
           </AnimatePresence>
         </div>
       </div>
-      
-      {/* Global styles for custom scrollbar within this component just in case */}
-      <style>{`
-        .no-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-        .no-scrollbar {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
-        }
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.1);
-          border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 255, 255, 0.2);
-        }
-      `}</style>
     </header>
   );
 };
