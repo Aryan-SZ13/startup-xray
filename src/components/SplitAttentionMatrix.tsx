@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowUpRight, Eye, Sparkles } from 'lucide-react';
 import { companies } from '../data';
 
 export const SplitAttentionMatrix: React.FC = () => {
   const navigate = useNavigate();
   const [activeSide, setActiveSide] = useState<'WATCHING' | 'MISSING' | null>(null);
 
-  const mainstreamCompanies = companies.filter(c => c.visibility === 'HIGH' || ['c_swiggy', 'c_zomato', 'c_openai'].includes(c.id));
-  const underTheRadarCompanies = companies.filter(c => c.visibility === 'LOW' || c.signalDensity === 'HIGH' || ['c_agnikul', 'c_skyroot', 'c_zepto'].includes(c.id));
+  // Diverse mainstream
+  const mainstreamCompanies = companies.filter(c => ['c_swiggy', 'c_postman', 'c_zomato', 'c_ather'].includes(c.id));
+  // Diverse unpriced / quiet alpha
+  const underTheRadarCompanies = companies.filter(c => ['c_sarvam', 'c_torus', 'c_agnikul', 'c_skyroot'].includes(c.id));
 
   return (
     <div className="relative w-full rounded-3xl border border-white/[0.08] overflow-hidden bg-[#0c0c0e]/70 backdrop-blur-3xl shadow-xl">
@@ -52,11 +53,11 @@ export const SplitAttentionMatrix: React.FC = () => {
           </div>
 
           <div className="space-y-2.5">
-            {mainstreamCompanies.slice(0, 3).map((comp) => (
+            {mainstreamCompanies.map((comp) => (
               <div
                 key={comp.id}
                 onClick={() => navigate(`/company/${comp.id}`)}
-                className="p-4 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.05] hover:border-white/[0.12] transition-all cursor-pointer group"
+                className="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.05] hover:border-white/[0.12] transition-all cursor-pointer group"
               >
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-sm font-medium text-white group-hover:text-[#2997ff] transition-colors">
@@ -94,16 +95,21 @@ export const SplitAttentionMatrix: React.FC = () => {
           </div>
 
           <div className="space-y-2.5">
-            {underTheRadarCompanies.slice(0, 3).map((comp) => (
+            {underTheRadarCompanies.map((comp) => (
               <div
                 key={comp.id}
                 onClick={() => navigate(`/company/${comp.id}`)}
-                className="p-4 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.05] hover:border-white/[0.12] transition-all cursor-pointer group"
+                className="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.05] hover:border-white/[0.12] transition-all cursor-pointer group"
               >
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-sm font-medium text-white group-hover:text-[#30d158] transition-colors">
-                    {comp.name}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-white group-hover:text-[#30d158] transition-colors">
+                      {comp.name}
+                    </span>
+                    <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-white/[0.05] text-[#86868b]">
+                      {comp.sector}
+                    </span>
+                  </div>
                   <span className="text-[10px] text-[#30d158] font-medium">
                     Signal Dense
                   </span>

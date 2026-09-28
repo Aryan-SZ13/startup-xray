@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   Search, ArrowRight, Eye, ShieldCheck, ChevronRight, 
-  ArrowUpRight, Network, Sparkles, Compass
+  ArrowUpRight, Play, Sparkles
 } from 'lucide-react';
 import { useAppState } from '../store/AppContext';
 import { 
@@ -36,11 +36,12 @@ export default function HomePage() {
   });
 
   const searchSuggestions = [
-    { label: "Swiggy", meta: "Pre-IPO // DRHP" },
+    { label: "Postman", meta: "SRM Alumni // $5.6B Val" },
+    { label: "Ather Energy", meta: "IIT Madras // $500M IPO" },
+    { label: "Sarvam AI", meta: "Indic Foundation // 2B LLM" },
+    { label: "Torus Robotics", meta: "Defense UGVs // Ladakh Order" },
     { label: "Agnikul Cosmos", meta: "SpaceTech // Cryogenic" },
-    { label: "Zepto", meta: "$450M Mezzanine // 700 Dark Stores" },
-    { label: "Indian robotics under $20M", meta: "Autonomy Filter" },
-    { label: "Where are the AI infrastructure gaps?", meta: "Compute & Latency" }
+    { label: "Swiggy", meta: "Pre-IPO // SEBI DRHP" }
   ];
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -94,7 +95,7 @@ export default function HomePage() {
                 </h1>
 
                 <p className="text-sm text-[#86868b] mt-3 leading-relaxed max-w-md">
-                  Primary-source intelligence on private and public tech. Track executive movement, verified cap tables, why-now inflections, and unpriced signals.
+                  Multi-sector venture intelligence across AI Foundation, SpaceTech, CleanTech EVs, Defense Robotics, and Enterprise DevTools.
                 </p>
               </div>
 
@@ -126,7 +127,7 @@ export default function HomePage() {
                     className="absolute top-full left-0 right-0 mt-2 bg-[#1c1c1e]/95 backdrop-blur-2xl border border-white/[0.12] rounded-2xl p-2 z-50 shadow-2xl space-y-0.5"
                   >
                     <div className="px-3 py-1.5 text-[10px] text-[#86868b] uppercase tracking-wider font-semibold">
-                      Suggestions
+                      Featured Entity Suggestions
                     </div>
                     {searchSuggestions.map((item, idx) => (
                       <button
@@ -150,13 +151,13 @@ export default function HomePage() {
                 )}
               </div>
 
-              {/* Minimal Action Cards */}
+              {/* Minimal Action Cards with Direct Runners */}
               <div className="grid grid-cols-2 gap-2.5">
                 {[
-                  { label: "X-Ray Company", desc: "Audit core claims", path: "/xray/c_swiggy" },
-                  { label: "Opportunity Radar", desc: "Pre-consensus trends", path: "/discover" },
-                  { label: "Network Paths", desc: "Trace warm intros", path: "/network" },
-                  { label: "Thesis Genome", desc: "Match universe", path: "/thesis" }
+                  { label: "Run X-Ray Diligence", desc: "Audit core claims", path: "/xray/c_postman", color: "text-[#2997ff]" },
+                  { label: "Simulate Scenario", desc: "Run war-game stress test", path: "/scenario", color: "text-[#30d158]" },
+                  { label: "Compare VS", desc: "Ather vs Swiggy", path: "/vs", color: "text-[#ff9f0a]" },
+                  { label: "AI Analyst Lab", desc: "Autonomous deep-dive", path: "/analyst", color: "text-[#bf5af2]" }
                 ].map((act, i) => (
                   <button
                     key={i}
@@ -164,7 +165,7 @@ export default function HomePage() {
                     className="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.06] hover:border-white/[0.14] text-left transition-all group cursor-pointer"
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs font-medium text-white/95 group-hover:text-[#2997ff] transition-colors">
+                      <span className={`text-xs font-medium text-white/95 group-hover:${act.color} transition-colors`}>
                         {act.label}
                       </span>
                       <ArrowUpRight size={12} className="text-[#86868b] group-hover:text-white transition-colors" />
@@ -178,12 +179,12 @@ export default function HomePage() {
               <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-between text-xs text-[#86868b]">
                 <div className="flex items-center gap-2">
                   <Eye size={13} className="text-[#2997ff]" />
-                  <span className="text-white/90">Watched: 12</span>
+                  <span className="text-white/90">Watched: 12 Entities</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-[#30d158]">4 Matches</span>
+                  <span className="text-[#30d158]">6 Clusters</span>
                   <span>•</span>
-                  <span>3 Signals</span>
+                  <span>4 Live Signals</span>
                 </div>
                 <button
                   onClick={() => navigate('/radar')}
@@ -200,7 +201,7 @@ export default function HomePage() {
               <CompanyUniverseGraph />
             </div>
 
-            {/* RIGHT: Live Intelligence Feed (3 cols) */}
+            {/* RIGHT: Continuous Live Intelligence Feed (3 cols) */}
             <div className="lg:col-span-3 w-full">
               <LiveIntelligenceFeed />
             </div>
@@ -281,7 +282,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 5. UNDER THE RADAR // HIGH SIGNAL DENSITY */}
+      {/* 5. UNDER THE RADAR // DIVERSE HIGH SIGNAL DENSITY */}
       <section className="py-14 px-4 lg:px-8 border-b border-white/[0.06] bg-[#070709]">
         <div className="max-w-[1720px] mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-8">
@@ -302,7 +303,7 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {companies.filter(c => c.visibility === 'LOW' || c.signalDensity === 'HIGH').slice(0, 2).map((comp) => (
+            {companies.filter(c => ['c_torus', 'c_sarvam'].includes(c.id)).map((comp) => (
               <div 
                 key={comp.id}
                 className="p-6 rounded-3xl bg-white/[0.03] hover:bg-white/[0.05] border border-white/[0.06] hover:border-white/[0.14] transition-all flex flex-col justify-between group"
@@ -438,15 +439,15 @@ export default function HomePage() {
                 Find Your Pathway Into Any Entity
               </h3>
               <p className="text-xs text-[#86868b] leading-relaxed mb-6">
-                Map SRM alumni networks, investor syndicates, and engineering alumni to generate direct warm intro sequences.
+                Map SRM alumni networks (Postman, Torus Robotics), IIT Madras incubations (Ather, Agnikul), and investor syndicates.
               </p>
 
               <div className="p-3.5 rounded-2xl bg-black/40 border border-white/[0.06] flex flex-wrap items-center gap-2.5 text-xs text-[#86868b] mb-6">
                 <span className="px-2 py-0.5 rounded-full bg-white text-black font-semibold text-[10px]">You</span>
                 <span>→</span>
-                <span>SRM Alumni</span>
+                <span>SRM Alumni Network</span>
                 <span>→</span>
-                <span className="text-white font-medium">Early Swiggy Engineering</span>
+                <span className="text-white font-medium">Postman Engineering / Torus Robotics</span>
                 <span>→</span>
                 <span className="text-[#2997ff]">Leadership</span>
               </div>

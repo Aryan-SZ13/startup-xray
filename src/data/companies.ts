@@ -530,5 +530,360 @@ export const companies: Company[] = [
       { category: 'PRODUCT', headline: 'Realtime voice API natively integrated into Tier-1 cloud architectures', timestamp: '2h ago', source: 'OpenAI Devpost', confidence: 'HIGH', status: 'VERIFIED' },
       { category: 'CAPITAL', headline: 'Discussions ongoing for $6.5B funding tranche at $150B valuation', timestamp: '1d ago', source: 'Bloomberg Financial Wire', confidence: 'MEDIUM', status: 'REPORTED' }
     ]
+  },
+  {
+    id: 'c_postman',
+    name: 'Postman',
+    logo: 'https://voyager.postman.com/logo/postman-logo-icon-orange.svg',
+    tagline: 'Leading collaboration platform for API development',
+    description: 'Postman is an API platform for developers used by over 30 million engineers and 500,000 organizations to design, build, test, and iterate APIs.',
+    industry: 'Enterprise Software',
+    subIndustry: 'Developer Tooling, API Management',
+    sector: 'Developer Tools',
+    founded: '2014-05-15',
+    headquarters: 'San Francisco, CA / Bengaluru, India',
+    website: 'https://www.postman.com',
+    stage: 'LATE_STAGE',
+    status: 'ACTIVE',
+    founders: [
+      {
+        id: 'f_abhinav',
+        name: 'Abhinav Asthana',
+        title: 'CEO & Co-founder',
+        education: ['SRM Institute of Science and Technology'],
+        ecosystemConnections: ['SRM']
+      },
+      {
+        id: 'f_ankit',
+        name: 'Ankit Sobti',
+        title: 'CTO & Co-founder',
+        education: ['PES University'],
+        ecosystemConnections: ['PES']
+      },
+      {
+        id: 'f_abhijit',
+        name: 'Abhijit Kane',
+        title: 'Co-founder',
+        education: ['BITS Pilani'],
+        ecosystemConnections: ['BITS_PILANI']
+      }
+    ],
+    investors: [
+      { id: 'i_insight', name: 'Insight Partners', type: 'VC' },
+      { id: 'i_crv', name: 'CRV', type: 'VC' },
+      { id: 'i_nexus', name: 'Nexus Venture Partners', type: 'VC' }
+    ],
+    fundingRounds: [
+      {
+        id: 'fr_post_1',
+        type: 'Series D',
+        amount: { id: 'ec_p1', claim: 'Raised $225M', value: 225000000, source: 'TechCrunch / SEC D', sourceType: 'NEWS', retrievedAt: '2024-05-01', status: 'VERIFIED', confidence: 'HIGH' },
+        date: '2021-08-18',
+        investors: ['Insight Partners', 'Nexus Venture Partners'],
+        valuation: { id: 'ec_p2', claim: 'Valued at $5.6B', value: 5600000000, source: 'Company Statement', sourceType: 'COMPANY_STATEMENT', retrievedAt: '2024-05-01', status: 'VERIFIED', confidence: 'HIGH' }
+      }
+    ],
+    totalFunding: { id: 'ec_p3', claim: 'Total $433M', value: 433000000, source: 'Crunchbase', sourceType: 'PUBLIC_DATA', retrievedAt: '2024-05-01', status: 'VERIFIED', confidence: 'HIGH' },
+    revenue: { id: 'ec_p4', claim: '$150M+ ARR', value: 150000000, source: 'SaaS Capital Index', sourceType: 'ANALYST_REPORT', retrievedAt: '2024-05-01', status: 'REPORTED', confidence: 'HIGH' },
+    valuation: { id: 'ec_p5', claim: '$5.6B', value: 5600000000, source: 'Insight Partners Round', sourceType: 'OFFICIAL_FILING', retrievedAt: '2024-05-01', status: 'VERIFIED', confidence: 'HIGH' },
+    competitors: ['c_insomnia', 'c_rapidapi'],
+    markets: ['Global', 'North America', 'India', 'Europe'],
+    signals: [
+      { id: 'sig_p1', type: 'PRODUCT', title: 'Postman AI Copilot v2 Launched', description: 'Autonomous test suite generation across OpenAPI 3.1 definitions', date: '4h ago', strength: 'STRONG', isEarlySignal: false },
+      { id: 'sig_p2', type: 'HIRING', title: 'Senior LLM Systems Architect Hires', description: 'Recruiting from Anthropic and AWS developer tooling divisions', date: '1d ago', strength: 'MODERATE', isEarlySignal: true }
+    ],
+    legalEvents: [],
+    newsEvents: [],
+    ecosystemConnections: [
+      { type: 'ALUMNI_FOUNDER', ecosystem: 'SRM', label: 'SRM Alumni Founder (Abhinav Asthana)', description: 'Abhinav Asthana graduated from SRM IST before bootstrapping Postman', verified: true }
+    ],
+    financialMetrics: [
+      { id: 'fm_p1', metric: 'Annual Recurring Revenue (ARR)', value: { id: 'ec_p6', claim: '$150M+', source: 'TechCrunch', sourceType: 'NEWS', retrievedAt: '2024-05-01', status: 'REPORTED', confidence: 'HIGH' }, trend: 'UP' }
+    ],
+    operationSignals: [
+      { category: 'Developer Traction', signal: 'Registered Developers', direction: 'UP', evidence: { id: 'ec_p7', claim: '30M+ engineers', source: 'Postman State of API', sourceType: 'COMPANY_STATEMENT', retrievedAt: '2024-05-01', status: 'REPORTED', confidence: 'HIGH' } }
+    ],
+    companyDNA: {
+      businessModel: 'Freemium PLG SaaS + Enterprise tier licensing',
+      market: 'Developer tools and API lifecycle management',
+      product: 'API client, mock servers, automated testing suites',
+      capital: 'Well-capitalized, cash-flow disciplined',
+      traction: 'Universal standard for API engineering',
+      team: 'Deep developer ecosystem empathy',
+      operations: 'Global remote-first distribution',
+      technology: 'Cloud native collaboration workflows',
+      risks: 'IDE native copilot extensions (Cursor, VS Code native)'
+    },
+    blindSpots: [
+      { area: 'Local IDE Native AI Disruption', known: true, importance: 'HIGH', question: 'Will developers migrate away from separate API clients as autonomous coding models inspect APIs in editor?' }
+    ],
+    visibility: 'HIGH',
+    signalDensity: 'HIGH',
+    whyNow: {
+      before: 'Standard manual REST and GraphQL client for web developers.',
+      whatChanged: 'Multi-modal agents now consume and generate complex OpenAPI schema specs automatically.',
+      whyItMatters: 'Postman is turning into the foundational API registry for enterprise AI agents.',
+      catalystTimestamp: '4h ago'
+    },
+    signalStack: [
+      { category: 'PRODUCT', headline: 'AI agent workspace generation natively live in Postman 11', timestamp: '4h ago', source: 'Postman Release Notes', confidence: 'HIGH', status: 'VERIFIED' }
+    ]
+  },
+  {
+    id: 'c_ather',
+    name: 'Ather Energy',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/2/23/Ather_Energy_Logo.svg',
+    tagline: 'Intelligent electric scooters & fast charging grid',
+    description: 'Ather Energy is an Indian electric vehicle company incubated at IIT Madras that designs connected high-performance smart electric scooters and fast-charging infrastructure.',
+    industry: 'Automotive & CleanTech',
+    subIndustry: 'Electric Mobility, Connected Hardware',
+    sector: 'Climate & Mobility',
+    founded: '2013-10-20',
+    headquarters: 'Bengaluru, India',
+    website: 'https://www.atherenergy.com',
+    stage: 'PRE_IPO',
+    status: 'ACTIVE',
+    founders: [
+      {
+        id: 'f_tarun',
+        name: 'Tarun Mehta',
+        title: 'CEO & Co-founder',
+        education: ['IIT Madras'],
+        ecosystemConnections: ['IIT_MADRAS']
+      },
+      {
+        id: 'f_swapnil',
+        name: 'Swapnil Jain',
+        title: 'CTO & Co-founder',
+        education: ['IIT Madras'],
+        ecosystemConnections: ['IIT_MADRAS']
+      }
+    ],
+    investors: [
+      { id: 'i_hero', name: 'Hero MotoCorp', type: 'CORPORATE' },
+      { id: 'i_gic', name: 'GIC Singapore', type: 'PE' },
+      { id: 'i_tiger', name: 'Tiger Global', type: 'VC' }
+    ],
+    fundingRounds: [
+      {
+        id: 'fr_ath_1',
+        type: 'Pre-IPO Convertible',
+        amount: { id: 'ec_a1', claim: 'Raised $71M', value: 71000000, source: 'NPS / Corporate Registry', sourceType: 'OFFICIAL_FILING', retrievedAt: '2024-05-01', status: 'VERIFIED', confidence: 'HIGH' },
+        date: '2024-08-12',
+        investors: ['NIIF', 'Hero MotoCorp'],
+        valuation: { id: 'ec_a2', claim: 'Valued at $1.3B (Unicorn status)', value: 1300000000, source: 'BSE Disclosure', sourceType: 'OFFICIAL_FILING', retrievedAt: '2024-05-01', status: 'VERIFIED', confidence: 'HIGH' }
+      }
+    ],
+    totalFunding: { id: 'ec_a3', claim: 'Total $500M+', value: 500000000, source: 'Tracxn', sourceType: 'PUBLIC_DATA', retrievedAt: '2024-05-01', status: 'VERIFIED', confidence: 'HIGH' },
+    revenue: { id: 'ec_a4', claim: 'INR 1,780 Cr (FY24)', value: 215000000, source: 'Draft Red Herring Prospectus', sourceType: 'OFFICIAL_FILING', retrievedAt: '2024-05-01', status: 'VERIFIED', confidence: 'HIGH' },
+    valuation: { id: 'ec_a5', claim: '$1.3B', value: 1300000000, source: 'DRHP Pre-IPO Valuation', sourceType: 'OFFICIAL_FILING', retrievedAt: '2024-05-01', status: 'VERIFIED', confidence: 'HIGH' },
+    competitors: ['c_olaelectric', 'c_tvs'],
+    markets: ['India', 'Southeast Asia'],
+    signals: [
+      { id: 'sig_ath1', type: 'LEGAL', title: 'Filed Draft Red Herring Prospectus (DRHP) for $500M IPO', description: 'SEBI filing confirms domestic primary offering', date: '3h ago', strength: 'STRONG', isEarlySignal: false },
+      { id: 'sig_ath2', type: 'PRODUCT', title: 'Rizta Family Scooter Captures 32% Order Share', description: 'Major pivot from youth performance to mass household segment', date: '2d ago', strength: 'STRONG', isEarlySignal: false }
+    ],
+    legalEvents: [],
+    newsEvents: [],
+    ecosystemConnections: [
+      { type: 'INCUBATED', ecosystem: 'IIT_MADRAS', label: 'IIT Madras Research Park Incubated', description: 'Founded out of IIT Madras engineering labs and patent incubation cell', verified: true }
+    ],
+    financialMetrics: [
+      { id: 'fm_ath1', metric: 'Two-Wheeler Deliveries', value: { id: 'ec_a6', claim: '109,000 units/year', source: 'Vahan Registration Data', sourceType: 'PUBLIC_DATA', retrievedAt: '2024-05-01', status: 'VERIFIED', confidence: 'HIGH' }, trend: 'UP' }
+    ],
+    operationSignals: [
+      { category: 'Manufacturing', signal: 'Hosur Plant Production Run Rate', direction: 'UP', evidence: { id: 'ec_a7', claim: '420k capacity', source: 'Corporate Release', sourceType: 'COMPANY_STATEMENT', retrievedAt: '2024-05-01', status: 'REPORTED', confidence: 'HIGH' } }
+    ],
+    companyDNA: {
+      businessModel: 'Vehicle sales + Ather Grid subscription software take-rate',
+      market: 'Indian 2-wheeler electric revolution',
+      product: 'Ather 450X, Ather Rizta, Ather Grid fast chargers',
+      capital: 'Securing public market liquidity',
+      traction: 'Top-3 Indian EV brand with industry-leading battery longevity',
+      team: 'World-class automotive and battery thermal engineers',
+      operations: 'Integrated battery manufacturing and automated assembly',
+      technology: 'Proprietary BMS (Battery Management System), Aluminium chassis',
+      risks: 'FAME subsidy reductions, aggressive Ola price wars'
+    },
+    blindSpots: [
+      { area: 'Gross Margin Expansion without Subsidies', known: true, importance: 'CRITICAL', question: 'Can Ather hit 20%+ automotive gross margins as domestic subsidies taper off?' }
+    ],
+    visibility: 'HIGH',
+    signalDensity: 'HIGH',
+    whyNow: {
+      before: 'Burned capital scaling high-end niche performance scooters.',
+      whatChanged: 'Filed confidential DRHP for $500M IPO; Rizta family scooter unlocked tier-2 volume.',
+      whyItMatters: 'Second pure-play electric two-wheeler listing in India, resetting EV public market benchmarks.',
+      catalystTimestamp: '3h ago'
+    },
+    signalStack: [
+      { category: 'CAPITAL', headline: 'SEBI filing submitted for INR 4,500 Cr domestic public offering', timestamp: '3h ago', source: 'SEBI Gazette', confidence: 'HIGH', status: 'VERIFIED' }
+    ]
+  },
+  {
+    id: 'c_sarvam',
+    name: 'Sarvam AI',
+    logo: '',
+    tagline: 'Sovereign Indic foundation models & speech models',
+    description: 'Sarvam AI is developing generative foundation models and multi-lingual voice intelligence tailored for Indian enterprise languages and voice-first interfaces.',
+    industry: 'Artificial Intelligence',
+    subIndustry: 'Foundation Models, Indic LLMs',
+    sector: 'Generative AI',
+    founded: '2023-07-01',
+    headquarters: 'Bengaluru / Chennai, India',
+    website: 'https://www.sarvam.ai',
+    stage: 'SERIES_A',
+    status: 'ACTIVE',
+    founders: [
+      {
+        id: 'f_vivek',
+        name: 'Vivek Raghavan',
+        title: 'Co-founder',
+        education: ['IIT Delhi', 'Carnegie Mellon University'],
+        ecosystemConnections: ['IIT_DELHI', 'AI4BHARAT']
+      },
+      {
+        id: 'f_pratyush',
+        name: 'Pratyush Kumar',
+        title: 'Co-founder',
+        education: ['IIT Bombay', 'ETH Zurich'],
+        ecosystemConnections: ['IIT_BOMBAY', 'AI4BHARAT']
+      }
+    ],
+    investors: [
+      { id: 'i_lightspeed', name: 'Lightspeed Venture Partners', type: 'VC' },
+      { id: 'i_peakxv', name: 'Peak XV Partners', type: 'VC' },
+      { id: 'i_khosla', name: 'Khosla Ventures', type: 'VC' }
+    ],
+    fundingRounds: [
+      {
+        id: 'fr_sarv_1',
+        type: 'Series A',
+        amount: { id: 'ec_s1', claim: 'Raised $41M', value: 41000000, source: 'Lightspeed Dispatch', sourceType: 'NEWS', retrievedAt: '2024-05-01', status: 'VERIFIED', confidence: 'HIGH' },
+        date: '2023-12-07',
+        investors: ['Lightspeed', 'Peak XV', 'Khosla Ventures'],
+        valuation: { id: 'ec_s2', claim: 'Valued at $180M', value: 180000000, source: 'TechCrunch', sourceType: 'NEWS', retrievedAt: '2024-05-01', status: 'ESTIMATED', confidence: 'MEDIUM' }
+      }
+    ],
+    totalFunding: { id: 'ec_s3', claim: 'Total $41M', value: 41000000, source: 'Crunchbase', sourceType: 'PUBLIC_DATA', retrievedAt: '2024-05-01', status: 'VERIFIED', confidence: 'HIGH' },
+    revenue: { id: 'ec_s4', claim: '$3M (Run rate)', value: 3000000, source: 'Internal Estimation', sourceType: 'INFERRED', retrievedAt: '2024-05-01', status: 'ESTIMATED', confidence: 'LOW' },
+    valuation: { id: 'ec_s5', claim: '$180M', value: 180000000, source: 'Series A Pricing', sourceType: 'ANALYST_REPORT', retrievedAt: '2024-05-01', status: 'REPORTED', confidence: 'HIGH' },
+    competitors: ['c_krutrim', 'c_openai'],
+    markets: ['India', 'Enterprise Global'],
+    signals: [
+      { id: 'sig_sarv1', type: 'PRODUCT', title: 'Sarvam-1 (2B) Open Sovereign Model Released', description: 'Outperforms Llama 3 8B on 10 Indic languages with 4x higher token throughput', date: '5h ago', strength: 'STRONG', isEarlySignal: false },
+      { id: 'sig_sarv2', type: 'PARTNERSHIP', title: 'Strategic Sovereign Compute Partnership with Yotta & IndiaAI', description: 'Secured dedicated H100 GPU clusters under the national IndiaAI mission', date: '1d ago', strength: 'STRONG', isEarlySignal: true }
+    ],
+    legalEvents: [],
+    newsEvents: [],
+    ecosystemConnections: [
+      { type: 'RESEARCH', ecosystem: 'IIT_MADRAS', label: 'AI4Bharat IIT Madras Research Origin', description: 'Founding roots connected to the AI4Bharat consortium incubated at IIT Madras', verified: true }
+    ],
+    financialMetrics: [],
+    operationSignals: [],
+    companyDNA: {
+      businessModel: 'API token pricing + Enterprise on-premise sovereign weights',
+      market: 'Vernacular voice AI and government/banking enterprise automation',
+      product: 'Sarvam-1, Bulbul TTS, Saaras STT, Vernacular Agent Stack',
+      capital: 'Extremely well-backed by Lightspeed, Khosla & Peak XV',
+      traction: 'De-facto standard for Indian language audio reasoning',
+      team: 'Premier speech and NLP scientists in the Global South',
+      operations: 'High-throughput cluster engineering in Bengaluru and Chennai',
+      technology: 'Sub-word tokenizers optimized for Indic scripts, edge-distilled speech models',
+      risks: 'OpenAI multi-lingual latency reductions, open-source model replication'
+    },
+    blindSpots: [
+      { area: 'Enterprise Token Monetization Scale', known: true, importance: 'HIGH', question: 'Can sovereign Indic models protect enterprise pricing against commodity open weights like Llama and Gemma?' }
+    ],
+    visibility: 'MEDIUM',
+    signalDensity: 'HIGH',
+    whyNow: {
+      before: 'Global LLMs failed miserably on Indian accent recognition and low-resource script tokenization.',
+      whatChanged: 'Sarvam deployed Sarvam-1 and native Indic speech models with unprecedented token efficiency.',
+      whyItMatters: 'Enables banking, telecom, and citizen services to automate high-stakes voice interactions.',
+      catalystTimestamp: '5h ago'
+    },
+    signalStack: [
+      { category: 'PRODUCT', headline: 'Sarvam-1 Indic 2B model achieves top benchmark scores across 10 regional dialects', timestamp: '5h ago', source: 'Sarvam Research Blog', confidence: 'HIGH', status: 'VERIFIED' }
+    ]
+  },
+  {
+    id: 'c_torus',
+    name: 'Torus Robotics',
+    logo: '',
+    tagline: 'Autonomous heavy unmanned ground vehicles & powertrain',
+    description: 'Torus Robotics is an indigenous deeptech defense startup developing autonomous all-terrain electric unmanned ground vehicles (UGVs) and high-density electric powertrains for defense and search-and-rescue.',
+    industry: 'Defense & Robotics',
+    subIndustry: 'Autonomous Vehicles, Military Robotics',
+    sector: 'Defense Tech',
+    founded: '2019-08-01',
+    headquarters: 'Chennai, Tamil Nadu, India',
+    website: 'https://torusrobotics.com',
+    stage: 'SEED',
+    status: 'ACTIVE',
+    founders: [
+      {
+        id: 'f_vignesh',
+        name: 'M. Vignesh',
+        title: 'CEO & Co-founder',
+        education: ['SRM Institute of Science and Technology'],
+        ecosystemConnections: ['SRM']
+      }
+    ],
+    investors: [
+      { id: 'i_forge', name: 'Forge Innovation & Ventures', type: 'ACCELERATOR' },
+      { id: 'i_ang', name: 'Indian Angel Syndicate', type: 'ANGEL' }
+    ],
+    fundingRounds: [
+      {
+        id: 'fr_tor_1',
+        type: 'Seed',
+        amount: { id: 'ec_t1', claim: 'Raised $1.2M', value: 1200000, source: 'iDEX Grant & Defense Syndicate', sourceType: 'OFFICIAL_FILING', retrievedAt: '2024-05-01', status: 'VERIFIED', confidence: 'HIGH' },
+        date: '2023-04-10',
+        investors: ['Forge', 'Defense Angels'],
+        valuation: { id: 'ec_t2', claim: 'Valued at $8M', value: 8000000, source: 'Analyst Estimate', sourceType: 'ANALYST_REPORT', retrievedAt: '2024-05-01', status: 'ESTIMATED', confidence: 'MEDIUM' }
+      }
+    ],
+    totalFunding: { id: 'ec_t3', claim: 'Total $2.1M', value: 2100000, source: 'Defense Registry', sourceType: 'PUBLIC_DATA', retrievedAt: '2024-05-01', status: 'VERIFIED', confidence: 'HIGH' },
+    revenue: { id: 'ec_t4', claim: '$800K (FY24)', value: 800000, source: 'MoD Procurement Contract', sourceType: 'OFFICIAL_FILING', retrievedAt: '2024-05-01', status: 'VERIFIED', confidence: 'HIGH' },
+    valuation: { id: 'ec_t5', claim: '$12M', value: 12000000, source: 'Internal Round', sourceType: 'ANALYST_REPORT', retrievedAt: '2024-05-01', status: 'ESTIMATED', confidence: 'MEDIUM' },
+    competitors: ['c_zen', 'c_ideaforge'],
+    markets: ['India', 'Indo-Pacific Defense'],
+    signals: [
+      { id: 'sig_tor1', type: 'LEGAL', title: 'Indian Army Orders Autonomous Tactical UGVs under iDEX', description: 'MoD procurement contract awarded for high-altitude logistics support', date: '6h ago', strength: 'STRONG', isEarlySignal: true },
+      { id: 'sig_tor2', type: 'TECHNOLOGY', title: 'Patented Axial Flux Electric Motor with 3x Torque Density', description: 'Zero-emission powertrain developed specifically for extreme Ladakh altitude warfare', date: '3d ago', strength: 'STRONG', isEarlySignal: true }
+    ],
+    legalEvents: [],
+    newsEvents: [],
+    ecosystemConnections: [
+      { type: 'ALUMNI_FOUNDER', ecosystem: 'SRM', label: 'SRM Alumni Founder (M. Vignesh)', description: 'Founded by SRM engineering alumni supported by SRM Innovation & Incubation Centre', verified: true }
+    ],
+    financialMetrics: [],
+    operationSignals: [],
+    companyDNA: {
+      businessModel: 'Defense procurement contracts + Powertrain licensing',
+      market: 'Autonomous military logistics and border reconnaissance',
+      product: 'Electric UGV, Axial Flux Motor, Autonomous Path Planning Kit',
+      capital: 'Extremely lean, grant and defense-backed',
+      traction: 'Army high-altitude field trials cleared',
+      team: 'Mechatronics and robotics engineers from Chennai universities',
+      operations: 'R&D facility in Chennai hardware corridor',
+      technology: 'Indigenous motor controllers and ruggedized edge SLAM',
+      risks: 'Long defense procurement sales cycles'
+    },
+    blindSpots: [
+      { area: 'Defense Order Conversion Velocity', known: true, importance: 'HIGH', question: 'How quickly can MoD field trial approvals convert to multi-hundred unit manufacturing contracts?' }
+    ],
+    visibility: 'LOW',
+    signalDensity: 'HIGH',
+    whyNow: {
+      before: 'Indian defense forces relied on imported or legacy diesel troop support vehicles.',
+      whatChanged: 'Secured MoD contract for all-electric autonomous UGVs engineered for -30°C Ladakh altitudes.',
+      whyItMatters: 'Demonstrates indigenous hardware defense production emerging from Chennai academic corridors.',
+      catalystTimestamp: '6h ago'
+    },
+    signalStack: [
+      { category: 'REGULATORY', headline: 'Ministry of Defence signs commercial induction contract for Torus tactical UGVs', timestamp: '6h ago', source: 'iDEX / PIB Gazette', confidence: 'HIGH', status: 'VERIFIED' }
+    ]
   }
 ];
