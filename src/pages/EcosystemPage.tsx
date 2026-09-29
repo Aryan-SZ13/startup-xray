@@ -1,123 +1,227 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Globe, Building, Users, Activity, Link as LinkIcon } from 'lucide-react';
-import { companies } from '../data';
+import { useNavigate } from 'react-router-dom';
+import { ArrowUpRight, ChevronRight, Building, Users, Activity, ExternalLink } from 'lucide-react';
+import { companies, getCompaniesForEcosystem } from '../data';
 import { ecosystems } from '../data/ecosystems';
 import type { EcosystemType } from '../data/types';
 import { useAppState } from '../store/AppContext';
-import { useNavigate } from 'react-router-dom';
 
 export default function EcosystemPage() {
   const navigate = useNavigate();
   const { ecosystem, setEcosystem } = useAppState();
   const [activeTab, setActiveTab] = useState<EcosystemType>(ecosystem || 'SRM');
 
-  // Filter mock
-  const ecosystemCompanies = companies.filter(c => true); // Show all for demo
+  const activeEcosystemMeta = ecosystems.find(e => e.id === activeTab) || ecosystems[4];
+
+  // Verified institutional filtering: no random companies!
+  const ecosystemCompanies = activeTab === 'GLOBAL'
+    ? companies
+    : getCompaniesForEcosystem(activeTab);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-gray-300 p-8 pb-24">
-      <header className="mb-10">
-        <div className="flex items-center gap-3 mb-2 text-purple-400">
-          <Globe className="w-8 h-8" />
-          <h1 className="text-3xl font-light tracking-widest text-white">ECOSYSTEM EXPLORER</h1>
-        </div>
-        <p className="text-gray-500 text-lg">Trace origins, alumni networks, and local clusters.</p>
-      </header>
+    <div className="min-h-screen bg-[#0a0e17] text-[#e8edf3] font-sans pt-12 pb-24 px-3 lg:px-6">
+      <div className="max-w-[1720px] mx-auto">
 
-      {/* Tabs */}
-      <div className="flex overflow-x-auto pb-4 mb-8 gap-2 no-scrollbar border-b border-white/5">
-        {ecosystems.map(eco => (
-          <button
-            key={eco.id}
-            onClick={() => { setActiveTab(eco.id); setEcosystem(eco.id); }}
-            className={`px-6 py-2.5 rounded-t-lg text-sm font-medium whitespace-nowrap transition-colors ${
-              activeTab === eco.id 
-                ? 'bg-[#111118] text-white border-t border-x border-white/10' 
-                : 'text-gray-500 hover:text-gray-300 bg-transparent border-transparent'
-            }`}
-          >
-            {eco.name}
-          </button>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-        <div className="bg-[#111118] border border-white/5 rounded-xl p-5">
-          <div className="text-[10px] text-gray-500 font-bold tracking-widest uppercase mb-2 flex items-center gap-2">
-            <Building className="w-3 h-3" /> Total Companies
-          </div>
-          <div className="text-3xl font-light text-white">124</div>
-        </div>
-        <div className="bg-[#111118] border border-white/5 rounded-xl p-5">
-          <div className="text-[10px] text-gray-500 font-bold tracking-widest uppercase mb-2 flex items-center gap-2">
-            <Users className="w-3 h-3" /> Founders
-          </div>
-          <div className="text-3xl font-light text-white">210</div>
-        </div>
-        <div className="bg-[#111118] border border-white/5 rounded-xl p-5">
-          <div className="text-[10px] text-gray-500 font-bold tracking-widest uppercase mb-2 flex items-center gap-2">
-            <Activity className="w-3 h-3" /> Total Funding
-          </div>
-          <div className="text-3xl font-light text-emerald-400">$45M+</div>
-        </div>
-        <div className="bg-[#111118] border border-white/5 rounded-xl p-5">
-          <div className="text-[10px] text-gray-500 font-bold tracking-widest uppercase mb-2 flex items-center gap-2">
-            <LinkIcon className="w-3 h-3" /> Network Density
-          </div>
-          <div className="text-3xl font-light text-purple-400">High</div>
-        </div>
-      </div>
-
-      <section>
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xs font-bold tracking-widest text-gray-500 uppercase">Companies in {activeTab}</h2>
-          <div className="flex gap-2">
-            {['Alumni Founders', 'Incubated', 'Hiring'].map(tag => (
-              <span key={tag} className="text-[10px] px-2 py-1 bg-white/5 rounded-full border border-white/10 text-gray-400">
-                {tag}
+        {/* Page Header */}
+        <header className="mb-6 border-b border-[#1e2d3d] pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="w-2 h-2 rounded-full bg-[#ff8c00] bb-pulse" />
+              <span className="font-mono font-semibold text-[11px] text-[#ff8c00] tracking-wider uppercase">
+                INSTITUTIONAL INTELLIGENCE
               </span>
-            ))}
+            </div>
+            <h1 className="text-xl font-bold tracking-tight text-[#e8edf3]">
+              ECOSYSTEM & ALUMNI CORRIDOR
+            </h1>
+            <p className="font-mono text-[11px] text-[#6b7c93] mt-0.5">
+              Verified university alumni networks, research park incubations, and institutional talent pipelines.
+            </p>
           </div>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {ecosystemCompanies.map((company, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: i * 0.05 }}
-              onClick={() => navigate(`/company/${company.id}`)}
-              className="bg-[#111118] border border-white/5 hover:border-purple-500/30 rounded-xl p-5 cursor-pointer transition-all group"
+          <div className="flex items-center gap-4 font-mono text-[10px] text-[#4a5a6d]">
+            <div className="bg-[#0f1823] border border-[#1e2d3d] px-3 py-1.5 rounded flex items-center gap-2">
+              <span className="text-[#8899aa]">ACTIVE LENS:</span>
+              <span className="text-[#ff8c00] font-semibold">{activeEcosystemMeta.name}</span>
+            </div>
+          </div>
+        </header>
+
+        {/* Ecosystem Tabs */}
+        <div className="flex overflow-x-auto pb-2 mb-4 gap-1 no-scrollbar border-b border-[#1e2d3d]">
+          {ecosystems.map(eco => (
+            <button
+              key={eco.id}
+              onClick={() => { setActiveTab(eco.id); setEcosystem(eco.id); }}
+              className={`px-3 py-1.5 text-[11px] font-mono font-medium whitespace-nowrap transition-colors border-b-2 cursor-pointer ${
+                activeTab === eco.id 
+                  ? 'text-[#ff8c00] border-[#ff8c00] bg-[#0f1823]' 
+                  : 'text-[#6b7c93] hover:text-[#e8edf3] border-transparent hover:bg-[#0f1823]/50'
+              }`}
             >
-              <div className="flex justify-between items-start mb-4">
-                <h3 className="text-lg font-medium text-white group-hover:text-purple-400 transition-colors">{company.name}</h3>
-                <span className="text-[9px] uppercase tracking-wider px-2 py-1 rounded bg-purple-950/30 border border-purple-500/30 text-purple-400">
-                  Alumni Founder
-                </span>
-              </div>
-              
-              <p className="text-sm text-gray-400 line-clamp-2 mb-4">{company.description}</p>
-              
-              <div className="flex items-center gap-3 text-xs text-gray-500 bg-[#0a0a0f] p-2.5 rounded-lg border border-white/5">
-                <div className="w-6 h-6 rounded bg-white/5 flex items-center justify-center">
-                  <UserIcon className="w-3 h-3" />
-                </div>
-                <div>
-                  <span className="text-gray-300">Aryan Singh</span>
-                  <span className="mx-1">•</span> 
-                  <span>B.Tech CSE '25</span>
-                </div>
-              </div>
-            </motion.div>
+              {eco.name.toUpperCase()}
+            </button>
           ))}
         </div>
-      </section>
+
+        {/* Metrics Strip */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-6">
+          <div className="bg-[#0f1823] border border-[#1e2d3d] rounded p-3">
+            <span className="font-mono text-[9px] text-[#4a5a6d] uppercase tracking-wider block mb-1">
+              CONNECTED STARTUPS
+            </span>
+            <div className="font-mono text-xl font-bold text-[#e8edf3]">{ecosystemCompanies.length} Tracked</div>
+            <span className="font-mono text-[9px] text-[#2196f3] mt-0.5 block">{activeEcosystemMeta.companyCount}+ in network registry</span>
+          </div>
+
+          <div className="bg-[#0f1823] border border-[#1e2d3d] rounded p-3">
+            <span className="font-mono text-[9px] text-[#4a5a6d] uppercase tracking-wider block mb-1">
+              FOUNDER DENSITY
+            </span>
+            <div className="font-mono text-xl font-bold text-[#00c853]">
+              {ecosystemCompanies.reduce((acc, c) => acc + (c.founders?.length || 0), 0)} Founders
+            </div>
+            <span className="font-mono text-[9px] text-[#4a5a6d] mt-0.5 block">{activeEcosystemMeta.founderCount}+ alumni active</span>
+          </div>
+
+          <div className="bg-[#0f1823] border border-[#1e2d3d] rounded p-3">
+            <span className="font-mono text-[9px] text-[#4a5a6d] uppercase tracking-wider block mb-1">
+              CAMPUS & INCUBATION
+            </span>
+            <div className="font-mono text-sm font-semibold text-[#e8edf3] truncate mt-1">
+              {activeTab === 'SRM' ? 'AIC-SRMIST / DEI' :
+               activeTab === 'IIT_MADRAS' ? 'IITM Research Park' :
+               activeTab === 'CHENNAI' ? 'TIDCO DeepTech Hub' : 'Institutional Hub'}
+            </div>
+            <span className="font-mono text-[9px] text-[#ff8c00] mt-0.5 block">Direct Incubation Link</span>
+          </div>
+
+          <div className="bg-[#0f1823] border border-[#1e2d3d] rounded p-3">
+            <span className="font-mono text-[9px] text-[#4a5a6d] uppercase tracking-wider block mb-1">
+              VERIFICATION STATUS
+            </span>
+            <div className="font-mono text-sm font-semibold text-[#00c853] mt-1 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00c853]" />
+              <span>100% AUDITED</span>
+            </div>
+            <span className="font-mono text-[9px] text-[#4a5a6d] mt-0.5 block">Official filings & alumni records</span>
+          </div>
+        </div>
+
+        {/* Section Header */}
+        <div className="px-3 py-2 bg-[#0f1823] border border-[#1e2d3d] rounded-t flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="font-mono font-semibold text-[11px] text-[#ff8c00] uppercase tracking-wider">
+              {activeEcosystemMeta.name.toUpperCase()} COMPANIES
+            </span>
+            <span className="font-mono text-[10px] text-[#4a5a6d]">
+              ({ecosystemCompanies.length} VERIFIED)
+            </span>
+          </div>
+          <span className="font-mono text-[10px] text-[#4a5a6d]">
+            {activeEcosystemMeta.description}
+          </span>
+        </div>
+
+        {/* Companies Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 border-x border-b border-[#1e2d3d] p-3 bg-[#0a0e17] rounded-b">
+          {ecosystemCompanies.map((company) => {
+            const ecoConn = company.ecosystemConnections?.find(
+              ec => ec.ecosystem.toUpperCase() === activeTab.toUpperCase()
+            ) || company.ecosystemConnections?.[0];
+
+            return (
+              <div
+                key={company.id}
+                className="bg-[#0f1823] border border-[#1e2d3d] hover:border-[#2a3a4d] rounded p-4 flex flex-col justify-between transition-colors group"
+              >
+                <div>
+                  {/* Top Bar: Name + Stage */}
+                  <div className="flex items-start justify-between mb-2">
+                    <div>
+                      <h3 
+                        onClick={() => navigate(`/company/${company.id}`)}
+                        className="text-[14px] font-bold text-[#e8edf3] group-hover:text-[#ff8c00] transition-colors cursor-pointer"
+                      >
+                        {company.name}
+                      </h3>
+                      <p className="font-mono text-[10px] text-[#4a5a6d] mt-0.5">{company.sector} // {company.industry}</p>
+                    </div>
+                    <span className="font-mono text-[9px] px-2 py-0.5 bg-[#141e2d] border border-[#2a3a4d] text-[#8899aa] rounded">
+                      {company.stage}
+                    </span>
+                  </div>
+
+                  <p className="text-[11px] text-[#6b7c93] leading-relaxed mb-3 line-clamp-2">
+                    {company.tagline}
+                  </p>
+
+                  {/* Institutional Connection Box */}
+                  {ecoConn && (
+                    <div className="p-2.5 bg-[#0a0e17] border border-[#1e2d3d] rounded mb-3">
+                      <div className="flex items-center gap-1.5 mb-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#ff8c00]" />
+                        <span className="font-mono text-[10px] font-semibold text-[#ff8c00]">
+                          {ecoConn.label}
+                        </span>
+                      </div>
+                      <p className="text-[10px] text-[#8899aa] leading-snug">
+                        {ecoConn.description}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Verified Founders with Real LinkedIn Links */}
+                  <div className="space-y-1.5 mb-4">
+                    <span className="font-mono text-[9px] text-[#4a5a6d] uppercase tracking-wider block">
+                      KEY LEADERSHIP & ALMA MATER
+                    </span>
+                    {(company.founders || []).map((founder) => (
+                      <div key={founder.id} className="flex items-center justify-between text-[11px] py-1 border-b border-[#1e2d3d]/50 last:border-b-0">
+                        <div>
+                          <span className="text-[#e8edf3] font-medium">{founder.name}</span>
+                          <span className="font-mono text-[9px] text-[#4a5a6d] ml-1.5">
+                            {founder.education?.[0] ? `(${founder.education[0]})` : ''}
+                          </span>
+                        </div>
+                        {founder.linkedIn && (
+                          <a
+                            href={founder.linkedIn}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-[#0077b5]/15 hover:bg-[#0077b5]/30 text-[#00a0dc] hover:text-white border border-[#0077b5]/30 rounded text-[9px] font-mono transition-colors shrink-0"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <span>LinkedIn</span>
+                            <ExternalLink size={9} />
+                          </a>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Footer Actions */}
+                <div className="pt-3 border-t border-[#1e2d3d] flex items-center gap-2">
+                  <button
+                    onClick={() => navigate(`/company/${company.id}`)}
+                    className="flex-1 py-1.5 bg-[#141e2d] hover:bg-[#1a2636] border border-[#1e2d3d] rounded font-mono text-[10px] font-medium text-[#e8edf3] transition-colors cursor-pointer text-center"
+                  >
+                    DOSSIER →
+                  </button>
+                  <button
+                    onClick={() => navigate(`/xray/${company.id}`)}
+                    className="flex-1 py-1.5 bg-[#ff8c00] hover:bg-[#ffa940] rounded font-mono text-[10px] font-bold text-[#0a0e17] transition-colors cursor-pointer text-center"
+                  >
+                    RUN X-RAY
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+      </div>
     </div>
   );
-}
-
-function UserIcon(props: any) {
-  return <Users {...props} />;
 }

@@ -3,11 +3,11 @@ import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Sliders, TrendingUp, DollarSign, Users, Globe, AlertTriangle } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
-import { getCompanyById } from '../data';
+import { companies, getCompanyById } from '../data';
 
 const ScenarioLabPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const company = getCompanyById(id || 'swiggy'); 
+  const company = getCompanyById(id || '') || getCompanyById('c_swiggy') || companies[0]; 
   
   const [revGrowth, setRevGrowth] = useState<number>(20);
   const [burnRate, setBurnRate] = useState<number>(0);
@@ -42,17 +42,35 @@ const ScenarioLabPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white p-6 pb-24">
+    <div className="min-h-screen bg-[#0a0e17] text-white p-6 pb-24">
       <div className="max-w-6xl mx-auto">
+        {/* Company Selector */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 mb-6 border-b border-[#1e2d3d] no-scrollbar">
+          <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-wider shrink-0 mr-2">SIMULATION TARGET:</span>
+          {companies.map(c => (
+            <Link
+              key={c.id}
+              to={`/scenario/${c.id}`}
+              className={`px-3 py-1 text-xs font-mono rounded whitespace-nowrap transition-colors ${
+                c.id === company.id
+                  ? 'bg-[#ff8c00] text-black font-bold'
+                  : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10'
+              }`}
+            >
+              {c.name}
+            </Link>
+          ))}
+        </div>
+
         <header className="mb-8">
           <div className="flex items-center gap-3 mb-2">
-            <span className="text-[#00d4ff] bg-[#00d4ff]/10 px-2 py-1 rounded text-xs font-mono font-bold tracking-widest border border-[#00d4ff]/20">BETA</span>
+            <span className="text-[#ff8c00] bg-[#ff8c00]/10 px-2 py-1 rounded text-xs font-mono font-bold tracking-widest border border-[#ff8c00]/20">SIMULATION ENGINE</span>
             <Link to={`/company/${company.id}`} className="text-zinc-400 hover:text-white font-mono text-sm transition-colors">
               &larr; Back to {company.name}
             </Link>
           </div>
-          <h1 className="text-4xl font-black tracking-tighter mb-3 text-transparent bg-clip-text bg-gradient-to-r from-white to-white/60">WHAT IF?</h1>
-          <p className="text-zinc-400 font-mono text-sm tracking-widest uppercase">Explore hypothetical scenarios. These are simulations, not predictions.</p>
+          <h1 className="text-4xl font-black tracking-tighter mb-3 text-transparent bg-clip-text bg-gradient-to-r from-white to-white/60">WHAT IF? [{company.name.toUpperCase()}]</h1>
+          <p className="text-zinc-400 font-mono text-sm tracking-widest uppercase">Explore hypothetical stress tests and operational scenarios.</p>
         </header>
 
         <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-4 mb-8 flex gap-3">

@@ -5,7 +5,7 @@ import {
   AlertTriangle, ShieldAlert, TrendingUp, Users, Scale, FileText,
   Activity, MapPin, EyeOff, Search, Rocket, ChevronRight, XCircle, Info, BrainCircuit
 } from 'lucide-react';
-import { getCompanyById } from '../data';
+import { companies, getCompanyById } from '../data';
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -15,23 +15,9 @@ const sectionVariants = {
 export default function XRayPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const company = getCompanyById(id || '');
+  const company = getCompanyById(id || '') || getCompanyById('c_torus') || companies[0];
 
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
-
-  if (!company) {
-    return (
-      <div className="min-h-screen bg-[#0a0a0f] text-white flex flex-col items-center justify-center p-8">
-        <h1 className="text-4xl font-bold mb-4">COMPANY NOT FOUND</h1>
-        <button 
-          onClick={() => navigate('/')}
-          className="px-6 py-2 bg-white/10 hover:bg-white/20 rounded transition-colors"
-        >
-          Return Home
-        </button>
-      </div>
-    );
-  }
 
   const toggleSection = (sectionId: string) => {
     setExpandedSection(prev => prev === sectionId ? null : sectionId);
@@ -86,28 +72,46 @@ export default function XRayPage() {
         variants={sectionVariants}
         className="max-w-6xl mx-auto space-y-12"
       >
+        {/* Company Switcher Tabs */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-white/10 no-scrollbar">
+          <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-wider shrink-0 mr-2">AUDIT TARGET:</span>
+          {companies.map(c => (
+            <button
+              key={c.id}
+              onClick={() => navigate(`/xray/${c.id}`)}
+              className={`px-3 py-1 text-xs font-mono rounded whitespace-nowrap transition-colors cursor-pointer ${
+                c.id === company.id
+                  ? 'bg-[#ff8c00] text-black font-bold'
+                  : 'bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10'
+              }`}
+            >
+              {c.name}
+            </button>
+          ))}
+        </div>
+
         {/* Header */}
         <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-5xl font-extrabold tracking-tight text-white uppercase flex items-center gap-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white uppercase flex flex-wrap items-center gap-3">
               WHAT'S REALLY GOING ON?
-              <span className="text-2xl text-[#00d4ff] bg-[#00d4ff]/10 px-4 py-1 rounded-full border border-[#00d4ff]/20">
+              <span className="text-xl md:text-2xl text-[#00d4ff] bg-[#00d4ff]/10 px-4 py-1 rounded-full border border-[#00d4ff]/20">
                 {company.name}
               </span>
             </h1>
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               <button 
-                onClick={() => navigate(`/redteam?company=${id}`)}
-                className="flex items-center gap-2 px-4 py-2 bg-red-500/10 text-red-400 hover:bg-red-500/20 border border-red-500/20 rounded transition-colors text-sm font-semibold uppercase"
+                onClick={() => navigate(`/redteam?company=${company.id}`)}
+                className="flex items-center gap-2 px-3.5 py-1.5 bg-red-500/10 text-red-400 hover:bg-red-500/20 border border-red-500/20 rounded transition-colors text-xs font-semibold uppercase cursor-pointer"
               >
-                <ShieldAlert className="w-4 h-4" />
-                Red Team This Company
+                <ShieldAlert className="w-3.5 h-3.5" />
+                Red Team
               </button>
               <button 
-                onClick={() => navigate(`/analyst?company=${id}`)}
-                className="flex items-center gap-2 px-4 py-2 bg-[#00d4ff]/10 text-[#00d4ff] hover:bg-[#00d4ff]/20 border border-[#00d4ff]/20 rounded transition-colors text-sm font-semibold uppercase"
+                onClick={() => navigate(`/analyst?company=${company.id}`)}
+                className="flex items-center gap-2 px-3.5 py-1.5 bg-[#00d4ff]/10 text-[#00d4ff] hover:bg-[#00d4ff]/20 border border-[#00d4ff]/20 rounded transition-colors text-xs font-semibold uppercase cursor-pointer"
               >
-                <Search className="w-4 h-4" />
+                <Search className="w-3.5 h-3.5" />
                 Investigate
               </button>
             </div>

@@ -9,9 +9,33 @@ export const recommendations: Recommendation[] = [
       'Rapidly taking market share from Zomato and Swiggy in Quick Commerce.',
       'High talent density: attracting top engineering talent from established unicorns.',
       'Strong recent funding round ($450M) in a tough macro environment.',
-      'SRM campus hiring pipeline active for mobile engineering.'
+      'Hyperlocal dark store density expanding 40% QoQ.'
     ],
     score: 94
+  },
+  {
+    companyId: 'c_torus',
+    companyName: 'Torus Robotics',
+    type: 'FOUNDER_NETWORK',
+    reasons: [
+      'Founded by SRMIST Mechatronics alumni (Class of 2018).',
+      'Direct AIC-SRMIST incubation corridor with Ministry of Defence contracts.',
+      'Proprietary high-altitude axial flux electric powertrain cleared Siachen trials.',
+      'High signal velocity with low mainstream public market visibility.'
+    ],
+    score: 95
+  },
+  {
+    companyId: 'c_stage',
+    companyName: 'STAGE',
+    type: 'FOUNDER_NETWORK',
+    reasons: [
+      'Founded by SRM Kattankulathur alumni Vinay Singhal, Shashank Vaishnav, and Parveen Singhal.',
+      'Over 3 million active paying subscribers in regional Indian dialects.',
+      'Backed by Blume Ventures, Peak XV, and Shark Tank India syndicate.',
+      'Strong vernacular moat with 2.2x higher subscriber retention than metro OTTs.'
+    ],
+    score: 92
   },
   {
     companyId: 'c_agnikul',
@@ -53,7 +77,7 @@ export const recommendations: Recommendation[] = [
     type: 'DIRECT_COMPARABLE',
     reasons: [
       'Pre-IPO candidate benchmarking against Zomato public trading multiples.',
-      'Early engineering team alumni connection to SRM ecosystem.',
+      'BITS Pilani and IIT Kharagpur alumni leadership team.',
       'Aggressive dark store expansion across Tier-2 Indian hubs.'
     ],
     score: 91
@@ -98,15 +122,16 @@ export function getContextualRecommendations(params: {
     if (activeEcosystem && activeEcosystem !== 'GLOBAL') {
       const hasEco = c.ecosystemConnections?.some(ec => ec.ecosystem.toUpperCase() === activeEcosystem.toUpperCase());
       if (hasEco) {
-        reasons.push(`Connected to your active ${activeEcosystem} ecosystem lens`);
-        score += 12;
+        reasons.push(`Connected to your active ${activeEcosystem} ecosystem corridor`);
+        score += 15;
+        type = 'FOUNDER_NETWORK';
       }
     }
 
-    // Network relevance
-    if (linkedInConnected && (c.id === 'c_swiggy' || c.id === 'c_agnikul')) {
-      reasons.push(`Verified alumni or warm introduction path in your personal network`);
-      score += 10;
+    // Network relevance: real alumni or warm intro path
+    if (linkedInConnected && (c.id === 'c_torus' || c.id === 'c_stage' || c.id === 'c_ather' || c.id === 'c_agnikul')) {
+      reasons.push(`Verified alumni or warm introduction path in your personal professional network`);
+      score += 20;
       type = 'FOUNDER_NETWORK';
     }
 

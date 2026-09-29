@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Search, Compass, Zap, Target, TrendingUp, Users, SearchIcon } from 'lucide-react';
-import { recommendations, getCompanyById, marketSectors } from '../data';
+import { recommendations, getCompanyById, marketSectors, companies } from '../data';
 import { useAppState } from '../store/AppContext';
 
 export default function DiscoverPage() {
@@ -82,8 +82,16 @@ export default function DiscoverPage() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter' && searchTerm) {
-                    navigate(`/company/${searchTerm.toLowerCase()}`);
+                  if (e.key === 'Enter' && searchTerm.trim()) {
+                    const match = companies.find(c => 
+                      c.name.toLowerCase() === searchTerm.trim().toLowerCase() ||
+                      c.id.toLowerCase() === searchTerm.trim().toLowerCase()
+                    );
+                    if (match) {
+                      navigate(`/company/${match.id}`);
+                    } else {
+                      navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
+                    }
                   }
                 }}
                 className="w-full bg-[#0a0a0f] border border-white/10 rounded-full py-3 pl-12 pr-4 text-white focus:outline-none focus:border-cyan-500/50 transition-colors"

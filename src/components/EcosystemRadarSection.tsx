@@ -78,7 +78,7 @@ export const EcosystemRadarSection: React.FC = () => {
           <div className="col-span-1 text-right">LINK</div>
         </div>
 
-        {(filteredCompanies.length > 0 ? filteredCompanies : companies).slice(0, 5).map((comp) => {
+        {filteredCompanies.slice(0, 5).map((comp) => {
           const conn = comp.ecosystemConnections?.find(ec => ec.ecosystem.toUpperCase() === selectedEcosystem.toUpperCase()) || comp.ecosystemConnections?.[0];
           return (
             <div

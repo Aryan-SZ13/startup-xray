@@ -29,12 +29,12 @@ export default function HomePage() {
   });
 
   const searchSuggestions = [
-    { label: 'Postman', meta: 'SRM Alumni // $5.6B' },
+    { label: 'Torus Robotics', meta: 'SRM Alumni // Defense UGV' },
+    { label: 'STAGE', meta: 'SRM Alumni // Dialect OTT' },
+    { label: 'Postman', meta: 'BITS Pilani // $5.6B' },
     { label: 'Ather Energy', meta: 'IIT Madras // IPO' },
     { label: 'Sarvam AI', meta: 'Indic LLM // 2B' },
-    { label: 'Torus Robotics', meta: 'Defense UGV' },
-    { label: 'Agnikul Cosmos', meta: 'SpaceTech' },
-    { label: 'Swiggy', meta: 'Pre-IPO // DRHP' }
+    { label: 'Agnikul Cosmos', meta: 'SpaceTech // IITM' }
   ];
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -362,18 +362,18 @@ export default function HomePage() {
                 Find Your Pathway Into Any Entity
               </h3>
               <p className="text-[11px] text-[#6b7c93] mb-4">
-                Map SRM alumni networks (Postman, Torus), IIT Madras incubations (Ather, Agnikul), and investor syndicates.
+                Map SRM alumni networks (Torus Robotics, STAGE OTT), IIT Madras incubations (Ather, Agnikul), and BITS Pilani corridors (Postman, Swiggy).
               </p>
 
               {/* Path Visualization */}
               <div className="px-3 py-2 bg-[#0a0e17] border border-[#1e2d3d] rounded mb-4 flex items-center gap-2 font-mono text-[11px] text-[#4a5a6d] flex-wrap">
-                <span className="px-1.5 py-0.5 bg-[#ff8c00] text-[#0a0e17] font-bold text-[10px] rounded">YOU</span>
+                <span className="px-1.5 py-0.5 bg-[#ff8c00] text-[#0a0e17] font-bold text-[10px] rounded">YOU (SRMIST)</span>
                 <span>→</span>
-                <span>SRM Alumni Network</span>
+                <span>AIC-SRMIST Corridor</span>
                 <span>→</span>
-                <span className="text-[#e8edf3] font-medium">Postman / Torus Robotics</span>
+                <span className="text-[#e8edf3] font-medium">Torus Robotics / STAGE</span>
                 <span>→</span>
-                <span className="text-[#ff8c00]">Leadership</span>
+                <span className="text-[#ff8c00]">Founders & Leadership</span>
               </div>
 
               <div className="flex items-center gap-2">

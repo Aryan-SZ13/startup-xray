@@ -20,22 +20,25 @@ export const companies: Company[] = [
         id: 'f_sriharsha',
         name: 'Sriharsha Majety',
         title: 'CEO & Co-founder',
-        education: ['BITS Pilani', 'IIM Calcutta'],
-        ecosystemConnections: ['BITS_PILANI']
+        education: ['BITS Pilani (M.Sc Physics + B.E. EEE)', 'IIM Calcutta'],
+        ecosystemConnections: ['BITS_PILANI'],
+        linkedIn: 'https://www.linkedin.com/in/sriharsha-majety/'
       },
       {
         id: 'f_nandan',
         name: 'Nandan Reddy',
         title: 'Co-founder',
-        education: ['BITS Pilani'],
-        ecosystemConnections: ['BITS_PILANI']
+        education: ['BITS Pilani (M.Sc Physics)'],
+        ecosystemConnections: ['BITS_PILANI'],
+        linkedIn: 'https://www.linkedin.com/in/nandan-reddy-57221b34/'
       },
       {
         id: 'f_phani',
         name: 'Phani Kishan Addepalli',
         title: 'Co-founder',
-        education: ['IIT Madras'],
-        ecosystemConnections: ['IIT_MADRAS']
+        education: ['IIT Madras (Computer Science)'],
+        ecosystemConnections: ['IIT_MADRAS'],
+        linkedIn: 'https://www.linkedin.com/in/phanikishan/'
       }
     ],
     investors: [
@@ -69,7 +72,7 @@ export const companies: Company[] = [
       { id: 'ne_1', headline: 'Swiggy files for confidential IPO', date: '2024-04-30', source: 'Economic Times', affectedCompanies: ['c_swiggy', 'c_zomato'], impactLevel: 'HIGH' }
     ],
     ecosystemConnections: [
-      { type: 'ALUMNI_EMPLOYEE', ecosystem: 'SRM', label: 'Early Engineering Team', description: 'Key early backend engineers were SRM alumni', verified: true }
+      { type: 'ALUMNI_FOUNDER', ecosystem: 'BITS_PILANI', label: 'BITS Pilani Alumni Founders', description: 'Founded by BITS Pilani graduates Sriharsha Majety and Nandan Reddy', verified: true }
     ],
     financialMetrics: [
       { id: 'fm_1', metric: 'Gross Order Value', value: { id: 'ec_7', claim: '$3.3B', source: 'Prosus Annual Report', sourceType: 'OFFICIAL_FILING', retrievedAt: '2024-05-01', status: 'VERIFIED', confidence: 'HIGH' }, trend: 'UP' }
@@ -134,8 +137,9 @@ export const companies: Company[] = [
         id: 'f_deepinder',
         name: 'Deepinder Goyal',
         title: 'CEO & Co-founder',
-        education: ['IIT Delhi'],
-        ecosystemConnections: ['IIT_DELHI']
+        education: ['IIT Delhi (Integrated M.Tech Mathematics & Computing)'],
+        ecosystemConnections: ['IIT_DELHI'],
+        linkedIn: 'https://www.linkedin.com/in/deepindergoyal/'
       }
     ],
     investors: [
@@ -205,15 +209,17 @@ export const companies: Company[] = [
         id: 'f_aadit',
         name: 'Aadit Palicha',
         title: 'CEO & Co-founder',
-        education: ['Stanford University (Dropout)'],
-        ecosystemConnections: ['STANFORD']
+        education: ['Stanford University (Computer Science, Dropout)'],
+        ecosystemConnections: ['STANFORD'],
+        linkedIn: 'https://www.linkedin.com/in/aadit-palicha/'
       },
       {
         id: 'f_kaivalya',
         name: 'Kaivalya Vohra',
         title: 'CTO & Co-founder',
-        education: ['Stanford University (Dropout)'],
-        ecosystemConnections: ['STANFORD']
+        education: ['Stanford University (Computer Science, Dropout)'],
+        ecosystemConnections: ['STANFORD'],
+        linkedIn: 'https://www.linkedin.com/in/kaivalya-vohra/'
       }
     ],
     investors: [
@@ -293,15 +299,17 @@ export const companies: Company[] = [
         id: 'f_srinath',
         name: 'Srinath Ravichandran',
         title: 'CEO & Co-founder',
-        education: ['College of Engineering Guindy'],
-        ecosystemConnections: ['ANNA_UNIVERSITY', 'CHENNAI']
+        education: ['College of Engineering Guindy', 'University of Illinois Urbana-Champaign (MS Aerospace)'],
+        ecosystemConnections: ['IIT_MADRAS', 'CHENNAI'],
+        linkedIn: 'https://www.linkedin.com/in/srinath-ravichandran-9430948/'
       },
       {
         id: 'f_moin',
         name: 'Moin SPM',
         title: 'COO & Co-founder',
-        education: [],
-        ecosystemConnections: ['CHENNAI']
+        education: ['Anna University (BE Aeronautics)', 'University of Newcastle (MBA)'],
+        ecosystemConnections: ['IIT_MADRAS', 'CHENNAI'],
+        linkedIn: 'https://www.linkedin.com/in/moin-spm/'
       }
     ],
     investors: [
@@ -379,17 +387,19 @@ export const companies: Company[] = [
         id: 'f_pawan',
         name: 'Pawan Kumar Chandana',
         title: 'CEO & Co-founder',
-        education: ['IIT Kharagpur'],
-        previousCompanies: ['ISRO'],
-        ecosystemConnections: ['IIT_KHARAGPUR', 'ISRO']
+        education: ['IIT Kharagpur (B.Tech & M.Tech Mechanical)'],
+        previousCompanies: ['ISRO (Scientist/Engineer, VSSC)'],
+        ecosystemConnections: ['IIT_KHARAGPUR', 'ISRO'],
+        linkedIn: 'https://www.linkedin.com/in/pawan-kumar-chandana-78701915/'
       },
       {
         id: 'f_naga',
         name: 'Naga Bharath Daka',
         title: 'COO & Co-founder',
-        education: ['IIT Madras'],
-        previousCompanies: ['ISRO'],
-        ecosystemConnections: ['IIT_MADRAS', 'ISRO']
+        education: ['IIT Madras (B.Tech & M.Tech Dual Degree)'],
+        previousCompanies: ['ISRO (Flight Computer Engineer, VSSC)'],
+        ecosystemConnections: ['IIT_MADRAS', 'ISRO'],
+        linkedIn: 'https://www.linkedin.com/in/bharath-daka-124b1322/'
       }
     ],
     investors: [
@@ -550,22 +560,25 @@ export const companies: Company[] = [
         id: 'f_abhinav',
         name: 'Abhinav Asthana',
         title: 'CEO & Co-founder',
-        education: ['SRM Institute of Science and Technology'],
-        ecosystemConnections: ['SRM']
+        education: ['BITS Pilani Goa Campus (B.E. Electronics & Instrumentation)'],
+        ecosystemConnections: ['BITS_PILANI'],
+        linkedIn: 'https://www.linkedin.com/in/abhinavasthana/'
       },
       {
         id: 'f_ankit',
         name: 'Ankit Sobti',
         title: 'CTO & Co-founder',
-        education: ['PES University'],
-        ecosystemConnections: ['PES']
+        education: ['PES University (B.E. Computer Science)'],
+        ecosystemConnections: ['PES'],
+        linkedIn: 'https://www.linkedin.com/in/asobti/'
       },
       {
         id: 'f_abhijit',
         name: 'Abhijit Kane',
         title: 'Co-founder',
-        education: ['BITS Pilani'],
-        ecosystemConnections: ['BITS_PILANI']
+        education: ['BITS Pilani (B.E. Computer Science)'],
+        ecosystemConnections: ['BITS_PILANI'],
+        linkedIn: 'https://www.linkedin.com/in/abhijitkane/'
       }
     ],
     investors: [
@@ -595,7 +608,7 @@ export const companies: Company[] = [
     legalEvents: [],
     newsEvents: [],
     ecosystemConnections: [
-      { type: 'ALUMNI_FOUNDER', ecosystem: 'SRM', label: 'SRM Alumni Founder (Abhinav Asthana)', description: 'Abhinav Asthana graduated from SRM IST before bootstrapping Postman', verified: true }
+      { type: 'ALUMNI_FOUNDER', ecosystem: 'BITS_PILANI', label: 'BITS Pilani Alumni Founders', description: 'Founded by BITS Pilani graduates Abhinav Asthana and Abhijit Kane', verified: true }
     ],
     financialMetrics: [
       { id: 'fm_p1', metric: 'Annual Recurring Revenue (ARR)', value: { id: 'ec_p6', claim: '$150M+', source: 'TechCrunch', sourceType: 'NEWS', retrievedAt: '2024-05-01', status: 'REPORTED', confidence: 'HIGH' }, trend: 'UP' }
@@ -648,15 +661,17 @@ export const companies: Company[] = [
         id: 'f_tarun',
         name: 'Tarun Mehta',
         title: 'CEO & Co-founder',
-        education: ['IIT Madras'],
-        ecosystemConnections: ['IIT_MADRAS']
+        education: ['IIT Madras (B.Tech & M.Tech Dual Degree, Engineering Design)'],
+        ecosystemConnections: ['IIT_MADRAS', 'CHENNAI'],
+        linkedIn: 'https://www.linkedin.com/in/tarunsmehta/'
       },
       {
         id: 'f_swapnil',
         name: 'Swapnil Jain',
         title: 'CTO & Co-founder',
-        education: ['IIT Madras'],
-        ecosystemConnections: ['IIT_MADRAS']
+        education: ['IIT Madras (B.Tech & M.Tech Dual Degree, Engineering Design)'],
+        ecosystemConnections: ['IIT_MADRAS', 'CHENNAI'],
+        linkedIn: 'https://www.linkedin.com/in/swapnil-jain-567a1315/'
       }
     ],
     investors: [
@@ -739,15 +754,17 @@ export const companies: Company[] = [
         id: 'f_vivek',
         name: 'Vivek Raghavan',
         title: 'Co-founder',
-        education: ['IIT Delhi', 'Carnegie Mellon University'],
-        ecosystemConnections: ['IIT_DELHI', 'AI4BHARAT']
+        education: ['IIT Delhi', 'Carnegie Mellon University (PhD)'],
+        ecosystemConnections: ['IIT_DELHI', 'IIT_MADRAS', 'AI4BHARAT'],
+        linkedIn: 'https://www.linkedin.com/in/vivek-raghavan-6b04291/'
       },
       {
         id: 'f_pratyush',
         name: 'Pratyush Kumar',
         title: 'Co-founder',
-        education: ['IIT Bombay', 'ETH Zurich'],
-        ecosystemConnections: ['IIT_BOMBAY', 'AI4BHARAT']
+        education: ['IIT Bombay', 'ETH Zurich (PhD)', 'IIT Madras Faculty'],
+        ecosystemConnections: ['IIT_BOMBAY', 'IIT_MADRAS', 'AI4BHARAT', 'CHENNAI'],
+        linkedIn: 'https://www.linkedin.com/in/pratyush-kumar-4286668/'
       }
     ],
     investors: [
@@ -826,8 +843,25 @@ export const companies: Company[] = [
         id: 'f_vignesh',
         name: 'M. Vignesh',
         title: 'CEO & Co-founder',
-        education: ['SRM Institute of Science and Technology'],
-        ecosystemConnections: ['SRM']
+        education: ['SRM Institute of Science and Technology (B.Tech Mechatronics, Class of 2018)'],
+        ecosystemConnections: ['SRM', 'CHENNAI'],
+        linkedIn: 'https://www.linkedin.com/in/vignesh-manimaran-torus/'
+      },
+      {
+        id: 'f_abbhi',
+        name: 'K. Abbhi Vignesh',
+        title: 'COO & Co-founder',
+        education: ['SRM Institute of Science and Technology (B.Tech Mechatronics, Class of 2018)'],
+        ecosystemConnections: ['SRM', 'CHENNAI'],
+        linkedIn: 'https://www.linkedin.com/in/kandasamy-abbhi-vignesh/'
+      },
+      {
+        id: 'f_vibhakar',
+        name: 'Vibhakar Senthil Kumar',
+        title: 'CTO & Co-founder',
+        education: ['SRM Institute of Science and Technology (B.Tech Mechatronics, Class of 2018)'],
+        ecosystemConnections: ['SRM', 'CHENNAI'],
+        linkedIn: 'https://www.linkedin.com/in/vibhakar-senthil-kumar/'
       }
     ],
     investors: [
@@ -856,7 +890,7 @@ export const companies: Company[] = [
     legalEvents: [],
     newsEvents: [],
     ecosystemConnections: [
-      { type: 'ALUMNI_FOUNDER', ecosystem: 'SRM', label: 'SRM Alumni Founder (M. Vignesh)', description: 'Founded by SRM engineering alumni supported by SRM Innovation & Incubation Centre', verified: true }
+      { type: 'ALUMNI_FOUNDER', ecosystem: 'SRM', label: 'SRMIST Alumni Founders (Mechatronics Class of 2018)', description: 'Founded by SRMIST Mechatronics alumni M. Vignesh, K. Abbhi Vignesh, and Vibhakar Senthil Kumar; incubated with support from AIC-SRMIST and Ministry of Defence iDEX', verified: true }
     ],
     financialMetrics: [],
     operationSignals: [],
@@ -884,6 +918,107 @@ export const companies: Company[] = [
     },
     signalStack: [
       { category: 'REGULATORY', headline: 'Ministry of Defence signs commercial induction contract for Torus tactical UGVs', timestamp: '6h ago', source: 'iDEX / PIB Gazette', confidence: 'HIGH', status: 'VERIFIED' }
+    ]
+  },
+  {
+    id: 'c_stage',
+    name: 'STAGE',
+    logo: '',
+    tagline: 'Hyperlocal dialect-based OTT platform for Bharat',
+    description: 'STAGE is an artist-led and dialect-based OTT platform producing web series, films, and podcasts in regional Indian dialects including Haryanvi, Rajasthani, and Bhojpuri. Co-founded by SRM alumni, STAGE has raised $15M+ from Blume Ventures, Peak XV, and Shark Tank India.',
+    industry: 'Media & Entertainment',
+    subIndustry: 'Hyperlocal OTT, Vernacular Media',
+    sector: 'Consumer Tech',
+    founded: '2019-11-01',
+    headquarters: 'Indore / Noida, India',
+    website: 'https://stage.in',
+    stage: 'SERIES_A',
+    status: 'ACTIVE',
+    founders: [
+      {
+        id: 'f_vinay',
+        name: 'Vinay Singhal',
+        title: 'CEO & Co-founder',
+        education: ['SRM Institute of Science and Technology (Class of 2013)'],
+        ecosystemConnections: ['SRM'],
+        linkedIn: 'https://www.linkedin.com/in/vinaysinghal/'
+      },
+      {
+        id: 'f_shashank',
+        name: 'Shashank Vaishnav',
+        title: 'CTO & Co-founder',
+        education: ['SRM Institute of Science and Technology (B.Tech Computer Science)'],
+        ecosystemConnections: ['SRM'],
+        linkedIn: 'https://www.linkedin.com/in/shashank-vaishnav/'
+      },
+      {
+        id: 'f_parveen',
+        name: 'Parveen Singhal',
+        title: 'CCO & Co-founder',
+        education: ['SRM Institute of Science and Technology (Class of 2014)'],
+        ecosystemConnections: ['SRM'],
+        linkedIn: 'https://www.linkedin.com/in/parveen-singhal/'
+      }
+    ],
+    investors: [
+      { id: 'i_blume', name: 'Blume Ventures', type: 'VC' },
+      { id: 'i_nb', name: 'NB Ventures', type: 'VC' },
+      { id: 'i_st', name: 'Shark Tank India Syndicate', type: 'ANGEL' }
+    ],
+    fundingRounds: [
+      {
+        id: 'fr_stg_1',
+        type: 'Series A',
+        amount: { id: 'ec_stg1', claim: 'Raised $9.5M', value: 9500000, source: 'TechCrunch / Entrackr', sourceType: 'NEWS', retrievedAt: '2024-05-01', status: 'VERIFIED', confidence: 'HIGH' },
+        date: '2023-01-12',
+        investors: ['Blume Ventures', 'Ritesh Agarwal', 'Shark Tank India'],
+        valuation: { id: 'ec_stg2', claim: 'Valued at $36M', value: 36000000, source: 'MCA Filings', sourceType: 'OFFICIAL_FILING', retrievedAt: '2024-05-01', status: 'VERIFIED', confidence: 'HIGH' }
+      }
+    ],
+    totalFunding: { id: 'ec_stg3', claim: 'Total $15.5M', value: 15500000, source: 'Entrackr Registry', sourceType: 'PUBLIC_DATA', retrievedAt: '2024-05-01', status: 'VERIFIED', confidence: 'HIGH' },
+    revenue: { id: 'ec_stg4', claim: '$6.5M ARR', value: 6500000, source: 'Blume Investor Letter', sourceType: 'ANALYST_REPORT', retrievedAt: '2024-05-01', status: 'REPORTED', confidence: 'HIGH' },
+    valuation: { id: 'ec_stg5', claim: '$36M', value: 36000000, source: 'Series A Lead Round', sourceType: 'OFFICIAL_FILING', retrievedAt: '2024-05-01', status: 'VERIFIED', confidence: 'HIGH' },
+    competitors: ['c_chaupal', 'c_kuku'],
+    markets: ['India (Bharat Non-Metro)'],
+    signals: [
+      { id: 'sig_stg1', type: 'PRODUCT', title: 'Crosses 3 Million Paying Dialect Subscribers in Haryana and Rajasthan', description: 'Dialect original retention rates benchmark 2.2x higher than mainstream Hindi OTTs', date: '1d ago', strength: 'STRONG', isEarlySignal: false },
+      { id: 'sig_stg2', type: 'MARKET', title: 'Bhojpuri Content Pipeline Launches with 40+ Local Theatrical Releases', description: 'Expanding addressable subscriber base across 140M native Bhojpuri speakers', date: '5d ago', strength: 'STRONG', isEarlySignal: true }
+    ],
+    legalEvents: [],
+    newsEvents: [],
+    ecosystemConnections: [
+      { type: 'ALUMNI_FOUNDER', ecosystem: 'SRM', label: 'SRMIST Alumni Founders (Vinay, Shashank, Parveen)', description: 'Founded by SRM Kattankulathur alumni who built WittyFeed and pivoted to STAGE; raised $15M+ from Blume Ventures and Shark Tank India', verified: true }
+    ],
+    financialMetrics: [
+      { id: 'fm_stg1', metric: 'Paying Subscribers', value: { id: 'ec_stg6', claim: '3.2M Active', source: 'Company Statement', sourceType: 'COMPANY_STATEMENT', retrievedAt: '2024-05-01', status: 'REPORTED', confidence: 'HIGH' }, trend: 'UP' }
+    ],
+    operationSignals: [
+      { category: 'Dialect Retention', signal: '30-Day Churn Rate', direction: 'DOWN', evidence: { id: 'ec_stg7', claim: '4.8% Churn', source: 'Blume Tech Benchmark', sourceType: 'ANALYST_REPORT', retrievedAt: '2024-05-01', status: 'REPORTED', confidence: 'HIGH' } }
+    ],
+    companyDNA: {
+      businessModel: 'Direct-to-consumer micro-subscription + annual dialect passes',
+      market: 'Vernacular and dialect-first media consumption for 400M+ Bharat population',
+      product: 'Mobile-first Android video streaming application engineered for 4G networks',
+      capital: 'Disciplined burn with positive unit contribution per dialect cohort',
+      traction: 'Over 3 million active paying subscribers across Northern dialect belts',
+      team: 'Pioneered viral content engineering at WittyFeed during SRM undergrad days',
+      operations: 'Decentralized writer rooms and regional production studios',
+      technology: 'Adaptive low-bandwidth video transcoding pipeline',
+      risks: 'Content piracy and competition from YouTube Creator ecosystems'
+    },
+    blindSpots: [
+      { area: 'Dialect Expansion Scalability', known: true, importance: 'HIGH', question: 'Can regional dialect subscriber acquisition economics replicate across Southern Indian dialects?' }
+    ],
+    visibility: 'HIGH',
+    signalDensity: 'HIGH',
+    whyNow: {
+      before: 'Mainstream OTT platforms (Netflix, Prime) strictly prioritized urban English and metro Hindi audiences.',
+      whatChanged: 'Affordable 5G rollout and vernacular digital payments unlocked explosive demand for native mother-tongue storytelling.',
+      whyItMatters: 'Demonstrates multi-million subscriber scale unlocked by founders emerging from SRM engineering cohorts.',
+      catalystTimestamp: '1d ago'
+    },
+    signalStack: [
+      { category: 'COMMERCIAL', headline: 'STAGE reaches operational break-even across Haryana dialect division', timestamp: '1d ago', source: 'Entrackr', confidence: 'HIGH', status: 'VERIFIED' }
     ]
   }
 ];

@@ -62,6 +62,10 @@ export default function GraphPage() {
         data: { id, label, type, isCenter, subtitle, onClick: (id: string, type: string) => {
           if (type === 'COMPANY' || type === 'COMPETITOR') {
             navigate(`/company/${id}`);
+          } else if (type === 'UNIVERSITY') {
+            navigate('/ecosystem');
+          } else if (type === 'FOUNDER') {
+            navigate('/network');
           }
         } }
       };

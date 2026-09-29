@@ -195,12 +195,28 @@ export interface NetworkConnection {
   toType: 'PERSON' | 'COMPANY' | 'UNIVERSITY';
   connectionType: string;
   strength: 'STRONG' | 'MODERATE' | 'WEAK';
+  title?: string;
+  company?: string;
+  companyId?: string;
+  linkedInUrl?: string;
+  avatar?: string;
+  mutualInstitution?: string;
+  degree?: string;
+  verified?: boolean;
 }
 
 export interface NetworkPath {
   targetCompany: string;
-  pathNodes: { name: string; type: string; relationship: string; }[];
+  companyId?: string;
+  pathNodes: { 
+    name: string; 
+    type: string; 
+    relationship: string; 
+    linkedInUrl?: string;
+    avatar?: string;
+  }[];
   strength: 'STRONG' | 'MODERATE' | 'WEAK';
+  description?: string;
 }
 
 // Thesis

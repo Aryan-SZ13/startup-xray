@@ -40,7 +40,7 @@ const WatchlistPage: React.FC = () => {
             <Activity className="w-16 h-16 text-zinc-700 mb-6" />
             <h2 className="text-2xl font-bold mb-3 text-white">Your radar is empty</h2>
             <p className="text-zinc-400 mb-8 text-center max-w-md">Start watching companies to track changes and receive signals on intelligence updates.</p>
-            <Link to="/company/swiggy" className="px-6 py-3 bg-[#00d4ff]/10 text-[#00d4ff] hover:bg-[#00d4ff]/20 border border-[#00d4ff]/30 rounded-lg transition-colors font-mono text-sm font-bold flex items-center gap-2">
+            <Link to="/company/c_swiggy" className="px-6 py-3 bg-[#00d4ff]/10 text-[#00d4ff] hover:bg-[#00d4ff]/20 border border-[#00d4ff]/30 rounded-lg transition-colors font-mono text-sm font-bold flex items-center gap-2">
               <Search className="w-4 h-4" /> Try searching for Swiggy
             </Link>
           </motion.div>
