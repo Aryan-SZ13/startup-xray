@@ -70,14 +70,14 @@ const FOCUS_LAYERS: { id: FocusLayer; label: string }[] = [
 
 const clusterColor = (cluster: string) => {
   switch (cluster) {
-    case 'AI': return '#2196f3';
-    case 'SPACE': return '#00c853';
-    case 'DEVTOOLS': return '#ff8c00';
-    case 'CLEANTECH': return '#00c853';
-    case 'DEFENSE': return '#b388ff';
-    case 'CONSUMER': return '#ff3d3d';
-    case 'ECOSYSTEM': return '#ffd700';
-    default: return '#6b7c93';
+    case 'AI': return '#2563eb';
+    case 'SPACE': return '#059669';
+    case 'DEVTOOLS': return '#ea580c';
+    case 'CLEANTECH': return '#10b981';
+    case 'DEFENSE': return '#7c3aed';
+    case 'CONSUMER': return '#e11d48';
+    case 'ECOSYSTEM': return '#d97706';
+    default: return '#64748b';
   }
 };
 
@@ -99,29 +99,29 @@ export const CompanyUniverseGraph: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full h-[520px] lg:h-[580px] bg-[#0f1823] border border-[#1e2d3d] rounded overflow-hidden flex flex-col">
+    <div className="relative w-full h-[520px] lg:h-[580px] bg-slate-50 border border-slate-200 rounded-xl overflow-hidden flex flex-col shadow-xs">
       {/* Header */}
-      <div className="flex items-center justify-between px-3 py-2 border-b border-[#2a3a4d] bg-[#0f1823] z-20">
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-slate-200 bg-white z-20">
         <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#2196f3] bb-pulse" />
-          <span className="font-mono font-semibold text-[11px] text-[#ff8c00] tracking-wider uppercase">
-            ENTITY MAP
+          <span className="w-2 h-2 rounded-full bg-blue-600 bb-pulse" />
+          <span className="font-mono font-bold text-[11px] text-slate-900 tracking-wider uppercase">
+            ENTITY INTELLIGENCE MAP
           </span>
-          <span className="font-mono text-[10px] text-[#4a5a6d]">
-            {filteredNodes.length} ENTITIES
+          <span className="font-mono text-[10px] text-slate-500 bg-slate-100 px-1.5 py-0.2 rounded">
+            {filteredNodes.length} NODES
           </span>
         </div>
 
         {/* Focus Layer Tabs */}
-        <div className="flex items-center gap-0">
+        <div className="flex items-center gap-1">
           {FOCUS_LAYERS.map(l => (
             <button
               key={l.id}
               onClick={() => setActiveLayer(l.id)}
-              className={`px-2 py-0.5 text-[10px] font-mono font-medium transition-colors cursor-pointer border-b-2 ${
+              className={`px-2 py-0.5 text-[10px] font-mono font-medium rounded transition-colors cursor-pointer ${
                 activeLayer === l.id
-                  ? 'text-[#ff8c00] border-[#ff8c00]'
-                  : 'text-[#4a5a6d] hover:text-[#8899aa] border-transparent'
+                  ? 'bg-blue-600 text-white font-semibold shadow-2xs'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
               }`}
             >
               {l.label}
@@ -131,20 +131,20 @@ export const CompanyUniverseGraph: React.FC = () => {
 
         {/* Zoom */}
         <div className="hidden sm:flex items-center gap-1">
-          <button onClick={() => setZoomLevel(prev => Math.min(prev + 0.1, 1.3))} className="p-1 bg-[#0a0e17] border border-[#1e2d3d] rounded text-[#6b7c93] hover:text-[#e8edf3] cursor-pointer">
+          <button onClick={() => setZoomLevel(prev => Math.min(prev + 0.1, 1.3))} className="p-1.5 bg-white border border-slate-200 rounded-md text-slate-600 hover:text-slate-900 shadow-2xs cursor-pointer">
             <ZoomIn size={12} />
           </button>
-          <button onClick={() => setZoomLevel(prev => Math.max(prev - 0.1, 0.9))} className="p-1 bg-[#0a0e17] border border-[#1e2d3d] rounded text-[#6b7c93] hover:text-[#e8edf3] cursor-pointer">
+          <button onClick={() => setZoomLevel(prev => Math.max(prev - 0.1, 0.9))} className="p-1.5 bg-white border border-slate-200 rounded-md text-slate-600 hover:text-slate-900 shadow-2xs cursor-pointer">
             <ZoomOut size={12} />
           </button>
-          <button onClick={() => setZoomLevel(1)} className="p-1 bg-[#0a0e17] border border-[#1e2d3d] rounded text-[#6b7c93] hover:text-[#e8edf3] cursor-pointer">
+          <button onClick={() => setZoomLevel(1)} className="p-1.5 bg-white border border-slate-200 rounded-md text-slate-600 hover:text-slate-900 shadow-2xs cursor-pointer">
             <RotateCcw size={11} />
           </button>
         </div>
       </div>
 
       {/* Graph Canvas */}
-      <div className="relative flex-1 w-full h-full overflow-hidden select-none">
+      <div className="relative flex-1 w-full h-full overflow-hidden select-none bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:16px_16px]">
         <div
           className="relative w-full h-full transition-transform duration-300"
           style={{ transform: `scale(${zoomLevel})` }}
@@ -164,10 +164,10 @@ export const CompanyUniverseGraph: React.FC = () => {
                   key={idx}
                   x1={`${fromNode.x}%`} y1={`${fromNode.y}%`}
                   x2={`${toNode.x}%`} y2={`${toNode.y}%`}
-                  stroke={isHighlighted ? '#ff8c00' : '#2a3a4d'}
-                  strokeWidth={isHighlighted ? 1.5 : 0.5}
+                  stroke={isHighlighted ? '#2563eb' : '#94a3b8'}
+                  strokeWidth={isHighlighted ? 2 : 0.8}
                   strokeDasharray={isHighlighted ? '4 3' : 'none'}
-                  strokeOpacity={isHighlighted ? 1 : 0.6}
+                  strokeOpacity={isHighlighted ? 1 : 0.4}
                   className="transition-all duration-200"
                 />
               );
@@ -186,13 +186,13 @@ export const CompanyUniverseGraph: React.FC = () => {
                 onMouseEnter={() => setHoveredNode(node)}
                 onMouseLeave={() => setHoveredNode(null)}
               >
-                <div className={`flex items-center gap-1 px-2 py-1 rounded border transition-all duration-150 ${
+                <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg border transition-all duration-150 ${
                   isHovered
-                    ? 'bg-[#1a2636] border-[#ff8c00] shadow-[0_0_8px_rgba(255,140,0,0.3)]'
-                    : 'bg-[#141e2d] border-[#2a3a4d] hover:border-[#3a4a5d]'
+                    ? 'bg-white border-blue-600 shadow-md ring-2 ring-blue-500/20 scale-105'
+                    : 'bg-white/95 border-slate-200/90 shadow-2xs hover:border-slate-300 hover:shadow-xs'
                 }`}>
-                  <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: clusterColor(node.cluster) }} />
-                  <span className="font-mono text-[10px] text-[#e8edf3] whitespace-nowrap">{node.name}</span>
+                  <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: clusterColor(node.cluster) }} />
+                  <span className="font-mono text-[11px] font-semibold text-slate-800 whitespace-nowrap">{node.name}</span>
                 </div>
               </div>
             );
@@ -206,44 +206,44 @@ export const CompanyUniverseGraph: React.FC = () => {
               initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 4 }}
-              transition={{ duration: 0.1 }}
+              transition={{ duration: 0.12 }}
               style={{
                 left: `${Math.min(Math.max(hoveredNode.x, 20), 80)}%`,
-                top: `${hoveredNode.y > 55 ? hoveredNode.y - 26 : hoveredNode.y + 10}%`
+                top: `${hoveredNode.y > 55 ? hoveredNode.y - 28 : hoveredNode.y + 10}%`
               }}
-              className="absolute -translate-x-1/2 z-40 w-64 bg-[#141e2d] border border-[#2a3a4d] rounded p-3 pointer-events-none shadow-lg"
+              className="absolute -translate-x-1/2 z-40 w-68 bg-white border border-slate-200 rounded-xl p-3.5 pointer-events-none shadow-xl"
             >
-              <div className="flex items-center justify-between mb-1.5">
+              <div className="flex items-center justify-between mb-2">
                 <div>
-                  <h4 className="text-[12px] font-semibold text-[#e8edf3]">{hoveredNode.name}</h4>
-                  <p className="font-mono text-[10px] text-[#4a5a6d]">{hoveredNode.sector} {hoveredNode.stage ? `// ${hoveredNode.stage}` : ''}</p>
+                  <h4 className="text-[13px] font-bold text-slate-900">{hoveredNode.name}</h4>
+                  <p className="font-mono text-[10px] text-slate-500">{hoveredNode.sector} {hoveredNode.stage ? `// ${hoveredNode.stage}` : ''}</p>
                 </div>
-                <ArrowUpRight size={12} className="text-[#ff8c00]" />
+                <ArrowUpRight size={13} className="text-blue-600" />
               </div>
-              <div className="py-1.5 px-2 bg-[#0a0e17] border border-[#1e2d3d] rounded mb-2">
-                <span className="font-mono text-[9px] text-[#ff8c00] uppercase tracking-wider block mb-0.5">SIGNAL</span>
-                <p className="text-[11px] text-[#8899aa] leading-snug">{hoveredNode.signalStatus}</p>
+              <div className="py-1.5 px-2.5 bg-blue-50/60 border border-blue-100 rounded-md mb-2">
+                <span className="font-mono text-[9px] text-blue-700 uppercase tracking-wider block font-semibold mb-0.5">CURRENT SIGNAL</span>
+                <p className="text-[11px] text-slate-700 leading-snug">{hoveredNode.signalStatus}</p>
               </div>
-              <p className="text-[11px] text-[#6b7c93] leading-relaxed">{hoveredNode.whyInteresting}</p>
+              <p className="text-[11px] text-slate-600 leading-relaxed">{hoveredNode.whyInteresting}</p>
             </motion.div>
           )}
         </AnimatePresence>
 
         {/* Legend Bar */}
-        <div className="absolute bottom-0 left-0 right-0 px-3 py-1.5 bg-[#0a0e17] border-t border-[#1e2d3d] flex items-center justify-between">
-          <div className="flex items-center gap-3 font-mono text-[10px] text-[#4a5a6d]">
-            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#2196f3]" />AI</span>
-            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#ff8c00]" />DevTools</span>
-            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#00c853]" />Space/EV</span>
-            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#b388ff]" />Defense</span>
-            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#ff3d3d]" />Consumer</span>
-            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#ffd700]" />Corridor</span>
+        <div className="absolute bottom-0 left-0 right-0 px-4 py-2 bg-white/95 border-t border-slate-200 flex items-center justify-between">
+          <div className="flex items-center gap-3 font-mono text-[10px] text-slate-600">
+            <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-blue-600" />AI</span>
+            <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-orange-600" />DevTools</span>
+            <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-600" />Space/EV</span>
+            <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-purple-600" />Defense</span>
+            <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-rose-600" />Consumer</span>
+            <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-600" />Corridor</span>
           </div>
           <button
             onClick={() => navigate('/graph')}
-            className="font-mono text-[10px] text-[#2196f3] hover:text-[#e8edf3] flex items-center gap-0.5 transition-colors cursor-pointer"
+            className="font-mono text-[10px] text-blue-600 hover:text-blue-800 font-semibold flex items-center gap-0.5 transition-colors cursor-pointer"
           >
-            FULL MAP <ArrowUpRight size={10} />
+            EXPAND FULL GRAPH <ArrowUpRight size={11} />
           </button>
         </div>
       </div>

@@ -16,32 +16,39 @@ const WatchlistPage: React.FC = () => {
 
   const getImportanceColor = (importance: string) => {
     switch (importance) {
-      case 'HIGH': return 'text-red-400 border-red-500/30 bg-red-500/10';
-      case 'MEDIUM': return 'text-amber-400 border-amber-500/30 bg-amber-500/10';
-      case 'LOW': return 'text-zinc-400 border-zinc-500/30 bg-zinc-500/10';
-      default: return 'text-zinc-400 border-zinc-500/30 bg-zinc-500/10';
+      case 'HIGH': return 'text-rose-700 border-rose-200 bg-rose-50';
+      case 'MEDIUM': return 'text-amber-700 border-amber-200 bg-amber-50';
+      case 'LOW': return 'text-slate-600 border-slate-200 bg-slate-100';
+      default: return 'text-slate-600 border-slate-200 bg-slate-100';
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white p-6 pb-24">
+    <div className="min-h-screen bg-slate-50 text-slate-800 p-6 md:p-10 pb-24">
       <div className="max-w-5xl mx-auto">
-        <header className="mb-12">
-          <h1 className="text-4xl font-black tracking-tighter mb-3 text-transparent bg-clip-text bg-gradient-to-r from-white to-white/60">YOUR RADAR</h1>
-          <p className="text-zinc-400 font-mono text-sm tracking-widest uppercase">Companies you're watching and what's changed.</p>
+        <header className="mb-8 border-b border-slate-200 pb-6">
+          <div className="flex items-center gap-2 text-xs font-mono font-bold text-blue-600 uppercase tracking-wider mb-2">
+            <Eye size={14} /> SURVEILLANCE DESK
+          </div>
+          <h1 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 mb-2">
+            Watchlist & Delta Radar
+          </h1>
+          <p className="text-slate-600 font-mono text-xs tracking-wider uppercase">
+            Active entity monitoring: delta tracking, newly observed signals, and state mutations.
+          </p>
         </header>
 
         {watchlist.length === 0 ? (
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex flex-col items-center justify-center py-32 px-6 border border-white/5 rounded-2xl bg-white/[0.02] backdrop-blur-md"
+            className="flex flex-col items-center justify-center py-24 px-6 border border-slate-200 rounded-2xl bg-white shadow-xs"
           >
-            <Activity className="w-16 h-16 text-zinc-700 mb-6" />
-            <h2 className="text-2xl font-bold mb-3 text-white">Your radar is empty</h2>
-            <p className="text-zinc-400 mb-8 text-center max-w-md">Start watching companies to track changes and receive signals on intelligence updates.</p>
-            <Link to="/company/c_swiggy" className="px-6 py-3 bg-[#00d4ff]/10 text-[#00d4ff] hover:bg-[#00d4ff]/20 border border-[#00d4ff]/30 rounded-lg transition-colors font-mono text-sm font-bold flex items-center gap-2">
-              <Search className="w-4 h-4" /> Try searching for Swiggy
+            <Activity className="w-12 h-12 text-slate-300 mb-4" />
+            <h2 className="text-xl font-bold mb-2 text-slate-900">Your radar is empty</h2>
+            <p className="text-slate-500 mb-6 text-center max-w-md text-sm">Start watching companies to track changes and receive real-time updates on key capital & leadership events.</p>
+            <Link to="/company/c_swiggy" className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-mono text-xs font-bold flex items-center gap-2 shadow-xs">
+              <Search className="w-4 h-4" /> Track Swiggy Profile
             </Link>
           </motion.div>
         ) : (
@@ -54,77 +61,79 @@ const WatchlistPage: React.FC = () => {
                 return (
                   <motion.div
                     key={item.companyId}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="border border-white/10 rounded-xl bg-[#0d0d14] p-6 hover:border-white/20 transition-colors"
+                    transition={{ delay: index * 0.08 }}
+                    className="border border-slate-200 rounded-xl bg-white p-6 shadow-xs hover:border-blue-300 hover:shadow-md transition-all"
                   >
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-6">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center font-bold text-xl text-white/50">
+                        <div className="w-12 h-12 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center font-bold text-xl text-slate-800">
                           {company.name.charAt(0)}
                         </div>
                         <div>
-                          <h2 className="text-2xl font-bold">{company.name}</h2>
+                          <h2 className="text-xl font-bold text-slate-900">{company.name}</h2>
                           <div className="flex flex-wrap gap-2 mt-1">
-                            <span className="text-xs font-mono text-zinc-400">{company.industry}</span>
-                            <span className="text-zinc-600">&bull;</span>
-                            <span className="text-xs font-mono text-zinc-400">{company.stage}</span>
+                            <span className="text-xs font-mono text-slate-500">{company.industry}</span>
+                            <span className="text-slate-300">&bull;</span>
+                            <span className="text-xs font-mono text-blue-600 font-semibold">{company.stage}</span>
                           </div>
                         </div>
                       </div>
                       <div className="flex items-center gap-3 w-full md:w-auto">
                         <button 
                           onClick={() => navigate(`/company/${company.id}`)}
-                          className="flex-1 md:flex-none px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-sm font-bold transition-colors"
+                          className="flex-1 md:flex-none px-4 py-2 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-lg text-xs font-mono font-bold text-slate-800 transition-colors cursor-pointer"
                         >
-                          VIEW
+                          DOSSIER
                         </button>
                         <button 
                           onClick={() => navigate(`/xray/${company.id}`)}
-                          className="flex-1 md:flex-none px-4 py-2 bg-[#00d4ff]/10 hover:bg-[#00d4ff]/20 text-[#00d4ff] border border-[#00d4ff]/30 rounded-lg text-sm font-bold transition-colors"
+                          className="flex-1 md:flex-none px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-lg text-xs font-mono font-bold transition-colors cursor-pointer"
                         >
-                          X-RAY
+                          RUN X-RAY
                         </button>
                         <button 
                           onClick={(e) => handleRemove(company.id, e)}
-                          className="p-2 text-zinc-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+                          className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
                           title="Remove from watchlist"
                         >
-                          <X className="w-5 h-5" />
+                          <X className="w-4 h-4" />
                         </button>
                       </div>
                     </div>
 
-                    <div className="border-t border-white/5 pt-6">
-                      <h3 className="text-xs font-mono font-bold tracking-widest text-zinc-500 mb-4">WHAT CHANGED SINCE YOU LAST LOOKED?</h3>
+                    <div className="border-t border-slate-100 pt-5">
+                      <h3 className="text-[11px] font-mono font-bold tracking-wider text-slate-400 uppercase mb-3">
+                        DELTA STREAM (WHAT CHANGED SINCE LAST INSPECTION)
+                      </h3>
                       
                       {item.changes && item.changes.length > 0 ? (
-                        <div className="space-y-3">
+                        <div className="space-y-2.5">
                           {item.changes.map((change: any, i: number) => (
-                            <div key={i} className="flex flex-col sm:flex-row sm:items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/5">
-                              <span className={`text-[10px] font-mono px-2 py-1 rounded border ${getImportanceColor(change.importance)}`}>
+                            <div key={i} className="flex flex-col sm:flex-row sm:items-center gap-3 p-3 bg-slate-50 rounded-lg border border-slate-200/80">
+                              <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${getImportanceColor(change.importance)}`}>
                                 {change.importance}
                               </span>
-                              <span className="text-xs font-mono text-zinc-400 bg-white/5 px-2 py-1 rounded">
+                              <span className="text-xs font-mono text-slate-600 bg-white border border-slate-200 px-2 py-0.5 rounded">
                                 {change.type}
                               </span>
-                              <p className="text-sm text-zinc-300 flex-1">{change.description}</p>
-                              <span className="text-xs text-zinc-500 flex items-center gap-1">
+                              <p className="text-xs text-slate-700 font-medium flex-1">{change.description}</p>
+                              <span className="text-[11px] font-mono text-slate-400 flex items-center gap-1">
                                 <Clock className="w-3 h-3" /> {change.date}
                               </span>
                             </div>
                           ))}
                         </div>
                       ) : (
-                        <div className="flex items-center gap-2 text-zinc-500 text-sm italic">
-                          <AlertTriangle className="w-4 h-4" /> No new signals detected.
+                        <div className="flex items-center gap-2 text-slate-400 text-xs italic">
+                          <AlertTriangle className="w-3.5 h-3.5" /> No new state mutations detected.
                         </div>
                       )}
                     </div>
 
-                    <div className="mt-6 flex justify-between items-center text-[10px] font-mono text-zinc-600 uppercase">
+                    <div className="mt-5 flex justify-between items-center text-[10px] font-mono text-slate-400 uppercase border-t border-slate-50 pt-3">
                       <span>Added: {item.addedAt ? new Date(item.addedAt).toLocaleDateString() : '—'}</span>
                       <span>Last checked: {item.lastChecked ? new Date(item.lastChecked).toLocaleDateString() : '—'}</span>
                     </div>

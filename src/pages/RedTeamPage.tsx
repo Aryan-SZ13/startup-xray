@@ -76,45 +76,47 @@ export default function RedTeamPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-gray-200 p-6 md:p-12">
+    <div className="min-h-screen bg-slate-50 text-slate-800 p-6 md:p-12 pb-24">
       
-      <div className="max-w-5xl mx-auto space-y-12">
+      <div className="max-w-5xl mx-auto space-y-10">
         {/* Header */}
-        <div className="text-center space-y-4">
-          <h1 className="text-5xl md:text-7xl font-black text-red-500 uppercase tracking-tighter flex items-center justify-center gap-4 drop-shadow-[0_0_25px_rgba(239,68,68,0.3)]">
-            <Flame className="w-12 h-12 md:w-16 md:h-16" />
-            BREAK THE THESIS
+        <div className="text-center space-y-3 border-b border-slate-200 pb-8">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-rose-50 border border-rose-200 text-rose-700 font-mono text-xs font-bold uppercase rounded-full">
+            <Flame className="w-3.5 h-3.5 text-rose-600" /> ADVERSARIAL STRESS-TEST
+          </div>
+          <h1 className="text-3xl md:text-5xl font-black text-slate-900 uppercase tracking-tight">
+            Red Team Dilemma Engine
           </h1>
-          <p className="text-lg md:text-xl text-gray-400 font-medium tracking-wide">
-            Stress-test any investment thesis. Find what could go wrong.
+          <p className="text-sm md:text-base text-slate-600 font-medium max-w-2xl mx-auto">
+            Break the narrative. Systematically probe assumptions, blind spots, and catastrophic failure modes.
           </p>
           {company && (
-             <div className="inline-block mt-4 px-4 py-1 bg-white/5 border border-white/10 rounded-full text-sm font-bold text-gray-300">
-               Target: {company.name}
+             <div className="inline-block mt-2 px-3 py-1 bg-white border border-slate-200 shadow-2xs rounded-lg text-xs font-mono font-bold text-slate-700">
+               Target Subject: <span className="text-blue-600">{company.name}</span>
              </div>
           )}
         </div>
 
         {/* Input Area */}
-        <div className="bg-[#111118] border border-white/10 rounded-2xl p-6 shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 via-amber-500 to-red-600"></div>
-          <h2 className="text-sm font-bold text-gray-500 tracking-widest mb-4 uppercase">Investment Thesis</h2>
+        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-xs relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-rose-500 via-amber-500 to-rose-500"></div>
+          <h2 className="text-xs font-mono font-bold text-slate-500 tracking-wider mb-3 uppercase">Active Investment Thesis</h2>
           <textarea 
             value={thesis}
             onChange={(e) => setThesis(e.target.value)}
-            className="w-full h-32 bg-white/5 border border-white/10 rounded-xl p-4 text-lg text-white placeholder-gray-600 focus:outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50 transition-all resize-none"
-            placeholder="Enter the thesis you want to stress-test..."
+            className="w-full h-28 bg-slate-50 border border-slate-200 rounded-lg p-3.5 text-sm font-mono text-slate-900 placeholder-slate-400 focus:outline-none focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-all resize-none"
+            placeholder="Enter the investment thesis or assumption you want to stress-test..."
           />
           <div className="mt-4 flex justify-end">
             <button 
               onClick={handleBreak}
               disabled={isAnalyzing || !thesis}
-              className="flex items-center gap-2 px-8 py-3 bg-red-600 hover:bg-red-500 text-white rounded-lg font-black uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(239,68,68,0.4)] disabled:opacity-50 disabled:shadow-none"
+              className="flex items-center gap-2 px-6 py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-xs disabled:opacity-50 cursor-pointer"
             >
               {isAnalyzing ? (
-                <>Analyzing <Zap className="w-5 h-5 animate-pulse" /></>
+                <>Analyzing Stress-Vectors <Zap className="w-4 h-4 animate-pulse" /></>
               ) : (
-                <>Break It <Target className="w-5 h-5" /></>
+                <>Execute Red Team Strike <Target className="w-4 h-4" /></>
               )}
             </button>
           </div>
@@ -127,17 +129,16 @@ export default function RedTeamPage() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="flex flex-col items-center justify-center py-12 space-y-6 overflow-hidden"
+              className="flex flex-col items-center justify-center py-12 space-y-4 overflow-hidden"
             >
-              <div className="relative w-24 h-24">
-                <div className="absolute inset-0 border-t-4 border-red-500 rounded-full animate-spin"></div>
-                <div className="absolute inset-2 border-r-4 border-amber-500 rounded-full animate-[spin_1.5s_linear_infinite_reverse]"></div>
-                <div className="absolute inset-4 border-b-4 border-purple-500 rounded-full animate-[spin_2s_linear_infinite]"></div>
-                <ShieldAlert className="absolute inset-0 m-auto w-8 h-8 text-red-500 animate-pulse" />
+              <div className="relative w-16 h-16">
+                <div className="absolute inset-0 border-t-3 border-rose-500 rounded-full animate-spin"></div>
+                <div className="absolute inset-2 border-r-3 border-amber-500 rounded-full animate-[spin_1.5s_linear_infinite_reverse]"></div>
+                <ShieldAlert className="absolute inset-0 m-auto w-6 h-6 text-rose-500 animate-pulse" />
               </div>
               <div className="text-center">
-                <p className="text-red-400 font-mono text-sm tracking-widest uppercase animate-pulse">Running Adversarial Models...</p>
-                <p className="text-gray-500 text-xs mt-2">Searching for contradictions, flaws, and blind spots</p>
+                <p className="text-rose-600 font-mono text-xs tracking-wider uppercase font-bold animate-pulse">Running Adversarial Inversion Models...</p>
+                <p className="text-slate-500 text-xs mt-1">Cross-referencing legal filings, customer retention churn, and alternative signals</p>
               </div>
             </motion.div>
           )}
@@ -152,20 +153,22 @@ export default function RedTeamPage() {
               animate="visible"
               className="space-y-8 pb-16"
             >
-              <div className="text-center mb-8">
-                 <div className="inline-block border border-red-500/30 bg-red-500/10 text-red-500 px-3 py-1 text-[10px] font-black uppercase tracking-widest rounded mb-4">Demo Analysis Results</div>
+              <div className="text-center">
+                 <div className="inline-block border border-rose-200 bg-rose-50 text-rose-700 px-3 py-1 text-[11px] font-mono font-bold uppercase tracking-wider rounded">
+                   Adversarial Stress-Test Dossier
+                 </div>
               </div>
 
               {/* Bull vs Bear */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <motion.div variants={itemVariants} className="bg-[#111118] border border-white/5 border-l-4 border-l-emerald-500 rounded-lg p-6 shadow-lg">
-                  <h3 className="text-xl font-black text-emerald-500 uppercase tracking-wider mb-6 flex items-center gap-2">
-                    Bull Case 
-                    <span className="text-xs font-normal text-emerald-500/50">(The Dream)</span>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <motion.div variants={itemVariants} className="bg-white border border-slate-200 border-l-4 border-l-emerald-500 rounded-xl p-6 shadow-xs">
+                  <h3 className="text-lg font-bold text-slate-900 uppercase tracking-wide mb-4 flex items-center gap-2">
+                    <span className="text-emerald-600">Bull Case</span>
+                    <span className="text-xs font-mono font-normal text-slate-500">(The Pitch)</span>
                   </h3>
-                  <ul className="space-y-4">
+                  <ul className="space-y-3">
                     {results.bullCase.map((item: string, i: number) => (
-                      <li key={i} className="flex gap-3 text-sm text-gray-300">
+                      <li key={i} className="flex gap-2.5 text-xs text-slate-700 leading-relaxed">
                         <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0"></div>
                         {item}
                       </li>
@@ -173,15 +176,15 @@ export default function RedTeamPage() {
                   </ul>
                 </motion.div>
 
-                <motion.div variants={itemVariants} className="bg-[#111118] border border-white/5 border-l-4 border-l-red-500 rounded-lg p-6 shadow-lg">
-                  <h3 className="text-xl font-black text-red-500 uppercase tracking-wider mb-6 flex items-center gap-2">
-                    Bear Case
-                    <span className="text-xs font-normal text-red-500/50">(The Nightmare)</span>
+                <motion.div variants={itemVariants} className="bg-white border border-slate-200 border-l-4 border-l-rose-500 rounded-xl p-6 shadow-xs">
+                  <h3 className="text-lg font-bold text-slate-900 uppercase tracking-wide mb-4 flex items-center gap-2">
+                    <span className="text-rose-600">Bear Case</span>
+                    <span className="text-xs font-mono font-normal text-slate-500">(The Risk)</span>
                   </h3>
-                  <ul className="space-y-4">
+                  <ul className="space-y-3">
                     {results.bearCase.map((item: string, i: number) => (
-                      <li key={i} className="flex gap-3 text-sm text-gray-300">
-                        <div className="w-1.5 h-1.5 rounded-full bg-red-500 mt-1.5 shrink-0"></div>
+                      <li key={i} className="flex gap-2.5 text-xs text-slate-700 leading-relaxed">
+                        <div className="w-1.5 h-1.5 rounded-full bg-rose-500 mt-1.5 shrink-0"></div>
                         {item}
                       </li>
                     ))}
@@ -191,57 +194,53 @@ export default function RedTeamPage() {
 
               {/* Middle Section */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <motion.div variants={itemVariants} className="bg-amber-950/20 border border-amber-500/20 rounded-lg p-5">
-                  <h4 className="text-xs font-bold text-amber-500 uppercase tracking-widest mb-4 flex items-center gap-2">
-                    <AlertTriangle className="w-4 h-4" /> Contradictory Evidence
+                <motion.div variants={itemVariants} className="bg-white border border-slate-200 rounded-xl p-5 shadow-xs">
+                  <h4 className="text-xs font-mono font-bold text-amber-700 uppercase tracking-wider mb-3 flex items-center gap-2">
+                    <AlertTriangle className="w-4 h-4 text-amber-500" /> Contradictory Evidence
                   </h4>
-                  <ul className="space-y-3">
+                  <ul className="space-y-2.5">
                     {results.contradictoryEvidence.map((item: string, i: number) => (
-                      <li key={i} className="text-sm text-gray-400 leading-relaxed border-b border-amber-500/10 pb-2 last:border-0">{item}</li>
+                      <li key={i} className="text-xs text-slate-700 leading-relaxed border-b border-slate-100 pb-2 last:border-0">{item}</li>
                     ))}
                   </ul>
                 </motion.div>
 
-                <motion.div variants={itemVariants} className="bg-purple-900/10 border border-purple-500/20 rounded-lg p-5">
-                  <h4 className="text-xs font-bold text-purple-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-                    <HelpCircle className="w-4 h-4" /> Unknown Variables
+                <motion.div variants={itemVariants} className="bg-white border border-slate-200 rounded-xl p-5 shadow-xs">
+                  <h4 className="text-xs font-mono font-bold text-purple-700 uppercase tracking-wider mb-3 flex items-center gap-2">
+                    <HelpCircle className="w-4 h-4 text-purple-500" /> Unknown Variables
                   </h4>
-                  <ul className="space-y-3">
+                  <ul className="space-y-2.5">
                     {results.unknownVariables.map((item: string, i: number) => (
-                      <li key={i} className="text-sm text-gray-400 leading-relaxed border-b border-purple-500/10 pb-2 last:border-0">{item}</li>
+                      <li key={i} className="text-xs text-slate-700 leading-relaxed border-b border-slate-100 pb-2 last:border-0">{item}</li>
                     ))}
                   </ul>
                 </motion.div>
 
-                <motion.div variants={itemVariants} className="bg-[#00d4ff]/10 border border-[#00d4ff]/20 rounded-lg p-5">
-                  <h4 className="text-xs font-bold text-[#00d4ff] uppercase tracking-widest mb-4 flex items-center gap-2">
-                    <AlertOctagon className="w-4 h-4" /> Core Assumptions
+                <motion.div variants={itemVariants} className="bg-white border border-slate-200 rounded-xl p-5 shadow-xs">
+                  <h4 className="text-xs font-mono font-bold text-blue-700 uppercase tracking-wider mb-3 flex items-center gap-2">
+                    <AlertOctagon className="w-4 h-4 text-blue-500" /> Core Assumptions
                   </h4>
-                  <ul className="space-y-3">
+                  <ul className="space-y-2.5">
                     {results.assumptions.map((item: string, i: number) => (
-                      <li key={i} className="text-sm text-gray-400 leading-relaxed border-b border-[#00d4ff]/10 pb-2 last:border-0">{item}</li>
+                      <li key={i} className="text-xs text-slate-700 leading-relaxed border-b border-slate-100 pb-2 last:border-0">{item}</li>
                     ))}
                   </ul>
                 </motion.div>
               </div>
 
               {/* Fatal Flaws */}
-              <motion.div variants={itemVariants} className="mt-12 bg-gradient-to-br from-red-950/40 to-[#0a0a0f] border border-red-500/30 rounded-2xl p-8 relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-8 opacity-5">
-                  <ShieldAlert className="w-64 h-64 text-red-500" />
-                </div>
-                
-                <h3 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tighter mb-8 relative z-10">
-                  <span className="text-red-500">5 Things</span> That Could Make This Thesis Wrong
+              <motion.div variants={itemVariants} className="mt-8 bg-white border border-rose-200 rounded-xl p-6 md:p-8 shadow-xs relative overflow-hidden">
+                <h3 className="text-xl md:text-2xl font-black text-slate-900 uppercase tracking-tight mb-6">
+                  <span className="text-rose-600">5 Things</span> That Could Make This Thesis Fail
                 </h3>
                 
-                <div className="space-y-6 relative z-10">
+                <div className="space-y-3.5">
                   {results.fatalFlaws.map((flaw: any, i: number) => (
-                    <div key={i} className="flex gap-6 items-start bg-black/40 p-5 rounded-xl border border-red-500/10 hover:border-red-500/30 transition-colors">
-                      <div className="text-4xl font-black text-red-500/30">0{i+1}</div>
+                    <div key={i} className="flex gap-4 items-start bg-slate-50 p-4 rounded-xl border border-slate-200/80">
+                      <div className="text-2xl font-mono font-black text-rose-500 shrink-0">0{i+1}</div>
                       <div>
-                        <h4 className="text-lg font-bold text-red-400 mb-2 uppercase tracking-wide">{flaw.title}</h4>
-                        <p className="text-gray-400 text-sm leading-relaxed">{flaw.desc}</p>
+                        <h4 className="text-sm font-bold text-slate-900 mb-1">{flaw.title}</h4>
+                        <p className="text-xs text-slate-600 leading-relaxed">{flaw.desc}</p>
                       </div>
                     </div>
                   ))}

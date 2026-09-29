@@ -20,82 +20,85 @@ export const EvidenceDrawer: React.FC<EvidenceDrawerProps> = ({ isOpen, onClose,
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-slate-900/30 backdrop-blur-xs z-40"
           />
           <motion.div
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-[#0d0d14] border-l border-white/5 shadow-2xl z-50 flex flex-col overflow-y-auto"
+            className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-white border-l border-slate-200 shadow-2xl z-50 flex flex-col overflow-y-auto"
           >
-            <div className="p-6 border-b border-white/5 flex items-center justify-between sticky top-0 bg-[#0d0d14]/80 backdrop-blur-md z-10">
-              <h2 className="text-lg font-bold text-white tracking-wide">Evidence Detail</h2>
-              <button onClick={onClose} className="p-2 text-gray-400 hover:text-white transition-colors rounded-full hover:bg-white/5">
-                <X size={20} />
+            <div className="p-5 border-b border-slate-200 flex items-center justify-between sticky top-0 bg-white/95 backdrop-blur-md z-10">
+              <div>
+                <span className="text-[10px] font-mono font-bold text-blue-600 uppercase tracking-wider block">PROVENANCE RECORD</span>
+                <h2 className="text-base font-bold text-slate-900">Evidence & Source Detail</h2>
+              </div>
+              <button onClick={onClose} className="p-1.5 text-slate-400 hover:text-slate-700 transition-colors rounded-lg hover:bg-slate-100 cursor-pointer">
+                <X size={18} />
               </button>
             </div>
 
             {evidence && (
-              <div className="p-6 space-y-8">
+              <div className="p-6 space-y-6">
                 <div>
-                  <h3 className="text-sm text-gray-400 uppercase tracking-wider mb-2">Claim</h3>
-                  <p className="text-xl text-white font-medium">{evidence.claim}</p>
+                  <h3 className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider mb-1.5">Asserted Claim</h3>
+                  <p className="text-base text-slate-900 font-bold leading-snug">{evidence.claim}</p>
                 </div>
 
-                <div className="flex items-center gap-4 p-4 bg-white/5 rounded-lg border border-white/5">
+                <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-xl border border-slate-200/80">
                   <div className="flex-1">
-                    <div className="text-sm text-gray-400 mb-1">Value</div>
-                    <div className="text-2xl text-cyan-400 font-mono">{evidence.value}</div>
+                    <div className="text-[10px] font-mono text-slate-400 mb-1 uppercase font-bold">Recorded Metric</div>
+                    <div className="text-xl text-blue-700 font-mono font-bold">{evidence.value}</div>
                   </div>
-                  <div className="flex-1 border-l border-white/10 pl-4">
-                    <div className="text-sm text-gray-400 mb-2">Status & Confidence</div>
-                    <div className="flex items-center gap-3">
+                  <div className="flex-1 border-l border-slate-200 pl-4">
+                    <div className="text-[10px] font-mono text-slate-400 mb-1.5 uppercase font-bold">Verification Tier</div>
+                    <div className="flex items-center gap-2">
                       <EvidenceBadge status={evidence.status} />
                       <ConfidenceIndicator level={evidence.confidence} />
                     </div>
                   </div>
                 </div>
 
-                <div className="space-y-4">
-                  <h3 className="text-sm text-gray-400 uppercase tracking-wider">Source Intelligence</h3>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center py-2 border-b border-white/5">
-                      <span className="text-gray-400">Source</span>
-                      <span className="text-white flex items-center gap-2">
+                <div className="space-y-3">
+                  <h3 className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">Source Provenance</h3>
+                  <div className="space-y-2 border border-slate-200 rounded-xl p-3 bg-white">
+                    <div className="flex justify-between items-center py-1.5 border-b border-slate-100 text-xs">
+                      <span className="text-slate-500 font-mono">Source Entity</span>
+                      <span className="text-slate-900 font-medium flex items-center gap-1.5">
                         {evidence.source}
-                        <ExternalLink size={14} className="text-cyan-500" />
+                        <ExternalLink size={12} className="text-blue-600" />
                       </span>
                     </div>
-                    <div className="flex justify-between items-center py-2 border-b border-white/5">
-                      <span className="text-gray-400">Type</span>
-                      <span className="text-gray-200 capitalize">{evidence.sourceType?.replace('_', ' ').toLowerCase()}</span>
+                    <div className="flex justify-between items-center py-1.5 border-b border-slate-100 text-xs">
+                      <span className="text-slate-500 font-mono">Classification</span>
+                      <span className="text-slate-800 capitalize font-mono text-[11px]">{evidence.sourceType?.replace('_', ' ').toLowerCase()}</span>
                     </div>
-                    <div className="flex justify-between items-center py-2 border-b border-white/5">
-                      <span className="text-gray-400">Date</span>
-                      <span className="text-gray-200 font-mono text-sm">{evidence.date}</span>
+                    <div className="flex justify-between items-center py-1.5 text-xs">
+                      <span className="text-slate-500 font-mono">Filing Timestamp</span>
+                      <span className="text-slate-800 font-mono text-[11px]">{evidence.date}</span>
                     </div>
                   </div>
                 </div>
 
                 {evidence.supportingText && (
-                  <div className="space-y-2">
-                    <h3 className="text-sm text-gray-400 uppercase tracking-wider">Supporting Context</h3>
-                    <div className="p-4 bg-emerald-500/5 border border-emerald-500/10 rounded-lg text-gray-300 text-sm leading-relaxed flex items-start gap-3">
-                      <ShieldCheck size={18} className="text-emerald-500 shrink-0 mt-0.5" />
-                      <p>"{evidence.supportingText}"</p>
+                  <div className="space-y-1.5">
+                    <h3 className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">Extract / Supporting Passage</h3>
+                    <div className="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-900 text-xs leading-relaxed flex items-start gap-2.5">
+                      <ShieldCheck size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                      <p className="italic">"{evidence.supportingText}"</p>
                     </div>
                   </div>
                 )}
 
                 {evidence.conflicts && evidence.conflicts.length > 0 && (
-                  <div className="space-y-2">
-                    <h3 className="text-sm text-red-400/80 uppercase tracking-wider flex items-center gap-2">
-                      <AlertTriangle size={14} /> Known Conflicts
+                  <div className="space-y-1.5">
+                    <h3 className="text-[10px] font-mono font-bold text-rose-700 uppercase tracking-wider flex items-center gap-1.5">
+                      <AlertTriangle size={13} /> Recorded Asymmetries & Conflicts
                     </h3>
                     <div className="space-y-2">
                       {evidence.conflicts.map((conflict: string, idx: number) => (
-                        <div key={idx} className="p-3 bg-red-500/5 border border-red-500/10 rounded-lg text-sm text-red-200/80">
+                        <div key={idx} className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-900 leading-relaxed">
                           {conflict}
                         </div>
                       ))}

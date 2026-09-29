@@ -9,12 +9,12 @@ import { ArrowLeft, ZoomIn, ZoomOut, Maximize, Network } from 'lucide-react';
 const CustomNode = ({ data }: any) => {
   const getStyle = () => {
     switch (data.type) {
-      case 'COMPANY': return 'border-cyan-500/50 bg-cyan-950/30 text-cyan-400 shadow-[0_0_15px_rgba(0,212,255,0.2)]';
-      case 'FOUNDER': return 'border-emerald-500/50 bg-emerald-950/30 text-emerald-400 rounded-full';
-      case 'INVESTOR': return 'border-amber-500/50 bg-amber-950/30 text-amber-400 rotate-45';
-      case 'COMPETITOR': return 'border-red-500/50 bg-red-950/30 text-red-400';
-      case 'UNIVERSITY': return 'border-purple-500/50 bg-purple-950/30 text-purple-400';
-      default: return 'border-white/20 bg-white/5 text-gray-300';
+      case 'COMPANY': return 'border-blue-500 bg-white text-blue-900 shadow-md ring-2 ring-blue-500/20';
+      case 'FOUNDER': return 'border-emerald-500 bg-emerald-50 text-emerald-900 rounded-full shadow-xs';
+      case 'INVESTOR': return 'border-amber-500 bg-amber-50 text-amber-900 rotate-45 shadow-xs';
+      case 'COMPETITOR': return 'border-rose-400 bg-rose-50 text-rose-900 shadow-xs';
+      case 'UNIVERSITY': return 'border-purple-400 bg-purple-50 text-purple-900 shadow-xs';
+      default: return 'border-slate-200 bg-white text-slate-800 shadow-xs';
     }
   };
 
@@ -24,16 +24,16 @@ const CustomNode = ({ data }: any) => {
   };
 
   return (
-    <div className={`px-4 py-2 border backdrop-blur-md cursor-pointer hover:border-white/50 transition-colors ${getStyle()} ${data.isCenter ? 'w-48 h-48 rounded-2xl text-xl' : 'w-32 h-32 text-sm'}`} onClick={() => data.onClick?.(data.id, data.type)}>
-      <Handle type="target" position={Position.Top} className="!bg-white/20 !border-0" />
-      <Handle type="source" position={Position.Bottom} className="!bg-white/20 !border-0" />
-      <Handle type="source" position={Position.Left} className="!bg-white/20 !border-0" />
-      <Handle type="source" position={Position.Right} className="!bg-white/20 !border-0" />
+    <div className={`px-4 py-2 border cursor-pointer hover:border-blue-600 hover:shadow-lg transition-all ${getStyle()} ${data.isCenter ? 'w-48 h-48 rounded-2xl text-xl' : 'w-32 h-32 text-sm'}`} onClick={() => data.onClick?.(data.id, data.type)}>
+      <Handle type="target" position={Position.Top} className="!bg-slate-300 !border-0" />
+      <Handle type="source" position={Position.Bottom} className="!bg-slate-300 !border-0" />
+      <Handle type="source" position={Position.Left} className="!bg-slate-300 !border-0" />
+      <Handle type="source" position={Position.Right} className="!bg-slate-300 !border-0" />
       
       <div className={getInnerStyle()}>
-        <div className="font-bold whitespace-normal">{data.label}</div>
-        <div className="text-[10px] mt-1 opacity-70 uppercase tracking-widest">{data.type}</div>
-        {data.subtitle && <div className="text-xs mt-1 opacity-80">{data.subtitle}</div>}
+        <div className="font-bold whitespace-normal leading-tight">{data.label}</div>
+        <div className="text-[10px] mt-1 font-mono uppercase tracking-wider font-semibold opacity-70">{data.type}</div>
+        {data.subtitle && <div className="text-xs mt-1 font-mono text-slate-500">{data.subtitle}</div>}
       </div>
     </div>
   );
@@ -79,10 +79,10 @@ export default function GraphPage() {
         source,
         target,
         animated: true,
-        style: { stroke: '#4b5563', strokeWidth: 1 },
+        style: { stroke: '#94a3b8', strokeWidth: 1.5 },
         label,
-        labelStyle: { fill: '#9ca3af', fontSize: 10, fontWeight: 500 },
-        labelBgStyle: { fill: '#111118', fillOpacity: 0.8 },
+        labelStyle: { fill: '#475569', fontSize: 10, fontWeight: 600, fontFamily: 'monospace' },
+        labelBgStyle: { fill: '#ffffff', fillOpacity: 0.95, rx: 4, stroke: '#e2e8f0' },
       });
     };
 
@@ -145,26 +145,26 @@ export default function GraphPage() {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   return (
-    <div className="h-screen w-full bg-[#0a0a0f] relative overflow-hidden flex flex-col">
+    <div className="h-screen w-full bg-slate-50 relative overflow-hidden flex flex-col">
       {/* Header overlay */}
       <div className="absolute top-0 left-0 right-0 z-10 p-6 pointer-events-none flex justify-between items-start">
         <div>
           <button 
             onClick={() => navigate(-1)}
-            className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors pointer-events-auto mb-4 bg-[#111118]/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10"
+            className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors pointer-events-auto mb-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-200 shadow-xs cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span className="text-sm font-medium tracking-wide">BACK</span>
+            <span className="text-xs font-mono font-bold tracking-wide">BACK</span>
           </button>
           
-          <div className="bg-[#111118]/80 backdrop-blur-md p-4 rounded-xl border border-white/10 pointer-events-auto max-w-sm">
-            <div className="flex items-center gap-2 text-cyan-400 mb-2">
-              <Network className="w-5 h-5" />
-              <h1 className="text-sm font-bold tracking-widest">COMPANY INTELLIGENCE GRAPH</h1>
+          <div className="bg-white/95 backdrop-blur-md p-5 rounded-xl border border-slate-200 pointer-events-auto max-w-sm shadow-sm">
+            <div className="flex items-center gap-2 text-blue-600 mb-1.5">
+              <Network className="w-4 h-4" />
+              <h1 className="text-xs font-mono font-bold tracking-wider uppercase">ENTITY RELATION MATRIX</h1>
             </div>
-            <h2 className="text-2xl font-light text-white">{company?.name}</h2>
-            <p className="text-gray-400 text-sm mt-2 leading-relaxed">
-              Interactive visualization of ecosystem connections, founders, capital flow, and competitive landscape.
+            <h2 className="text-2xl font-black text-slate-900">{company?.name}</h2>
+            <p className="text-slate-600 text-xs mt-1.5 leading-relaxed">
+              Interactive visualization of ecosystem nodes, verified founders, investor syndicates, and market competitors.
             </p>
           </div>
         </div>
@@ -181,24 +181,24 @@ export default function GraphPage() {
           fitView
           minZoom={0.2}
           maxZoom={1.5}
-          className="bg-[#0a0a0f]"
+          className="bg-slate-50"
         >
-          <Background color="rgba(255, 255, 255, 0.05)" gap={24} size={1} />
+          <Background color="#cbd5e1" gap={24} size={1} />
           <Controls 
-            className="!bg-[#111118] !border-white/10 !rounded-lg overflow-hidden flex flex-col shadow-2xl"
+            className="!bg-white !border-slate-200 !rounded-lg overflow-hidden flex flex-col shadow-sm !text-slate-700"
             showInteractive={false}
           />
           <MiniMap 
-            className="!bg-[#111118] !border-white/10 !rounded-xl overflow-hidden"
-            maskColor="rgba(10, 10, 15, 0.7)"
+            className="!bg-white !border-slate-200 !rounded-xl overflow-hidden shadow-sm"
+            maskColor="rgba(248, 250, 252, 0.7)"
             nodeColor={(node) => {
               switch (node.data?.type) {
-                case 'COMPANY': return '#00d4ff';
+                case 'COMPANY': return '#2563eb';
                 case 'FOUNDER': return '#10b981';
                 case 'INVESTOR': return '#f59e0b';
-                case 'COMPETITOR': return '#ef4444';
+                case 'COMPETITOR': return '#f43f5e';
                 case 'UNIVERSITY': return '#a855f7';
-                default: return '#4b5563';
+                default: return '#94a3b8';
               }
             }}
           />
@@ -206,14 +206,14 @@ export default function GraphPage() {
       </div>
 
       {/* Legend */}
-      <div className="absolute bottom-6 right-6 z-10 bg-[#111118]/80 backdrop-blur-md p-4 rounded-xl border border-white/10 pointer-events-auto">
-        <div className="text-xs font-bold tracking-widest text-gray-500 mb-3">NODE LEGEND</div>
-        <div className="flex flex-col gap-2 text-sm text-gray-300">
-          <div className="flex items-center gap-2"><div className="w-3 h-3 rounded bg-cyan-950 border border-cyan-500"></div> Target Company</div>
-          <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-emerald-950 border border-emerald-500"></div> Founder</div>
-          <div className="flex items-center gap-2"><div className="w-3 h-3 rotate-45 bg-amber-950 border border-amber-500"></div> Investor</div>
-          <div className="flex items-center gap-2"><div className="w-3 h-3 rounded bg-red-950 border border-red-500"></div> Competitor</div>
-          <div className="flex items-center gap-2"><div className="w-3 h-3 rounded bg-purple-950 border border-purple-500"></div> Ecosystem</div>
+      <div className="absolute bottom-6 right-6 z-10 bg-white/95 backdrop-blur-md p-4 rounded-xl border border-slate-200 pointer-events-auto shadow-sm">
+        <div className="text-[10px] font-mono font-bold tracking-wider text-slate-400 mb-2.5 uppercase">NODE TAXONOMY</div>
+        <div className="flex flex-col gap-2 text-xs font-medium text-slate-700">
+          <div className="flex items-center gap-2"><div className="w-3 h-3 rounded bg-blue-100 border border-blue-500"></div> Target Company</div>
+          <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-full bg-emerald-100 border border-emerald-500"></div> Founder</div>
+          <div className="flex items-center gap-2"><div className="w-3 h-3 rotate-45 bg-amber-100 border border-amber-500"></div> Investor</div>
+          <div className="flex items-center gap-2"><div className="w-3 h-3 rounded bg-rose-100 border border-rose-500"></div> Competitor</div>
+          <div className="flex items-center gap-2"><div className="w-3 h-3 rounded bg-purple-100 border border-purple-500"></div> Ecosystem</div>
         </div>
       </div>
     </div>

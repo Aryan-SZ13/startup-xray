@@ -29,37 +29,47 @@ const DominoPage: React.FC = () => {
 
   const getNodeStyle = (type: string) => {
     switch (type) {
-      case 'EVENT': return 'bg-[#00d4ff]/10 border-[#00d4ff]/30 text-[#00d4ff]';
-      case 'COMPANY': return 'bg-white/5 border-white/20 text-white';
-      case 'SUPPLIER': return 'bg-amber-500/10 border-amber-500/30 text-amber-500';
-      case 'COMPETITOR': return 'bg-red-500/10 border-red-500/30 text-red-500';
-      case 'MARKET': return 'bg-purple-500/10 border-purple-500/30 text-purple-400';
-      case 'EFFECT': return 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400';
-      default: return 'bg-zinc-800/50 border-zinc-700 text-zinc-300';
+      case 'EVENT': return 'bg-blue-50 border-blue-200 text-blue-900';
+      case 'COMPANY': return 'bg-white border-slate-200 text-slate-900';
+      case 'SUPPLIER': return 'bg-amber-50 border-amber-200 text-amber-900';
+      case 'COMPETITOR': return 'bg-rose-50 border-rose-200 text-rose-900';
+      case 'MARKET': return 'bg-purple-50 border-purple-200 text-purple-900';
+      case 'EFFECT': return 'bg-emerald-50 border-emerald-200 text-emerald-900';
+      default: return 'bg-slate-50 border-slate-200 text-slate-800';
     }
   };
 
   const getOrderLabel = (order: number) => {
     switch (order) {
-      case 1: return '1st Order';
-      case 2: return '2nd Order';
-      case 3: return '3rd Order';
-      case 4: return '4th Order';
+      case 1: return '1st Order Catalyst';
+      case 2: return '2nd Order Domino';
+      case 3: return '3rd Order Reaction';
+      case 4: return '4th Order Feedback';
       default: return `${order}th Order`;
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white p-6 pb-24">
+    <div className="min-h-screen bg-slate-50 text-slate-800 p-6 md:p-10 pb-24">
       <div className="max-w-4xl mx-auto">
-        <header className="mb-12 text-center">
-          <h1 className="text-4xl font-black tracking-tighter mb-3 text-transparent bg-clip-text bg-gradient-to-r from-white to-white/60">DOMINO MAP</h1>
-          <p className="text-zinc-400 font-mono text-sm tracking-widest uppercase">Trace the ripple effects of major events.</p>
+        <header className="mb-10 text-center border-b border-slate-200 pb-8">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-blue-50 border border-blue-200 text-blue-700 font-mono text-[11px] font-bold uppercase tracking-wider mb-3">
+            PROPAGATION CASCADE
+          </div>
+          <h1 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 mb-2">
+            Domino Causal Map
+          </h1>
+          <p className="text-slate-600 font-mono text-xs tracking-wider uppercase">
+            Trace the ripple effects, second-order consequences, and structural tremors of major events.
+          </p>
         </header>
 
-        <div className="mb-16 text-center border-b border-white/5 pb-8">
-          <h2 className="text-2xl font-bold text-[#00d4ff] mb-2">{dominoEffect?.headline || "Major Event"}</h2>
-          <p className="text-zinc-400">{dominoEffect?.date ? `Catalyst Date: ${dominoEffect.date}` : "Event Impact Analysis"}</p>
+        <div className="mb-12 text-center bg-white border border-slate-200 rounded-xl p-6 shadow-xs">
+          <span className="font-mono text-[10px] text-blue-600 font-bold uppercase tracking-widest block mb-1">
+            CATALYST DISPATCH
+          </span>
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">{dominoEffect?.headline || "Major Market Catalyst"}</h2>
+          <p className="text-slate-500 font-mono text-xs">{dominoEffect?.date ? `Catalyst Timestamp: ${dominoEffect.date}` : "Causal Propagation Analysis"}</p>
         </div>
 
         {dominoEffect?.nodes && (
@@ -77,29 +87,36 @@ const DominoPage: React.FC = () => {
                   <motion.div 
                     variants={itemVariants}
                     onClick={() => node.companyId ? navigate(`/company/${node.companyId}`) : null}
-                    className={`relative w-full max-w-md p-6 rounded-lg border backdrop-blur-sm shadow-xl ${
-                      node.companyId ? 'cursor-pointer hover:bg-white/10 transition-colors' : ''
+                    className={`relative w-full max-w-lg p-6 rounded-xl border shadow-xs transition-all ${
+                      node.companyId ? 'cursor-pointer hover:shadow-md hover:border-blue-300' : ''
                     } ${getNodeStyle(node.type)}`}
                   >
                     <div className="flex justify-between items-start mb-3">
-                      <span className="text-xs font-mono font-bold tracking-wider px-2 py-1 rounded bg-black/40">
+                      <span className="text-[10px] font-mono font-bold tracking-wider px-2 py-0.5 rounded bg-white/80 border border-slate-200/80 shadow-2xs">
                         {node.type}
                       </span>
-                      <span className="text-xs font-mono text-white/50">
+                      <span className="text-[11px] font-mono font-semibold text-slate-500">
                         {getOrderLabel(node.order)}
                       </span>
                     </div>
-                    <h3 className="text-lg font-bold mb-2 text-white">{node.label || node.title}</h3>
-                    <p className="text-sm text-white/70 leading-relaxed">{node.description}</p>
+                    <h3 className="text-lg font-bold mb-2 text-slate-900">{node.label || node.title}</h3>
+                    <p className="text-sm text-slate-600 leading-relaxed">{node.description}</p>
+                    {node.companyId && (
+                      <div className="mt-3 text-right">
+                        <span className="text-xs font-mono font-bold text-blue-600 hover:text-blue-800">
+                          Inspect Node Dossier &rarr;
+                        </span>
+                      </div>
+                    )}
                   </motion.div>
 
                   {!isLast && (
                     <motion.div 
                       variants={lineVariants}
-                      className="flex flex-col items-center justify-center my-2"
+                      className="flex flex-col items-center justify-center my-1"
                     >
-                      <div className="w-px bg-gradient-to-b from-white/20 to-white/5 h-10 relative flex justify-center">
-                         <ArrowDown className="w-4 h-4 text-white/30 absolute -bottom-3" />
+                      <div className="w-0.5 bg-slate-300 h-10 relative flex justify-center">
+                         <ArrowDown className="w-4 h-4 text-slate-400 absolute -bottom-3" />
                       </div>
                     </motion.div>
                   )}
@@ -109,10 +126,10 @@ const DominoPage: React.FC = () => {
           </motion.div>
         )}
 
-        <div className="mt-24 p-6 bg-white/5 border border-white/10 rounded-lg flex items-start gap-4">
-          <AlertCircle className="w-6 h-6 text-zinc-400 shrink-0 mt-0.5" />
-          <p className="text-sm text-zinc-400 leading-relaxed">
-            These are potential cascading effects, not predictions. Each node represents an area worth investigating based on historical patterns and market dependencies.
+        <div className="mt-16 p-5 bg-white border border-slate-200 rounded-xl shadow-xs flex items-start gap-4">
+          <AlertCircle className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+          <p className="text-xs text-slate-600 leading-relaxed">
+            These are prospective causal paths derived from supply chain dependencies, market cap ratios, and customer adjacency models. They represent systematic stress-test vectors rather than deterministic forecasts.
           </p>
         </div>
       </div>

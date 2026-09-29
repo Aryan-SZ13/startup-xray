@@ -1,205 +1,146 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, ArrowUpRight } from 'lucide-react';
-import { intelligenceEvents } from '../data';
-
-type EventFilter = 'All' | 'Funding' | 'Regulatory' | 'Hiring' | 'Tech';
+import { ChevronRight, ArrowUpRight, Radio } from 'lucide-react';
+import { intelligenceEvents } from '../data/intelligence';
 
 export const LiveIntelligenceFeed: React.FC = () => {
   const navigate = useNavigate();
-  const [filter, setFilter] = useState<EventFilter>('All');
   const [events, setEvents] = useState(intelligenceEvents);
-  const [newHighlightId, setNewHighlightId] = useState<string | null>(null);
+  const [activeFilter, setActiveFilter] = useState<string>('ALL');
 
-  useEffect(() => {
-    const liveIncomingPool = [
-      {
-        id: `live_${Date.now()}_1`,
-        headline: 'Sarvam AI Completes Pilot Integration with National Payments Corporation (NPCI)',
-        date: 'Just now',
-        timeAgo: 'Just now',
-        source: 'NPCI Sandbox / FinTech Desk',
-        sourceUrl: 'https://npci.org.in',
-        affectedCompanies: ['Sarvam AI'],
-        market: 'Sovereign Indic Voice Banking',
-        impact: 'Voice-based conversational UPI payments enabled across 12 Indian regional dialects.',
-        impactLevel: 'HIGH' as const,
-        hasDominoMap: false
-      },
-      {
-        id: `live_${Date.now()}_2`,
-        headline: 'Torus Robotics Demonstrates Heavy Electric UGV in -28°C Siachen Military Trials',
-        date: 'Just now',
-        timeAgo: 'Just now',
-        source: 'MoD Telemetry / iDEX Bulletin',
-        sourceUrl: 'https://idex.gov.in',
-        affectedCompanies: ['Torus Robotics'],
-        market: 'Military Unmanned Vehicles',
-        impact: 'Proprietary axial flux powertrain cleared 1,200kg tactical payload climb at 16,000 ft altitude.',
-        impactLevel: 'HIGH' as const,
-        hasDominoMap: true
-      },
-      {
-        id: `live_${Date.now()}_3`,
-        headline: 'Postman Surpasses 35 Million Registered Developers as AI Agent Workspace Usage Surges 140%',
-        date: 'Just now',
-        timeAgo: 'Just now',
-        source: 'Postman State of API 2026',
-        sourceUrl: 'https://postman.com',
-        affectedCompanies: ['Postman'],
-        market: 'API Infrastructure',
-        impact: 'SRM alumni-founded unicorn establishes market dominance as runtime validation layer for autonomous LLM coders.',
-        impactLevel: 'MEDIUM' as const,
-        hasDominoMap: false
-      },
-      {
-        id: `live_${Date.now()}_4`,
-        headline: 'Ather Energy Grid Crosses 3,500 Fast Charging Hubs Ahead of SEBI Roadshow',
-        date: 'Just now',
-        timeAgo: 'Just now',
-        source: 'Vahan Portal Registry',
-        sourceUrl: 'https://vahan.parivahan.gov.in',
-        affectedCompanies: ['Ather Energy'],
-        market: 'EV Fast Charging Infrastructure',
-        impact: 'Public charging utilization climbs 42% YoY, lifting software subscription take-rates.',
-        impactLevel: 'HIGH' as const,
-        hasDominoMap: true
-      }
-    ];
-
-    let poolIndex = 0;
-    const interval = setInterval(() => {
-      const incoming = liveIncomingPool[poolIndex % liveIncomingPool.length];
-      poolIndex++;
-      setEvents(prev => {
-        const updated = [incoming, ...prev.slice(0, 15)];
-        return updated;
-      });
-      setNewHighlightId(incoming.id);
-      setTimeout(() => setNewHighlightId(null), 3000);
-    }, 12000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const getCompanyId = (name: string) => {
-    const clean = name.toLowerCase().replace(/[\s\.\-]+/g, '');
-    if (clean.includes('swiggy')) return 'c_swiggy';
-    if (clean.includes('zomato')) return 'c_zomato';
-    if (clean.includes('zepto')) return 'c_zepto';
-    if (clean.includes('agnikul')) return 'c_agnikul';
-    if (clean.includes('skyroot')) return 'c_skyroot';
-    if (clean.includes('openai')) return 'c_openai';
-    if (clean.includes('postman')) return 'c_postman';
-    if (clean.includes('ather')) return 'c_ather';
-    if (clean.includes('sarvam')) return 'c_sarvam';
-    if (clean.includes('torus')) return 'c_torus';
-    return null;
+  const getEventCategory = (evt: typeof intelligenceEvents[0]): string => {
+    const m = (evt.market || '').toLowerCase();
+    const h = (evt.headline || '').toLowerCase();
+    if (m.includes('capital') || m.includes('ipo') || m.includes('funding') || h.includes('ipo') || h.includes('raises') || h.includes('listing')) return 'CAPITAL';
+    if (m.includes('regulatory') || m.includes('ministry') || m.includes('defence') || h.includes('sebi') || h.includes('ministry') || h.includes('contract')) return 'REGULATORY';
+    if (h.includes('hire') || h.includes('founder') || h.includes('talent') || h.includes('alumni')) return 'TALENT';
+    return 'TECH';
   };
 
-  const filteredEvents = events.filter(ev => {
-    if (filter === 'All') return true;
-    const t = ev.headline.toLowerCase();
-    if (filter === 'Funding') return t.includes('raise') || t.includes('round') || t.includes('funding') || t.includes('mezzanine');
-    if (filter === 'Regulatory') return t.includes('filing') || t.includes('sebi') || t.includes('drhp') || t.includes('disclosure') || t.includes('contract');
-    if (filter === 'Hiring') return t.includes('hire') || t.includes('team') || t.includes('scientists') || t.includes('poach');
-    if (filter === 'Tech') return t.includes('model') || t.includes('api') || t.includes('engine') || t.includes('ugv') || t.includes('charging');
-    return true;
-  });
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setEvents(prev => {
+        const next = [...prev];
+        const last = next.pop();
+        if (last) {
+          const updatedLast = {
+            ...last,
+            id: `evt_live_${Date.now()}`,
+            timeAgo: 'Just now',
+            date: 'Just now'
+          };
+          next.unshift(updatedLast);
+        }
+        return next;
+      });
+    }, 12000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const categories = ['ALL', 'CAPITAL', 'TECH', 'REGULATORY', 'TALENT'];
+
+  const filteredEvents = activeFilter === 'ALL'
+    ? events
+    : events.filter(e => {
+        const cat = getEventCategory(e);
+        return cat === activeFilter;
+      });
+
+  const getCategoryBadge = (cat: string) => {
+    switch (cat) {
+      case 'CAPITAL': return 'bg-emerald-50 text-emerald-700 border-emerald-200/80';
+      case 'TECHNOLOGY': return 'bg-blue-50 text-blue-700 border-blue-200/80';
+      case 'REGULATORY': return 'bg-purple-50 text-purple-700 border-purple-200/80';
+      case 'TALENT': return 'bg-amber-50 text-amber-700 border-amber-200/80';
+      case 'ECOSYSTEM': return 'bg-indigo-50 text-indigo-700 border-indigo-200/80';
+      default: return 'bg-slate-100 text-slate-700 border-slate-200';
+    }
+  };
 
   return (
-    <div className="relative w-full h-[520px] lg:h-[580px] bg-[#0f1823] border border-[#1e2d3d] rounded overflow-hidden flex flex-col">
+    <div className="w-full bg-white border border-slate-200 rounded-xl overflow-hidden shadow-xs flex flex-col h-[520px] lg:h-[580px]">
       {/* Header */}
-      <div className="px-3 py-2 border-b border-[#2a3a4d] flex items-center justify-between bg-[#0f1823]">
+      <div className="px-4 py-2.5 border-b border-slate-200 flex items-center justify-between bg-slate-50/70">
         <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#ff3d3d] bb-pulse" />
-          <span className="font-mono font-semibold text-[11px] text-[#ff8c00] tracking-wider uppercase">
-            LIVE INTELLIGENCE
+          <span className="w-2 h-2 rounded-full bg-emerald-500 bb-pulse" />
+          <span className="font-mono font-bold text-[11px] text-slate-900 tracking-wider uppercase">
+            LIVE INTELLIGENCE STREAM
           </span>
-          <span className="font-mono text-[10px] text-[#00c853] font-medium">
-            STREAM
+          <span className="font-mono text-[10px] text-slate-500 bg-slate-200/60 px-1.5 py-0.2 rounded">
+            {events.length} SIGNALS
           </span>
         </div>
 
-        {/* Filters */}
-        <div className="flex items-center gap-0">
-          {(['All', 'Funding', 'Regulatory', 'Tech'] as EventFilter[]).map((f) => (
+        {/* Filter Pills */}
+        <div className="flex items-center gap-1">
+          {categories.map(c => (
             <button
-              key={f}
-              onClick={() => setFilter(f)}
-              className={`px-2 py-0.5 text-[10px] font-mono font-medium transition-colors cursor-pointer border-b-2 ${
-                filter === f
-                  ? 'text-[#ff8c00] border-[#ff8c00]'
-                  : 'text-[#4a5a6d] hover:text-[#8899aa] border-transparent'
+              key={c}
+              onClick={() => setActiveFilter(c)}
+              className={`px-2 py-0.5 rounded text-[10px] font-mono font-medium transition-colors cursor-pointer ${
+                activeFilter === c
+                  ? 'bg-blue-600 text-white font-semibold shadow-2xs'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
               }`}
             >
-              {f.toUpperCase()}
+              {c}
             </button>
           ))}
         </div>
       </div>
 
       {/* Events List */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto divide-y divide-slate-100 p-1">
         <AnimatePresence initial={false}>
-          {filteredEvents.map((event) => {
-            const primaryCompany = event.affectedCompanies?.[0] || 'Entity';
-            const companyId = getCompanyId(primaryCompany);
-            const isFresh = newHighlightId === event.id;
-
+          {filteredEvents.map((evt) => {
+            const companyId = evt.affectedCompanies?.[0];
             return (
               <motion.div
-                key={event.id}
-                layout
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.2 }}
+                key={evt.id}
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.18 }}
                 onClick={() => {
                   if (companyId) navigate(`/company/${companyId}`);
-                  else navigate(`/search?q=${encodeURIComponent(primaryCompany)}`);
+                  else navigate('/domino');
                 }}
-                className={`px-3 py-2 border-b border-[#1e2d3d] cursor-pointer hover:bg-[#141e2d] transition-colors ${
-                  isFresh ? 'border-l-2 border-l-[#ff8c00] bg-[#141e2d]' : ''
-                }`}
+                className="px-3.5 py-3 hover:bg-slate-50/80 transition-colors cursor-pointer group rounded-lg m-1"
               >
-                {/* Row 1: Time + Source */}
-                <div className="flex items-center justify-between mb-0.5">
+                {/* Meta row */}
+                <div className="flex items-center justify-between mb-1.5 font-mono text-[10px]">
                   <div className="flex items-center gap-2">
-                    <span className={`w-1.5 h-1.5 rounded-full ${
-                      event.impactLevel === 'HIGH' ? 'bg-[#00c853]' :
-                      event.impactLevel === 'MEDIUM' ? 'bg-[#ffd700]' : 'bg-[#ff3d3d]'
-                    }`} />
-                    <span className={`font-mono text-[10px] ${isFresh ? 'text-[#ff8c00] font-semibold' : 'text-[#4a5a6d]'}`}>
-                      {event.timeAgo || 'Recent'}
+                    {(() => {
+                      const cat = getEventCategory(evt);
+                      return (
+                        <span className={`px-1.5 py-0.5 rounded border text-[9px] font-semibold uppercase ${getCategoryBadge(cat)}`}>
+                          {cat}
+                        </span>
+                      );
+                    })()}
+                    <span className="font-semibold text-slate-900">
+                      {companyId ? companyId.replace(/^c_/, '').toUpperCase() : 'SECTOR'}
                     </span>
                   </div>
-                  <span className="font-mono text-[10px] text-[#4a5a6d] truncate max-w-[140px]">
-                    {event.source.split('/')[0]}
-                  </span>
+                  <span className="text-slate-400">{evt.timeAgo || evt.date}</span>
                 </div>
 
-                {/* Row 2: Headline */}
-                <p className="text-[12px] text-[#e8edf3] font-medium leading-snug line-clamp-2 mb-1">
-                  {event.headline}
+                {/* Headline */}
+                <h4 className="text-[12px] font-semibold text-slate-800 leading-snug group-hover:text-blue-600 transition-colors mb-1">
+                  {evt.headline}
+                </h4>
+
+                {/* Impact */}
+                <p className="text-[11px] text-slate-500 leading-relaxed line-clamp-2">
+                  {evt.impact}
                 </p>
 
-                {/* Row 3: Tags */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    {event.affectedCompanies.slice(0, 2).map(c => (
-                      <span key={c} className="font-mono text-[10px] text-[#ff8c00]">{c}</span>
-                    ))}
-                  </div>
-                  {event.hasDominoMap && (
-                    <span
-                      onClick={(e) => { e.stopPropagation(); navigate('/domino'); }}
-                      className="font-mono text-[10px] text-[#2196f3] hover:text-[#e8edf3] flex items-center gap-0.5 cursor-pointer"
-                    >
-                      DOMINO <ChevronRight size={9} />
-                    </span>
-                  )}
+                {/* Footer details */}
+                <div className="mt-2 flex items-center justify-between font-mono text-[10px] text-slate-400">
+                  <span className="truncate max-w-[200px]">SRC: {evt.source}</span>
+                  <span className="text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-0.5 font-semibold">
+                    INSPECT <ArrowUpRight size={10} />
+                  </span>
                 </div>
               </motion.div>
             );
@@ -208,13 +149,13 @@ export const LiveIntelligenceFeed: React.FC = () => {
       </div>
 
       {/* Footer */}
-      <div className="px-3 py-1.5 border-t border-[#2a3a4d] bg-[#0a0e17] flex items-center justify-between">
-        <span className="font-mono text-[10px] text-[#4a5a6d]">AUTO-REFRESH 12S</span>
+      <div className="px-4 py-2 border-t border-slate-200 bg-slate-50/70 flex items-center justify-between font-mono text-[10px] text-slate-500">
+        <span>AUTO-REFRESHING (12S)</span>
         <button
-          onClick={() => navigate('/companies')}
-          className="font-mono text-[10px] text-[#2196f3] hover:text-[#e8edf3] flex items-center gap-0.5 transition-colors cursor-pointer"
+          onClick={() => navigate('/domino')}
+          className="text-blue-600 hover:text-blue-800 font-semibold flex items-center gap-0.5 cursor-pointer"
         >
-          ALL COMPANIES <ArrowUpRight size={10} />
+          TRACE CAUSALITY <ChevronRight size={11} />
         </button>
       </div>
     </div>

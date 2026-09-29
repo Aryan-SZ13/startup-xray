@@ -29,25 +29,25 @@ export const EcosystemRadarSection: React.FC = () => {
   };
 
   return (
-    <div className="w-full bg-[#0f1823] border border-[#1e2d3d] rounded overflow-hidden">
+    <div className="w-full bg-white border border-slate-200 shadow-xs rounded-lg overflow-hidden">
       {/* Header */}
-      <div className="px-3 py-2 border-b border-[#2a3a4d] flex items-center justify-between bg-[#0f1823]">
+      <div className="px-4 py-2.5 border-b border-slate-200 flex items-center justify-between bg-slate-50/70">
         <div className="flex items-center gap-3">
-          <span className="font-mono font-semibold text-[11px] text-[#ff8c00] tracking-wider uppercase">ECOSYSTEM CORRIDOR</span>
-          <span className="font-mono text-[10px] text-[#4a5a6d]">{activeEcosystemMeta.companyCount}+ STARTUPS</span>
-          <span className="font-mono text-[10px] text-[#4a5a6d]">{activeEcosystemMeta.founderCount}+ FOUNDERS</span>
+          <span className="font-mono font-bold text-[11px] text-orange-600 tracking-wider uppercase">ECOSYSTEM CORRIDOR</span>
+          <span className="font-mono text-[10px] text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">{activeEcosystemMeta.companyCount}+ STARTUPS</span>
+          <span className="font-mono text-[10px] text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">{activeEcosystemMeta.founderCount}+ FOUNDERS</span>
         </div>
 
         {/* Tabs */}
-        <div className="flex items-center gap-0">
+        <div className="flex items-center gap-1">
           {ECOSYSTEM_TABS.map(tab => (
             <button
               key={tab.id}
               onClick={() => setSelectedEcosystem(tab.id)}
-              className={`px-2 py-0.5 text-[10px] font-mono font-medium transition-colors cursor-pointer border-b-2 ${
+              className={`px-2.5 py-1 text-[10px] font-mono font-bold transition-all rounded cursor-pointer ${
                 selectedEcosystem === tab.id
-                  ? 'text-[#ff8c00] border-[#ff8c00]'
-                  : 'text-[#4a5a6d] hover:text-[#8899aa] border-transparent'
+                  ? 'text-orange-600 bg-orange-50 border border-orange-200 shadow-2xs'
+                  : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100 border border-transparent'
               }`}
             >
               {tab.name}
@@ -57,20 +57,20 @@ export const EcosystemRadarSection: React.FC = () => {
       </div>
 
       {/* Description Bar */}
-      <div className="px-3 py-1.5 border-b border-[#1e2d3d] bg-[#0a0e17] flex items-center justify-between">
-        <p className="text-[11px] text-[#6b7c93]">{activeEcosystemMeta.description}</p>
-        <div className="flex items-center gap-3 font-mono text-[10px] text-[#4a5a6d]">
-          <span>SRM IST</span><span className="text-[#2a3a4d]">⇄</span>
-          <span>IIT Madras</span><span className="text-[#2a3a4d]">⇄</span>
-          <span>Anna Univ</span><span className="text-[#2a3a4d]">⇄</span>
-          <span>VIT</span>
+      <div className="px-4 py-2 border-b border-slate-100 bg-slate-50/40 flex items-center justify-between">
+        <p className="text-[11px] text-slate-600">{activeEcosystemMeta.description}</p>
+        <div className="flex items-center gap-2 font-mono text-[10px] text-slate-500">
+          <span className="font-semibold text-slate-700">SRM IST</span><span className="text-slate-300">⇄</span>
+          <span className="font-semibold text-slate-700">IIT Madras</span><span className="text-slate-300">⇄</span>
+          <span className="font-semibold text-slate-700">Anna Univ</span><span className="text-slate-300">⇄</span>
+          <span className="font-semibold text-slate-700">VIT</span>
         </div>
       </div>
 
       {/* Companies Table */}
       <div>
         {/* Table Header */}
-        <div className="grid grid-cols-12 px-3 py-1 border-b border-[#2a3a4d] bg-[#0f1823] font-mono text-[10px] text-[#4a5a6d] uppercase tracking-wider">
+        <div className="grid grid-cols-12 px-4 py-2 border-b border-slate-200 bg-slate-50/80 font-mono text-[10px] text-slate-500 uppercase tracking-wider font-semibold">
           <div className="col-span-3">ENTITY</div>
           <div className="col-span-3">TAGLINE</div>
           <div className="col-span-2">STAGE</div>
@@ -84,14 +84,14 @@ export const EcosystemRadarSection: React.FC = () => {
             <div
               key={comp.id}
               onClick={() => navigate(`/company/${comp.id}`)}
-              className="grid grid-cols-12 px-3 py-2 border-b border-[#1e2d3d] cursor-pointer hover:bg-[#141e2d] transition-colors items-center"
+              className="grid grid-cols-12 px-4 py-2.5 border-b border-slate-100 last:border-b-0 cursor-pointer hover:bg-slate-50 transition-colors items-center"
             >
-              <div className="col-span-3 text-[12px] font-medium text-[#e8edf3]">{comp.name}</div>
-              <div className="col-span-3 text-[11px] text-[#6b7c93] truncate">{comp.tagline}</div>
-              <div className="col-span-2 font-mono text-[10px] text-[#4a5a6d]">{comp.stage}</div>
-              <div className="col-span-3 text-[11px] text-[#ff8c00]">{conn?.label || `${selectedEcosystem} Link`}</div>
+              <div className="col-span-3 text-[12px] font-bold text-slate-900">{comp.name}</div>
+              <div className="col-span-3 text-[11px] text-slate-500 truncate">{comp.tagline}</div>
+              <div className="col-span-2 font-mono text-[10px] text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded w-fit">{comp.stage}</div>
+              <div className="col-span-3 text-[11px] text-orange-600 font-semibold">{conn?.label || `${selectedEcosystem} Link`}</div>
               <div className="col-span-1 text-right">
-                <ArrowUpRight size={11} className="text-[#2196f3] inline" />
+                <ArrowUpRight size={13} className="text-blue-600 inline" />
               </div>
             </div>
           );
@@ -99,11 +99,11 @@ export const EcosystemRadarSection: React.FC = () => {
       </div>
 
       {/* Footer */}
-      <div className="px-3 py-1.5 border-t border-[#2a3a4d] bg-[#0a0e17] flex items-center justify-between">
-        <span className="font-mono text-[10px] text-[#4a5a6d]">VERIFIED INSTITUTIONAL RELATIONSHIPS</span>
+      <div className="px-4 py-2 border-t border-slate-200 bg-slate-50/50 flex items-center justify-between">
+        <span className="font-mono text-[10px] text-slate-500 font-medium">VERIFIED INSTITUTIONAL RELATIONSHIPS</span>
         <button
           onClick={() => navigate('/ecosystem')}
-          className="font-mono text-[10px] text-[#2196f3] hover:text-[#e8edf3] flex items-center gap-0.5 transition-colors cursor-pointer"
+          className="font-mono text-[10px] text-blue-600 hover:text-blue-800 font-semibold flex items-center gap-0.5 transition-colors cursor-pointer"
         >
           EXPLORE <ChevronRight size={10} />
         </button>

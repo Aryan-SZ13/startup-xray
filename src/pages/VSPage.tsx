@@ -59,41 +59,39 @@ export default function VSPage() {
 
   const getEvidenceColor = (status: string) => {
     switch (status) {
-      case 'VERIFIED': return 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20';
-      case 'REPORTED': return 'bg-[#00d4ff]/10 text-[#00d4ff] border-[#00d4ff]/20';
-      case 'ESTIMATED': return 'bg-amber-500/10 text-amber-500 border-amber-500/20';
-      case 'INFERRED': return 'bg-purple-500/10 text-purple-500 border-purple-500/20';
-      default: return 'bg-gray-500/10 text-gray-400 border-gray-500/20';
+      case 'VERIFIED': return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+      case 'REPORTED': return 'bg-blue-50 text-blue-700 border-blue-200';
+      case 'ESTIMATED': return 'bg-amber-50 text-amber-700 border-amber-200';
+      case 'INFERRED': return 'bg-purple-50 text-purple-700 border-purple-200';
+      default: return 'bg-slate-100 text-slate-600 border-slate-200';
     }
   };
 
   if (!compA || !compB) {
-    return <div className="p-8 text-white">Select valid companies to compare.</div>;
+    return <div className="p-8 text-slate-800 bg-slate-50 min-h-screen">Select valid companies to compare.</div>;
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-gray-200 p-6 md:p-12 overflow-hidden">
+    <div className="min-h-screen bg-slate-50 text-slate-800 p-6 md:p-12 overflow-hidden pb-24">
       
       {/* Header */}
-      <div className="max-w-6xl mx-auto mb-16 text-center relative">
-        <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter flex items-center justify-center gap-4 md:gap-8">
-          <span className="text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">{compA.name}</span>
+      <div className="max-w-6xl mx-auto mb-12 text-center relative">
+        <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tight flex items-center justify-center gap-4 md:gap-8">
+          <span className="text-slate-900">{compA.name}</span>
           <div className="relative flex items-center justify-center">
-            <span className="text-2xl md:text-4xl text-[#00d4ff] italic px-4 py-2 bg-[#00d4ff]/10 rounded-lg border border-[#00d4ff]/30 shadow-[0_0_30px_rgba(0,212,255,0.3)]">
+            <span className="text-xl md:text-3xl text-blue-600 font-black italic px-4 py-1.5 bg-blue-50 rounded-lg border border-blue-200 shadow-xs">
               VS
             </span>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] h-px bg-gradient-to-r from-transparent via-[#00d4ff]/50 to-transparent -z-10"></div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-px h-[200%] bg-gradient-to-b from-transparent via-[#00d4ff]/50 to-transparent -z-10"></div>
           </div>
-          <span className="text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">{compB.name}</span>
+          <span className="text-slate-900">{compB.name}</span>
         </h1>
         
         {/* Selectors */}
-        <div className="flex justify-center gap-8 mt-12">
+        <div className="flex justify-center gap-4 md:gap-6 mt-8">
           <select 
             value={companyAId}
             onChange={(e) => setCompanyAId(e.target.value)}
-            className="bg-[#111118] border border-white/10 text-white rounded p-2 text-sm focus:outline-none focus:border-[#00d4ff]/50 transition-colors"
+            className="bg-white border border-slate-200 text-slate-800 font-mono text-xs font-semibold rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 shadow-2xs cursor-pointer"
           >
             {companies?.map((c: any) => (
               <option key={c.id} value={c.id}>{c.name}</option>
@@ -102,7 +100,7 @@ export default function VSPage() {
           <select 
             value={companyBId}
             onChange={(e) => setCompanyBId(e.target.value)}
-            className="bg-[#111118] border border-white/10 text-white rounded p-2 text-sm focus:outline-none focus:border-[#00d4ff]/50 transition-colors"
+            className="bg-white border border-slate-200 text-slate-800 font-mono text-xs font-semibold rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 shadow-2xs cursor-pointer"
           >
             {companies?.map((c: any) => (
               <option key={c.id} value={c.id}>{c.name}</option>
@@ -112,32 +110,32 @@ export default function VSPage() {
       </div>
 
       <motion.div 
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: 25 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="max-w-5xl mx-auto space-y-12"
+        transition={{ duration: 0.4 }}
+        className="max-w-5xl mx-auto space-y-8"
       >
         {/* Dimensional Comparison */}
-        <div className="bg-[#111118] border border-white/5 rounded-xl overflow-hidden shadow-2xl">
-          <div className="grid grid-cols-3 border-b border-white/10 bg-white/5 p-4 text-xs font-bold text-gray-500 uppercase tracking-widest text-center">
-            <div>{compA.name}</div>
-            <div>DIMENSION</div>
-            <div>{compB.name}</div>
+        <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-xs">
+          <div className="grid grid-cols-3 border-b border-slate-200 bg-slate-50 p-4 text-xs font-mono font-bold text-slate-600 uppercase tracking-wider text-center">
+            <div className="text-slate-900">{compA.name}</div>
+            <div className="text-blue-600">COMPARISON VECTOR</div>
+            <div className="text-slate-900">{compB.name}</div>
           </div>
-          <div className="divide-y divide-white/5">
+          <div className="divide-y divide-slate-100">
             {comparison.dimensions.map((dim: any, i: number) => (
-              <div key={i} className="grid grid-cols-3 p-4 items-center hover:bg-white/5 transition-colors">
-                <div className="text-center flex flex-col items-center gap-2">
-                  <span className="text-lg font-mono text-white">{dim.a}</span>
+              <div key={i} className="grid grid-cols-3 p-4 items-center hover:bg-slate-50/60 transition-colors">
+                <div className="text-center flex flex-col items-center gap-1.5">
+                  <span className="text-base font-mono font-bold text-slate-900">{dim.a}</span>
                   <span className={`text-[10px] px-2 py-0.5 rounded border font-semibold ${getEvidenceColor(dim.evidenceA)}`}>
                     {dim.evidenceA}
                   </span>
                 </div>
-                <div className="text-center text-sm font-bold text-gray-400 uppercase tracking-wider">
+                <div className="text-center text-xs font-mono font-bold text-slate-500 uppercase tracking-wider">
                   {dim.name}
                 </div>
-                <div className="text-center flex flex-col items-center gap-2">
-                  <span className="text-lg font-mono text-white">{dim.b}</span>
+                <div className="text-center flex flex-col items-center gap-1.5">
+                  <span className="text-base font-mono font-bold text-slate-900">{dim.b}</span>
                   <span className={`text-[10px] px-2 py-0.5 rounded border font-semibold ${getEvidenceColor(dim.evidenceB)}`}>
                     {dim.evidenceB}
                   </span>
@@ -148,47 +146,47 @@ export default function VSPage() {
         </div>
 
         {/* Why are they different */}
-        <div className="space-y-6">
-          <h3 className="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-3">
-            <AlertTriangle className="text-[#00d4ff] w-5 h-5" />
-            Why Are They Different?
+        <div className="space-y-4">
+          <h3 className="text-lg font-bold text-slate-900 uppercase tracking-wide flex items-center gap-2">
+            <AlertTriangle className="text-amber-500 w-5 h-5" />
+            Structural Asymmetries & Divergences
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {comparison.differences.map((diff: any, i: number) => (
-              <div key={i} className="bg-[#111118] border border-white/5 border-l-[#00d4ff]/50 border-l-2 p-5 rounded-r-lg">
-                <h4 className="font-bold text-gray-200 mb-2">{diff.title}</h4>
-                <p className="text-sm text-gray-400 leading-relaxed">{diff.desc}</p>
+              <div key={i} className="bg-white border border-slate-200 border-l-blue-600 border-l-4 p-5 rounded-r-xl shadow-xs">
+                <h4 className="font-bold text-slate-900 mb-1.5 text-sm">{diff.title}</h4>
+                <p className="text-xs text-slate-600 leading-relaxed">{diff.desc}</p>
               </div>
             ))}
           </div>
         </div>
 
         {/* Chart */}
-        <div className="bg-[#111118] border border-white/5 rounded-xl p-6">
-          <h3 className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-6">Funding Trajectory (USD M)</h3>
+        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-xs">
+          <h3 className="text-xs font-mono font-bold text-slate-500 uppercase tracking-wider mb-6">Cumulative Capital Influx (USD M)</h3>
           <div className="h-80 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={comparison.funding}>
-                <XAxis dataKey="name" stroke="#666" fontSize={12} />
-                <YAxis stroke="#666" fontSize={12} />
+                <XAxis dataKey="name" stroke="#94a3b8" fontSize={11} fontVariant="mono" />
+                <YAxis stroke="#94a3b8" fontSize={11} fontVariant="mono" />
                 <Tooltip 
-                  cursor={{fill: 'rgba(255,255,255,0.05)'}} 
-                  contentStyle={{backgroundColor: '#111118', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px'}}
+                  cursor={{fill: 'rgba(241,245,249,0.7)'}} 
+                  contentStyle={{backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px', color: '#0f172a', fontSize: '12px'}}
                 />
-                <Legend iconType="circle" />
-                <Bar dataKey={compA.name} fill="#00d4ff" radius={[4, 4, 0, 0]} />
+                <Legend iconType="circle" wrapperStyle={{fontSize: '12px', paddingTop: '10px'}} />
+                <Bar dataKey={compA.name} fill="#2563eb" radius={[4, 4, 0, 0]} />
                 <Bar dataKey={compB.name} fill="#f59e0b" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        <div className="pt-8 pb-12 flex justify-center border-t border-white/5">
+        <div className="pt-6 pb-6 flex justify-center border-t border-slate-200">
           <button 
             onClick={() => navigate('/')}
-            className="flex items-center gap-2 text-sm text-gray-500 hover:text-[#00d4ff] transition-colors uppercase tracking-widest"
+            className="flex items-center gap-2 text-xs font-mono font-bold text-slate-600 hover:text-blue-600 transition-colors uppercase tracking-wider cursor-pointer"
           >
-            Discover Similar Companies <ArrowRight className="w-4 h-4" />
+            Return to Intelligence Terminal <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
 

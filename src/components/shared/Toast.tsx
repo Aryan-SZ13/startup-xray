@@ -57,12 +57,12 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
               initial={{ opacity: 0, y: 50, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
-              className="flex items-center gap-3 bg-[#111118] border border-white/10 shadow-2xl rounded-lg p-4 min-w-[300px]"
+              className="flex items-center gap-3 bg-white border border-slate-200 shadow-xl rounded-xl p-3.5 min-w-[300px]"
             >
               {getIcon(toast.type)}
-              <p className="flex-1 text-sm text-gray-200">{toast.message}</p>
-              <button onClick={() => removeToast(toast.id)} className="text-gray-500 hover:text-white transition-colors">
-                <X size={16} />
+              <p className="flex-1 text-xs font-mono font-medium text-slate-800">{toast.message}</p>
+              <button onClick={() => removeToast(toast.id)} className="text-slate-400 hover:text-slate-700 transition-colors p-1 cursor-pointer">
+                <X size={14} />
               </button>
             </motion.div>
           ))}

@@ -10,7 +10,7 @@ export const Layout: React.FC = () => {
   const { commandPaletteOpen, setCommandPaletteOpen } = useAppState();
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-zinc-300 flex flex-col font-sans selection:bg-cyan-500/30">
+    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans selection:bg-blue-500/20">
       <ToastProvider>
         <Navbar />
         

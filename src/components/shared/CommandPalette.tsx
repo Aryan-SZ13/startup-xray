@@ -96,17 +96,17 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose 
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-start justify-center pt-[10vh]"
+            className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 flex items-start justify-center pt-[10vh]"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: -20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: -20 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-2xl bg-[#0d0d14] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh]"
+              className="w-full max-w-2xl bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh]"
             >
-              <div className="flex items-center px-4 py-4 border-b border-white/10">
-                <Search className="text-gray-400 mr-3" size={24} />
+              <div className="flex items-center px-4 py-3.5 border-b border-slate-200">
+                <Search className="text-slate-400 mr-3" size={20} />
                 <input
                   ref={inputRef}
                   type="text"
@@ -115,18 +115,18 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose 
                     setQuery(e.target.value);
                     setSelectedIndex(0);
                   }}
-                  placeholder="Search companies, people, or sectors..."
-                  className="flex-1 bg-transparent text-xl text-white outline-none placeholder-gray-600"
+                  placeholder="Search companies, founders, markets, or nodes..."
+                  className="flex-1 bg-transparent text-base font-mono text-slate-900 outline-none placeholder-slate-400"
                 />
-                <button onClick={onClose} className="p-2 text-gray-500 hover:text-white rounded-md hover:bg-white/5 transition-colors">
-                  <X size={20} />
+                <button onClick={onClose} className="p-1.5 text-slate-400 hover:text-slate-700 rounded-md hover:bg-slate-100 transition-colors cursor-pointer">
+                  <X size={18} />
                 </button>
               </div>
 
               <div className="overflow-y-auto p-2">
                 {results.length > 0 ? (
                   <div className="space-y-1">
-                    <div className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">Results</div>
+                    <div className="px-3 py-1.5 text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">Results ({results.length})</div>
                     {results.map((result, idx) => {
                       const Icon = result.icon;
                       return (
@@ -134,30 +134,30 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({ isOpen, onClose 
                           key={result.id}
                           onClick={() => handleSelect(result)}
                           onMouseEnter={() => setSelectedIndex(idx)}
-                          className={`flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer transition-colors ${idx === selectedIndex ? 'bg-cyan-500/10 text-cyan-400' : 'text-gray-300 hover:bg-white/5'}`}
+                          className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl cursor-pointer transition-colors ${idx === selectedIndex ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-slate-700 hover:bg-slate-50'}`}
                         >
-                          <Icon size={18} className={idx === selectedIndex ? 'text-cyan-400' : 'text-gray-500'} />
-                          <span>{result.title}</span>
+                          <Icon size={16} className={idx === selectedIndex ? 'text-blue-600' : 'text-slate-400'} />
+                          <span className="text-xs font-mono">{result.title}</span>
                         </div>
                       );
                     })}
                   </div>
                 ) : query.length > 0 ? (
-                  <div className="px-4 py-8 text-center text-gray-500">
-                    No results found for "{query}". Press Enter to search globally.
+                  <div className="px-4 py-8 text-center text-slate-500 font-mono text-xs">
+                    No immediate match for "{query}". Press Enter to run global universe scan.
                   </div>
                 ) : (
-                  <div className="px-4 py-8 text-center text-gray-600 flex flex-col items-center">
-                    <Search size={32} className="mb-4 opacity-50" />
-                    <p>Start typing to search across the intelligence platform.</p>
+                  <div className="px-4 py-8 text-center text-slate-400 flex flex-col items-center">
+                    <Search size={28} className="mb-2 text-slate-300" />
+                    <p className="font-mono text-xs">Type to query companies, founders, or market signals.</p>
                   </div>
                 )}
               </div>
               
-              <div className="px-4 py-3 border-t border-white/5 bg-black/20 text-xs text-gray-500 flex items-center justify-between">
-                <span><kbd className="bg-white/10 px-1.5 py-0.5 rounded mr-1 text-gray-400">↑</kbd> <kbd className="bg-white/10 px-1.5 py-0.5 rounded mr-1 text-gray-400">↓</kbd> to navigate</span>
-                <span><kbd className="bg-white/10 px-1.5 py-0.5 rounded mr-1 text-gray-400">Enter</kbd> to select</span>
-                <span><kbd className="bg-white/10 px-1.5 py-0.5 rounded mr-1 text-gray-400">Esc</kbd> to close</span>
+              <div className="px-4 py-2.5 border-t border-slate-200 bg-slate-50 text-[10px] font-mono text-slate-500 flex items-center justify-between">
+                <span><kbd className="bg-white border border-slate-200 px-1 py-0.5 rounded mr-1 text-slate-600">↑</kbd> <kbd className="bg-white border border-slate-200 px-1 py-0.5 rounded mr-1 text-slate-600">↓</kbd> navigate</span>
+                <span><kbd className="bg-white border border-slate-200 px-1.5 py-0.5 rounded mr-1 text-slate-600">Enter</kbd> select</span>
+                <span><kbd className="bg-white border border-slate-200 px-1.5 py-0.5 rounded mr-1 text-slate-600">Esc</kbd> dismiss</span>
               </div>
             </motion.div>
           </motion.div>

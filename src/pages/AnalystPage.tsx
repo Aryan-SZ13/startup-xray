@@ -77,16 +77,19 @@ export default function AnalystPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-gray-200 p-6 md:p-8 flex flex-col">
+    <div className="min-h-screen bg-slate-50 text-slate-800 p-6 md:p-8 flex flex-col pb-24">
       
       {/* Header */}
-      <header className="flex items-center gap-4 mb-8 pb-6 border-b border-white/5">
-        <div className="p-3 bg-[#00d4ff]/10 rounded-lg">
-          <BrainCircuit className="w-8 h-8 text-[#00d4ff]" />
+      <header className="flex items-center gap-4 mb-8 pb-6 border-b border-slate-200">
+        <div className="p-3 bg-blue-50 border border-blue-200 rounded-xl">
+          <BrainCircuit className="w-7 h-7 text-blue-600" />
         </div>
         <div>
-          <h1 className="text-3xl font-black text-white uppercase tracking-tight">AI ANALYST</h1>
-          <p className="text-gray-500 text-sm uppercase tracking-widest font-semibold">Investigation Workspace</p>
+          <div className="flex items-center gap-2 text-xs font-mono font-bold text-blue-600 uppercase tracking-wider mb-0.5">
+            DEEP SYNTHESIS ENGINE
+          </div>
+          <h1 className="text-3xl font-black text-slate-900 tracking-tight">AI Analyst Workspace</h1>
+          <p className="text-slate-500 font-mono text-xs uppercase tracking-wider font-semibold">Evidence Verification & Adversarial Thesis Engine</p>
         </div>
       </header>
 
@@ -95,15 +98,15 @@ export default function AnalystPage() {
         {/* Left Panel - Workspace */}
         <div className="flex-1 flex flex-col">
           {/* Input Area */}
-          <div className="relative mb-8">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 text-gray-500" />
+          <div className="relative mb-6">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
             <input 
               type="text" 
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && query && startInvestigation(query)}
-              placeholder="Enter your research question or thesis to investigate..."
-              className="w-full bg-[#111118] border border-white/10 rounded-xl py-4 pl-14 pr-6 text-lg text-white placeholder-gray-600 focus:outline-none focus:border-[#00d4ff]/50 focus:ring-1 focus:ring-[#00d4ff]/50 transition-all"
+              placeholder="Enter research hypothesis, diligence prompt, or anomaly query..."
+              className="w-full bg-white border border-slate-200 rounded-xl py-3.5 pl-12 pr-6 text-sm font-mono text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 shadow-xs transition-all"
               disabled={isInvestigating}
             />
           </div>
@@ -111,24 +114,24 @@ export default function AnalystPage() {
           {/* Investigation Progress */}
           {isInvestigating && (
             <motion.div 
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-[#111118] border border-white/5 rounded-xl p-6 mb-8"
+              className="bg-white border border-slate-200 rounded-xl p-6 mb-6 shadow-xs"
             >
-              <h3 className="text-xs font-bold text-gray-500 tracking-widest mb-6 uppercase flex items-center gap-2">
-                <Loader2 className="w-4 h-4 animate-spin text-[#00d4ff]" />
-                Executing Research Plan
+              <h3 className="text-xs font-mono font-bold text-slate-500 tracking-wider mb-5 uppercase flex items-center gap-2">
+                <Loader2 className="w-4 h-4 animate-spin text-blue-600" />
+                Executing Diligence Protocol
               </h3>
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {STAGES.map((stage, idx) => {
                   const isPast = idx < currentStageIndex;
                   const isCurrent = idx === currentStageIndex;
                   return (
-                    <div key={stage} className={`flex items-center gap-4 ${isPast ? 'text-gray-400' : isCurrent ? 'text-white' : 'text-gray-700'}`}>
-                      {isPast ? <CheckCircle2 className="w-5 h-5 text-emerald-500" /> : 
-                       isCurrent ? <Loader2 className="w-5 h-5 animate-spin text-[#00d4ff]" /> : 
-                       <CircleDashed className="w-5 h-5" />}
-                      <span className={`text-sm font-medium ${isCurrent ? 'font-bold' : ''}`}>{stage}</span>
+                    <div key={stage} className={`flex items-center gap-3 ${isPast ? 'text-slate-400' : isCurrent ? 'text-slate-900' : 'text-slate-300'}`}>
+                      {isPast ? <CheckCircle2 className="w-4 h-4 text-emerald-600" /> : 
+                       isCurrent ? <Loader2 className="w-4 h-4 animate-spin text-blue-600" /> : 
+                       <CircleDashed className="w-4 h-4" />}
+                      <span className={`text-xs font-mono ${isCurrent ? 'font-bold text-blue-700' : ''}`}>{stage}</span>
                     </div>
                   );
                 })}
@@ -141,22 +144,22 @@ export default function AnalystPage() {
             <motion.div 
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-[#111118] border border-white/5 rounded-xl overflow-hidden shadow-2xl pb-8"
+              className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm pb-8"
             >
-              <div className="bg-[#00d4ff]/10 p-6 border-b border-[#00d4ff]/20">
-                <div className="text-[10px] font-bold text-[#00d4ff] uppercase tracking-widest mb-2 border border-[#00d4ff]/30 inline-block px-2 py-0.5 rounded">DEMO ANALYSIS</div>
-                <h2 className="text-xl font-semibold text-white leading-relaxed">{results.summary}</h2>
+              <div className="bg-blue-50/60 p-6 border-b border-blue-100">
+                <div className="text-[10px] font-mono font-bold text-blue-700 uppercase tracking-wider mb-2 border border-blue-200 bg-white inline-block px-2 py-0.5 rounded shadow-2xs">INTELLIGENCE SYNTHESIS</div>
+                <h2 className="text-lg font-bold text-slate-900 leading-relaxed">{results.summary}</h2>
               </div>
               
-              <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
-                  <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4 flex items-center gap-2">
-                    <FileText className="w-4 h-4" /> Hard Evidence
+                  <h3 className="text-xs font-mono font-bold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-2">
+                    <FileText className="w-4 h-4 text-slate-400" /> Hard Evidence & Filings
                   </h3>
-                  <ul className="space-y-3">
+                  <ul className="space-y-2.5">
                     {results.evidence.map((ev: string, i: number) => (
-                      <li key={i} className="flex gap-3 text-sm text-gray-300 items-start">
-                        <div className="w-1.5 h-1.5 rounded-full bg-white/30 mt-1.5 shrink-0"></div>
+                      <li key={i} className="flex gap-2.5 text-xs text-slate-700 items-start leading-relaxed">
+                        <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5 shrink-0"></div>
                         {ev}
                       </li>
                     ))}
@@ -165,63 +168,63 @@ export default function AnalystPage() {
 
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-2">
-                      <CheckCircle className="w-4 h-4 text-emerald-500" /> Supporting Signals
+                    <h3 className="text-xs font-mono font-bold text-emerald-700 uppercase tracking-wider mb-2.5 flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-emerald-600" /> Corroborating Signals
                     </h3>
                     <ul className="space-y-2">
                       {results.supportingSignals.map((ev: string, i: number) => (
-                        <li key={i} className="text-sm text-emerald-400/80 flex gap-2 items-start">
-                          <span className="text-emerald-500 mt-0.5">•</span> {ev}
+                        <li key={i} className="text-xs text-emerald-800 flex gap-2 items-start leading-relaxed">
+                          <span className="text-emerald-600 font-bold mt-0.5">•</span> {ev}
                         </li>
                       ))}
                     </ul>
                   </div>
                   <div>
-                    <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-2">
-                      <XCircle className="w-4 h-4 text-red-500" /> Contradicting Evidence
+                    <h3 className="text-xs font-mono font-bold text-rose-700 uppercase tracking-wider mb-2.5 flex items-center gap-2">
+                      <XCircle className="w-4 h-4 text-rose-600" /> Contradicting Evidence
                     </h3>
                     <ul className="space-y-2">
                       {results.contradictingEvidence.map((ev: string, i: number) => (
-                        <li key={i} className="text-sm text-red-400/80 flex gap-2 items-start">
-                          <span className="text-red-500 mt-0.5">•</span> {ev}
+                        <li key={i} className="text-xs text-rose-800 flex gap-2 items-start leading-relaxed">
+                          <span className="text-rose-600 font-bold mt-0.5">•</span> {ev}
                         </li>
                       ))}
                     </ul>
                   </div>
                 </div>
 
-                <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-white/5">
+                <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-slate-100">
                   <div>
-                    <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-2">
-                      <AlertCircle className="w-4 h-4 text-amber-500" /> Critical Unknowns
+                    <h3 className="text-xs font-mono font-bold text-amber-700 uppercase tracking-wider mb-2.5 flex items-center gap-2">
+                      <AlertCircle className="w-4 h-4 text-amber-600" /> Critical Blind Spots
                     </h3>
                     <ul className="space-y-2">
                       {results.unknowns.map((ev: string, i: number) => (
-                        <li key={i} className="text-sm text-amber-400/80 flex gap-2 items-start">
-                          <span className="text-amber-500 mt-0.5">•</span> {ev}
+                        <li key={i} className="text-xs text-amber-800 flex gap-2 items-start leading-relaxed">
+                          <span className="text-amber-600 font-bold mt-0.5">•</span> {ev}
                         </li>
                       ))}
                     </ul>
                   </div>
                   <div>
-                    <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-2">
-                      <HelpCircle className="w-4 h-4 text-[#00d4ff]" /> Next Questions to Ask
+                    <h3 className="text-xs font-mono font-bold text-blue-700 uppercase tracking-wider mb-2.5 flex items-center gap-2">
+                      <HelpCircle className="w-4 h-4 text-blue-600" /> Follow-Up Diligence Vectors
                     </h3>
                     <ul className="space-y-2">
                       {results.nextQuestions.map((ev: string, i: number) => (
-                        <li key={i} className="text-sm text-[#00d4ff]/80 flex gap-2 items-start">
-                          <ChevronRight className="w-4 h-4 text-[#00d4ff] mt-0.5 shrink-0" /> {ev}
+                        <li key={i} className="text-xs text-blue-800 flex gap-2 items-start leading-relaxed">
+                          <ChevronRight className="w-3.5 h-3.5 text-blue-600 mt-0.5 shrink-0" /> {ev}
                         </li>
                       ))}
                     </ul>
                   </div>
                 </div>
 
-                <div className="md:col-span-2 pt-6 border-t border-white/5">
-                  <h3 className="text-[10px] font-bold text-gray-600 uppercase tracking-widest mb-2">Sources Referenced</h3>
+                <div className="md:col-span-2 pt-6 border-t border-slate-100">
+                  <h3 className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider mb-2">Sources Referenced</h3>
                   <div className="flex flex-wrap gap-2">
                     {results.sources.map((src: string, i: number) => (
-                      <span key={i} className="text-xs px-2 py-1 bg-white/5 rounded text-gray-500 border border-white/5 hover:text-gray-300 cursor-default transition-colors">
+                      <span key={i} className="text-[11px] font-mono px-2 py-0.5 bg-slate-50 rounded text-slate-600 border border-slate-200">
                         {src}
                       </span>
                     ))}
@@ -233,10 +236,11 @@ export default function AnalystPage() {
           )}
 
           {!isInvestigating && !showResults && (
-            <div className="flex-1 flex items-center justify-center text-center opacity-30 pointer-events-none">
+            <div className="flex-1 flex items-center justify-center text-center p-12 bg-white border border-slate-200 border-dashed rounded-xl">
               <div>
-                <BrainCircuit className="w-24 h-24 mx-auto mb-4" />
-                <p className="text-xl font-medium">Awaiting Instructions</p>
+                <BrainCircuit className="w-16 h-16 mx-auto mb-3 text-slate-300" />
+                <p className="text-base font-bold text-slate-700">Awaiting Intelligence Inquiry</p>
+                <p className="text-xs text-slate-400 mt-1 max-w-sm">Enter a company name or select a hypothesis from the right panel to execute an investigation.</p>
               </div>
             </div>
           )}
@@ -244,23 +248,23 @@ export default function AnalystPage() {
         </div>
 
         {/* Right Panel - Context & Actions */}
-        <div className="w-full lg:w-80 space-y-6">
+        <div className="w-full lg:w-80 space-y-5">
           {company && (
-            <div className="bg-[#111118] border border-white/5 rounded-xl p-5">
-              <h3 className="text-xs font-bold text-gray-500 tracking-widest mb-4 uppercase">Context Company</h3>
-              <div className="font-bold text-lg text-white mb-1">{company.name}</div>
-              <div className="text-sm text-gray-400">{company.industry}</div>
+            <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-xs">
+              <h3 className="text-[11px] font-mono font-bold text-slate-400 tracking-wider mb-3 uppercase">Subject Profile</h3>
+              <div className="font-bold text-base text-slate-900 mb-0.5">{company.name}</div>
+              <div className="text-xs font-mono text-slate-500">{company.industry}</div>
             </div>
           )}
 
-          <div className="bg-[#111118] border border-white/5 rounded-xl p-5">
-             <h3 className="text-xs font-bold text-gray-500 tracking-widest mb-4 uppercase">Example Questions</h3>
-             <div className="space-y-2">
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-xs">
+             <h3 className="text-[11px] font-mono font-bold text-slate-400 tracking-wider mb-3 uppercase">Hypothesis Templates</h3>
+             <div className="space-y-1.5">
                 {exampleQuestions.map((eq, i) => (
                   <button 
                     key={i}
                     onClick={() => startInvestigation(eq)}
-                    className="w-full text-left p-3 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded transition-colors border border-transparent hover:border-white/10"
+                    className="w-full text-left p-2.5 text-xs text-slate-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-colors border border-transparent hover:border-blue-100 cursor-pointer"
                   >
                     {eq}
                   </button>
@@ -270,9 +274,9 @@ export default function AnalystPage() {
 
           <button 
             onClick={() => {setQuery(''); setShowResults(false); setIsInvestigating(false);}}
-            className="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg transition-colors text-sm font-bold uppercase tracking-widest"
+            className="w-full py-2.5 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg transition-colors text-xs font-mono font-bold text-slate-700 uppercase tracking-wider cursor-pointer shadow-xs"
           >
-            Start New Investigation
+            Reset Workspace
           </button>
         </div>
 
