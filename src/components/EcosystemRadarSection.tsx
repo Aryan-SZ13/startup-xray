@@ -10,9 +10,9 @@ export const EcosystemRadarSection: React.FC = () => {
 
   const ECOSYSTEM_TABS = [
     { id: 'SRM', name: 'SRM' },
-    { id: 'IIT_MADRAS', name: 'IIT Madras' },
-    { id: 'CHENNAI', name: 'Chennai Corridor' },
-    { id: 'GLOBAL', name: 'Global Frontier' }
+    { id: 'IIT_MADRAS', name: 'IIT MADRAS' },
+    { id: 'CHENNAI', name: 'CHENNAI' },
+    { id: 'GLOBAL', name: 'GLOBAL' }
   ];
 
   const filteredCompanies = companies.filter(c => {
@@ -29,31 +29,25 @@ export const EcosystemRadarSection: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full rounded-3xl border border-white/[0.08] bg-[#0c0c0e]/70 backdrop-blur-3xl shadow-xl p-6 lg:p-8 overflow-hidden">
+    <div className="w-full bg-[#0f1823] border border-[#1e2d3d] rounded overflow-hidden">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between pb-6 mb-6 border-b border-white/[0.06] gap-4">
-        <div>
-          <span className="text-[11px] font-medium text-[#2997ff] uppercase tracking-wider block mb-1">
-            Institutional Corridor
-          </span>
-          <h3 className="text-xl font-semibold text-white tracking-tight">
-            {activeEcosystemMeta.name} Network
-          </h3>
-          <p className="text-xs text-[#86868b] mt-1 max-w-lg">
-            {activeEcosystemMeta.description}
-          </p>
+      <div className="px-3 py-2 border-b border-[#2a3a4d] flex items-center justify-between bg-[#0f1823]">
+        <div className="flex items-center gap-3">
+          <span className="font-mono font-semibold text-[11px] text-[#ff8c00] tracking-wider uppercase">ECOSYSTEM CORRIDOR</span>
+          <span className="font-mono text-[10px] text-[#4a5a6d]">{activeEcosystemMeta.companyCount}+ STARTUPS</span>
+          <span className="font-mono text-[10px] text-[#4a5a6d]">{activeEcosystemMeta.founderCount}+ FOUNDERS</span>
         </div>
 
-        {/* Segmented Control */}
-        <div className="flex items-center p-1 rounded-full bg-white/[0.05] border border-white/[0.06] self-start md:self-center">
+        {/* Tabs */}
+        <div className="flex items-center gap-0">
           {ECOSYSTEM_TABS.map(tab => (
             <button
               key={tab.id}
               onClick={() => setSelectedEcosystem(tab.id)}
-              className={`px-3.5 py-1 rounded-full text-xs font-medium transition-all cursor-pointer whitespace-nowrap ${
+              className={`px-2 py-0.5 text-[10px] font-mono font-medium transition-colors cursor-pointer border-b-2 ${
                 selectedEcosystem === tab.id
-                  ? 'bg-white text-black font-semibold shadow-sm'
-                  : 'text-[#86868b] hover:text-white'
+                  ? 'text-[#ff8c00] border-[#ff8c00]'
+                  : 'text-[#4a5a6d] hover:text-[#8899aa] border-transparent'
               }`}
             >
               {tab.name}
@@ -62,51 +56,42 @@ export const EcosystemRadarSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Corridor Connections Strip */}
-      <div className="mb-6 px-4 py-2.5 rounded-2xl bg-white/[0.02] border border-white/[0.05] flex flex-wrap items-center justify-between text-xs text-[#86868b] gap-3">
-        <div className="flex items-center gap-2">
-          <span>SRM IST</span>
-          <span className="text-[#3a3a3c]">⇄</span>
-          <span>IIT Madras</span>
-          <span className="text-[#3a3a3c]">⇄</span>
-          <span>Anna Univ</span>
-          <span className="text-[#3a3a3c]">⇄</span>
+      {/* Description Bar */}
+      <div className="px-3 py-1.5 border-b border-[#1e2d3d] bg-[#0a0e17] flex items-center justify-between">
+        <p className="text-[11px] text-[#6b7c93]">{activeEcosystemMeta.description}</p>
+        <div className="flex items-center gap-3 font-mono text-[10px] text-[#4a5a6d]">
+          <span>SRM IST</span><span className="text-[#2a3a4d]">⇄</span>
+          <span>IIT Madras</span><span className="text-[#2a3a4d]">⇄</span>
+          <span>Anna Univ</span><span className="text-[#2a3a4d]">⇄</span>
           <span>VIT</span>
-        </div>
-        <div className="flex items-center gap-4 text-[11px]">
-          <span>{activeEcosystemMeta.companyCount}+ Startups</span>
-          <span>{activeEcosystemMeta.founderCount}+ Founders</span>
         </div>
       </div>
 
-      {/* Companies */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {(filteredCompanies.length > 0 ? filteredCompanies : companies).slice(0, 3).map((comp) => {
-          const conn = comp.ecosystemConnections?.find(ec => ec.ecosystem.toUpperCase() === selectedEcosystem.toUpperCase()) || comp.ecosystemConnections?.[0];
+      {/* Companies Table */}
+      <div>
+        {/* Table Header */}
+        <div className="grid grid-cols-12 px-3 py-1 border-b border-[#2a3a4d] bg-[#0f1823] font-mono text-[10px] text-[#4a5a6d] uppercase tracking-wider">
+          <div className="col-span-3">ENTITY</div>
+          <div className="col-span-3">TAGLINE</div>
+          <div className="col-span-2">STAGE</div>
+          <div className="col-span-3">CONNECTION</div>
+          <div className="col-span-1 text-right">LINK</div>
+        </div>
 
+        {(filteredCompanies.length > 0 ? filteredCompanies : companies).slice(0, 5).map((comp) => {
+          const conn = comp.ecosystemConnections?.find(ec => ec.ecosystem.toUpperCase() === selectedEcosystem.toUpperCase()) || comp.ecosystemConnections?.[0];
           return (
             <div
               key={comp.id}
               onClick={() => navigate(`/company/${comp.id}`)}
-              className="p-5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.05] hover:border-white/[0.12] transition-all cursor-pointer group flex flex-col justify-between"
+              className="grid grid-cols-12 px-3 py-2 border-b border-[#1e2d3d] cursor-pointer hover:bg-[#141e2d] transition-colors items-center"
             >
-              <div>
-                <div className="flex items-start justify-between mb-2">
-                  <h4 className="text-sm font-semibold text-white group-hover:text-[#2997ff] transition-colors">
-                    {comp.name}
-                  </h4>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/[0.05] text-[#86868b]">
-                    {comp.stage}
-                  </span>
-                </div>
-                <p className="text-xs text-[#86868b] line-clamp-2 leading-relaxed mb-4">
-                  {comp.tagline}
-                </p>
-              </div>
-
-              <div className="pt-3 border-t border-white/[0.05] text-[11px] text-[#2997ff] flex items-center justify-between">
-                <span>{conn?.label || `${selectedEcosystem} Connection`}</span>
-                <ArrowUpRight size={12} />
+              <div className="col-span-3 text-[12px] font-medium text-[#e8edf3]">{comp.name}</div>
+              <div className="col-span-3 text-[11px] text-[#6b7c93] truncate">{comp.tagline}</div>
+              <div className="col-span-2 font-mono text-[10px] text-[#4a5a6d]">{comp.stage}</div>
+              <div className="col-span-3 text-[11px] text-[#ff8c00]">{conn?.label || `${selectedEcosystem} Link`}</div>
+              <div className="col-span-1 text-right">
+                <ArrowUpRight size={11} className="text-[#2196f3] inline" />
               </div>
             </div>
           );
@@ -114,14 +99,13 @@ export const EcosystemRadarSection: React.FC = () => {
       </div>
 
       {/* Footer */}
-      <div className="mt-6 pt-4 border-t border-white/[0.06] flex items-center justify-between text-xs text-[#86868b]">
-        <span>Verified institutional relationships</span>
+      <div className="px-3 py-1.5 border-t border-[#2a3a4d] bg-[#0a0e17] flex items-center justify-between">
+        <span className="font-mono text-[10px] text-[#4a5a6d]">VERIFIED INSTITUTIONAL RELATIONSHIPS</span>
         <button
           onClick={() => navigate('/ecosystem')}
-          className="text-[#2997ff] hover:text-white flex items-center gap-1 transition-colors cursor-pointer font-medium"
+          className="font-mono text-[10px] text-[#2196f3] hover:text-[#e8edf3] flex items-center gap-0.5 transition-colors cursor-pointer"
         >
-          <span>Explore corridor</span>
-          <ChevronRight size={13} />
+          EXPLORE <ChevronRight size={10} />
         </button>
       </div>
     </div>

@@ -6,126 +6,83 @@ export const SplitAttentionMatrix: React.FC = () => {
   const navigate = useNavigate();
   const [activeSide, setActiveSide] = useState<'WATCHING' | 'MISSING' | null>(null);
 
-  // Diverse mainstream
   const mainstreamCompanies = companies.filter(c => ['c_swiggy', 'c_postman', 'c_zomato', 'c_ather'].includes(c.id));
-  // Diverse unpriced / quiet alpha
   const underTheRadarCompanies = companies.filter(c => ['c_sarvam', 'c_torus', 'c_agnikul', 'c_skyroot'].includes(c.id));
 
   return (
-    <div className="relative w-full rounded-3xl border border-white/[0.08] overflow-hidden bg-[#0c0c0e]/70 backdrop-blur-3xl shadow-xl">
+    <div className="w-full bg-[#0f1823] border border-[#1e2d3d] rounded overflow-hidden">
       {/* Header */}
-      <div className="px-6 py-4 border-b border-white/[0.06] flex items-center justify-between">
-        <div>
-          <h3 className="text-sm font-semibold text-white/90 tracking-tight">
-            Attention Divergence
-          </h3>
-          <p className="text-xs text-[#86868b] mt-0.5">
-            Consensus venture holdings vs. early unpriced signal alpha
-          </p>
+      <div className="px-3 py-2 border-b border-[#2a3a4d] flex items-center justify-between bg-[#0f1823]">
+        <div className="flex items-center gap-2">
+          <span className="font-mono font-semibold text-[11px] text-[#ff8c00] tracking-wider uppercase">ATTENTION DIVERGENCE</span>
         </div>
-        <div className="text-[10px] text-[#86868b] px-3 py-1 rounded-full bg-white/[0.04]">
-          Comparative View
-        </div>
+        <span className="font-mono text-[10px] text-[#4a5a6d]">COMPARATIVE VIEW</span>
       </div>
 
       {/* 2-Column Split */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-white/[0.06]">
-        
-        {/* Left Side */}
+      <div className="grid grid-cols-1 lg:grid-cols-2">
+        {/* Left: Everybody Watching */}
         <div
           onMouseEnter={() => setActiveSide('WATCHING')}
           onMouseLeave={() => setActiveSide(null)}
-          className={`p-6 transition-all duration-300 ${
-            activeSide === 'WATCHING' 
-              ? 'bg-white/[0.03]' 
-              : activeSide === 'MISSING' 
-              ? 'opacity-60' 
-              : ''
+          className={`border-r border-[#1e2d3d] transition-all ${
+            activeSide === 'WATCHING' ? 'bg-[#141e2d]' : activeSide === 'MISSING' ? 'opacity-50' : ''
           }`}
         >
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-xs font-semibold text-white/90">
-              Everybody is Watching
-            </span>
-            <span className="text-[10px] text-[#86868b] px-2 py-0.5 rounded-full bg-white/[0.05]">
-              High Visibility
-            </span>
+          <div className="px-3 py-1.5 border-b border-[#1e2d3d] flex items-center justify-between">
+            <span className="font-mono text-[10px] text-[#e8edf3] font-semibold uppercase">EVERYBODY IS WATCHING</span>
+            <span className="font-mono text-[10px] text-[#4a5a6d]">HIGH VIS</span>
           </div>
-
-          <div className="space-y-2.5">
-            {mainstreamCompanies.map((comp) => (
-              <div
-                key={comp.id}
-                onClick={() => navigate(`/company/${comp.id}`)}
-                className="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.05] hover:border-white/[0.12] transition-all cursor-pointer group"
-              >
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-sm font-medium text-white group-hover:text-[#2997ff] transition-colors">
-                    {comp.name}
-                  </span>
-                  <span className="text-xs font-mono text-[#86868b]">
-                    {comp.valuation?.claim || comp.totalFunding?.claim}
-                  </span>
-                </div>
-                <p className="text-xs text-[#86868b] line-clamp-1">{comp.tagline}</p>
+          {mainstreamCompanies.map((comp) => (
+            <div
+              key={comp.id}
+              onClick={() => navigate(`/company/${comp.id}`)}
+              className="px-3 py-2 border-b border-[#1e2d3d] cursor-pointer hover:bg-[#1a2636] transition-colors flex items-center justify-between"
+            >
+              <div>
+                <span className="text-[12px] font-medium text-[#e8edf3]">{comp.name}</span>
+                <span className="text-[10px] text-[#4a5a6d] ml-2">{comp.tagline}</span>
               </div>
-            ))}
-          </div>
+              <span className="font-mono text-[11px] text-[#6b7c93]">{comp.valuation?.claim || comp.totalFunding?.claim}</span>
+            </div>
+          ))}
         </div>
 
-        {/* Right Side */}
+        {/* Right: You May Be Missing */}
         <div
           onMouseEnter={() => setActiveSide('MISSING')}
           onMouseLeave={() => setActiveSide(null)}
-          className={`p-6 transition-all duration-300 ${
-            activeSide === 'MISSING' 
-              ? 'bg-white/[0.03]' 
-              : activeSide === 'WATCHING' 
-              ? 'opacity-60' 
-              : ''
+          className={`transition-all ${
+            activeSide === 'MISSING' ? 'bg-[#141e2d]' : activeSide === 'WATCHING' ? 'opacity-50' : ''
           }`}
         >
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-xs font-semibold text-[#2997ff]">
-              You May Be Missing
-            </span>
-            <span className="text-[10px] text-[#30d158] px-2 py-0.5 rounded-full bg-[#30d158]/10 font-medium">
-              High Signal Alpha
-            </span>
+          <div className="px-3 py-1.5 border-b border-[#1e2d3d] flex items-center justify-between">
+            <span className="font-mono text-[10px] text-[#ff8c00] font-semibold uppercase">YOU MAY BE MISSING</span>
+            <span className="font-mono text-[10px] text-[#00c853] font-medium">HIGH SIGNAL</span>
           </div>
-
-          <div className="space-y-2.5">
-            {underTheRadarCompanies.map((comp) => (
-              <div
-                key={comp.id}
-                onClick={() => navigate(`/company/${comp.id}`)}
-                className="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.05] hover:border-white/[0.12] transition-all cursor-pointer group"
-              >
-                <div className="flex items-center justify-between mb-1">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-white group-hover:text-[#30d158] transition-colors">
-                      {comp.name}
-                    </span>
-                    <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-white/[0.05] text-[#86868b]">
-                      {comp.sector}
-                    </span>
-                  </div>
-                  <span className="text-[10px] text-[#30d158] font-medium">
-                    Signal Dense
-                  </span>
+          {underTheRadarCompanies.map((comp) => (
+            <div
+              key={comp.id}
+              onClick={() => navigate(`/company/${comp.id}`)}
+              className="px-3 py-2 border-b border-[#1e2d3d] cursor-pointer hover:bg-[#1a2636] transition-colors"
+            >
+              <div className="flex items-center justify-between mb-0.5">
+                <div className="flex items-center gap-2">
+                  <span className="text-[12px] font-medium text-[#e8edf3]">{comp.name}</span>
+                  <span className="font-mono text-[10px] text-[#4a5a6d]">{comp.sector}</span>
                 </div>
-                {comp.whyNow ? (
-                  <p className="text-xs text-[#d2d2d7] line-clamp-1">
-                    <span className="text-[#86868b]">Catalyst:</span> {comp.whyNow.whatChanged}
-                  </p>
-                ) : (
-                  <p className="text-xs text-[#86868b] line-clamp-1">{comp.tagline}</p>
-                )}
+                <span className="font-mono text-[10px] text-[#00c853]">SIGNAL+</span>
               </div>
-            ))}
-          </div>
+              {comp.whyNow ? (
+                <p className="text-[11px] text-[#6b7c93]">
+                  <span className="text-[#4a5a6d]">Catalyst:</span> {comp.whyNow.whatChanged}
+                </p>
+              ) : (
+                <p className="text-[11px] text-[#4a5a6d]">{comp.tagline}</p>
+              )}
+            </div>
+          ))}
         </div>
-
       </div>
     </div>
   );

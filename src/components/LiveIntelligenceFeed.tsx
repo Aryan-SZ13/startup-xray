@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, ArrowUpRight, Radio } from 'lucide-react';
+import { ChevronRight, ArrowUpRight } from 'lucide-react';
 import { intelligenceEvents } from '../data';
 
 type EventFilter = 'All' | 'Funding' | 'Regulatory' | 'Hiring' | 'Tech';
@@ -12,7 +12,6 @@ export const LiveIntelligenceFeed: React.FC = () => {
   const [events, setEvents] = useState(intelligenceEvents);
   const [newHighlightId, setNewHighlightId] = useState<string | null>(null);
 
-  // Live real-time incoming ticker simulation: every 14 seconds, a new dynamic intelligence event shifts into feed
   useEffect(() => {
     const liveIncomingPool = [
       {
@@ -73,13 +72,10 @@ export const LiveIntelligenceFeed: React.FC = () => {
     const interval = setInterval(() => {
       const incoming = liveIncomingPool[poolIndex % liveIncomingPool.length];
       poolIndex++;
-
       setEvents(prev => {
-        // Prepend new event
         const updated = [incoming, ...prev.slice(0, 15)];
         return updated;
       });
-
       setNewHighlightId(incoming.id);
       setTimeout(() => setNewHighlightId(null), 3000);
     }, 12000);
@@ -113,44 +109,41 @@ export const LiveIntelligenceFeed: React.FC = () => {
   });
 
   return (
-    <div className="relative w-full h-[520px] lg:h-[580px] bg-[#0c0c0e]/80 rounded-3xl border border-white/[0.08] overflow-hidden shadow-2xl backdrop-blur-3xl flex flex-col">
-      {/* Apple-style Top Bar */}
-      <div className="px-5 py-3 border-b border-white/[0.06] flex items-center justify-between bg-black/20 backdrop-blur-xl">
+    <div className="relative w-full h-[520px] lg:h-[580px] bg-[#0f1823] border border-[#1e2d3d] rounded overflow-hidden flex flex-col">
+      {/* Header */}
+      <div className="px-3 py-2 border-b border-[#2a3a4d] flex items-center justify-between bg-[#0f1823]">
         <div className="flex items-center gap-2">
-          <div className="relative flex items-center justify-center">
-            <span className="w-2 h-2 rounded-full bg-[#ff453a] shadow-[0_0_8px_#ff453a]" />
-            <span className="absolute w-4 h-4 rounded-full bg-[#ff453a]/30 animate-ping" />
-          </div>
-          <span className="text-xs font-medium text-white/90 tracking-tight">
-            Live Intelligence
+          <span className="w-1.5 h-1.5 rounded-full bg-[#ff3d3d] bb-pulse" />
+          <span className="font-mono font-semibold text-[11px] text-[#ff8c00] tracking-wider uppercase">
+            LIVE INTELLIGENCE
           </span>
-          <span className="text-[10px] text-[#30d158] font-mono px-2 py-0.5 rounded-full bg-[#30d158]/10 font-semibold">
-            STREAMING
+          <span className="font-mono text-[10px] text-[#00c853] font-medium">
+            STREAM
           </span>
         </div>
 
-        {/* Minimal Filters */}
-        <div className="flex items-center p-0.5 rounded-full bg-white/[0.05] border border-white/[0.06]">
+        {/* Filters */}
+        <div className="flex items-center gap-0">
           {(['All', 'Funding', 'Regulatory', 'Tech'] as EventFilter[]).map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`px-2.5 py-0.5 rounded-full text-[10px] font-medium transition-all cursor-pointer ${
+              className={`px-2 py-0.5 text-[10px] font-mono font-medium transition-colors cursor-pointer border-b-2 ${
                 filter === f
-                  ? 'bg-white text-black font-semibold shadow-sm'
-                  : 'text-[#86868b] hover:text-white'
+                  ? 'text-[#ff8c00] border-[#ff8c00]'
+                  : 'text-[#4a5a6d] hover:text-[#8899aa] border-transparent'
               }`}
             >
-              {f}
+              {f.toUpperCase()}
             </button>
           ))}
         </div>
       </div>
 
       {/* Events List */}
-      <div className="flex-1 overflow-y-auto p-3 space-y-2 custom-scrollbar">
+      <div className="flex-1 overflow-y-auto">
         <AnimatePresence initial={false}>
-          {filteredEvents.map((event, idx) => {
+          {filteredEvents.map((event) => {
             const primaryCompany = event.affectedCompanies?.[0] || 'Entity';
             const companyId = getCompanyId(primaryCompany);
             const isFresh = newHighlightId === event.id;
@@ -159,59 +152,52 @@ export const LiveIntelligenceFeed: React.FC = () => {
               <motion.div
                 key={event.id}
                 layout
-                initial={{ opacity: 0, y: -16, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.2 }}
                 onClick={() => {
-                  if (companyId) {
-                    navigate(`/company/${companyId}`);
-                  } else {
-                    navigate(`/search?q=${encodeURIComponent(primaryCompany)}`);
-                  }
+                  if (companyId) navigate(`/company/${companyId}`);
+                  else navigate(`/search?q=${encodeURIComponent(primaryCompany)}`);
                 }}
-                className={`p-3.5 rounded-2xl border transition-all cursor-pointer group ${
-                  isFresh 
-                    ? 'bg-[#2997ff]/15 border-[#2997ff]/40 shadow-[0_0_20px_rgba(41,151,255,0.25)]' 
-                    : 'bg-white/[0.03] hover:bg-white/[0.06] border-white/[0.05] hover:border-white/[0.12]'
+                className={`px-3 py-2 border-b border-[#1e2d3d] cursor-pointer hover:bg-[#141e2d] transition-colors ${
+                  isFresh ? 'border-l-2 border-l-[#ff8c00] bg-[#141e2d]' : ''
                 }`}
               >
-                {/* Meta line */}
-                <div className="flex items-center justify-between mb-1.5 text-[10px] text-[#86868b]">
-                  <span className={`font-medium ${isFresh ? 'text-[#30d158] font-bold' : 'text-[#2997ff]'}`}>
-                    {event.timeAgo || 'Recent'}
+                {/* Row 1: Time + Source */}
+                <div className="flex items-center justify-between mb-0.5">
+                  <div className="flex items-center gap-2">
+                    <span className={`w-1.5 h-1.5 rounded-full ${
+                      event.impactLevel === 'HIGH' ? 'bg-[#00c853]' :
+                      event.impactLevel === 'MEDIUM' ? 'bg-[#ffd700]' : 'bg-[#ff3d3d]'
+                    }`} />
+                    <span className={`font-mono text-[10px] ${isFresh ? 'text-[#ff8c00] font-semibold' : 'text-[#4a5a6d]'}`}>
+                      {event.timeAgo || 'Recent'}
+                    </span>
+                  </div>
+                  <span className="font-mono text-[10px] text-[#4a5a6d] truncate max-w-[140px]">
+                    {event.source.split('/')[0]}
                   </span>
-                  <span className="truncate max-w-[120px]">{event.source.split('/')[0]}</span>
                 </div>
 
-                {/* Title */}
-                <h4 className="text-xs font-medium text-white/90 group-hover:text-white leading-snug line-clamp-2 mb-2">
+                {/* Row 2: Headline */}
+                <p className="text-[12px] text-[#e8edf3] font-medium leading-snug line-clamp-2 mb-1">
                   {event.headline}
-                </h4>
+                </p>
 
-                {/* Footer Entity & Domino */}
-                <div className="flex items-center justify-between pt-1">
-                  <div className="flex items-center gap-1.5 flex-wrap">
+                {/* Row 3: Tags */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
                     {event.affectedCompanies.slice(0, 2).map(c => (
-                      <span
-                        key={c}
-                        className="text-[9px] px-2 py-0.5 rounded-full bg-white/[0.05] text-[#d2d2d7]"
-                      >
-                        {c}
-                      </span>
+                      <span key={c} className="font-mono text-[10px] text-[#ff8c00]">{c}</span>
                     ))}
                   </div>
-
                   {event.hasDominoMap && (
-                    <span 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate('/domino');
-                      }}
-                      className="text-[10px] text-[#2997ff] hover:text-white flex items-center gap-0.5"
+                    <span
+                      onClick={(e) => { e.stopPropagation(); navigate('/domino'); }}
+                      className="font-mono text-[10px] text-[#2196f3] hover:text-[#e8edf3] flex items-center gap-0.5 cursor-pointer"
                     >
-                      <span>Domino Map</span>
-                      <ChevronRight size={10} />
+                      DOMINO <ChevronRight size={9} />
                     </span>
                   )}
                 </div>
@@ -221,15 +207,14 @@ export const LiveIntelligenceFeed: React.FC = () => {
         </AnimatePresence>
       </div>
 
-      {/* Minimal Footer */}
-      <div className="px-5 py-2.5 border-t border-white/[0.06] bg-black/20 flex items-center justify-between text-[11px] text-[#86868b]">
-        <span>Auto-refreshing live ledger</span>
+      {/* Footer */}
+      <div className="px-3 py-1.5 border-t border-[#2a3a4d] bg-[#0a0e17] flex items-center justify-between">
+        <span className="font-mono text-[10px] text-[#4a5a6d]">AUTO-REFRESH 12S</span>
         <button
           onClick={() => navigate('/companies')}
-          className="text-[#2997ff] hover:text-white flex items-center gap-1 transition-colors cursor-pointer"
+          className="font-mono text-[10px] text-[#2196f3] hover:text-[#e8edf3] flex items-center gap-0.5 transition-colors cursor-pointer"
         >
-          <span>All companies</span>
-          <ArrowUpRight size={11} />
+          ALL COMPANIES <ArrowUpRight size={10} />
         </button>
       </div>
     </div>

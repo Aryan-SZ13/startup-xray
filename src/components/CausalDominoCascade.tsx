@@ -11,33 +11,30 @@ export const CausalDominoCascade: React.FC = () => {
   if (!domino) return null;
 
   return (
-    <div className="relative w-full rounded-3xl border border-white/[0.08] overflow-hidden bg-[#0c0c0e]/70 backdrop-blur-3xl shadow-xl p-6 lg:p-8">
+    <div className="w-full bg-[#0f1823] border border-[#1e2d3d] rounded overflow-hidden">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 mb-6 border-b border-white/[0.06] gap-3">
+      <div className="px-3 py-2 border-b border-[#2a3a4d] flex items-center justify-between bg-[#0f1823]">
         <div>
-          <span className="text-[11px] font-medium text-[#2997ff] uppercase tracking-wider block mb-1">
-            Causal Sequence
-          </span>
-          <h3 className="text-base font-semibold text-white/95">
-            {domino.headline}
-          </h3>
-          <p className="text-xs text-[#86868b] mt-0.5">{domino.date}</p>
+          <span className="font-mono font-semibold text-[11px] text-[#ff8c00] tracking-wider uppercase">CAUSAL SEQUENCE</span>
+          <span className="font-mono text-[10px] text-[#4a5a6d] ml-3">{domino.date}</span>
         </div>
-
         <button
           onClick={() => navigate('/domino')}
-          className="px-4 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.1] text-xs font-medium text-white/90 border border-white/[0.08] transition-all cursor-pointer flex items-center gap-1 self-start sm:self-center"
+          className="font-mono text-[10px] text-[#2196f3] hover:text-[#e8edf3] flex items-center gap-0.5 transition-colors cursor-pointer"
         >
-          <span>Interactive Canvas</span>
-          <ChevronRight size={13} />
+          INTERACTIVE <ChevronRight size={10} />
         </button>
       </div>
 
-      {/* 5 Sequence Nodes */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-3 relative">
+      {/* Headline */}
+      <div className="px-3 py-2 border-b border-[#1e2d3d] bg-[#0a0e17]">
+        <p className="text-[12px] font-medium text-[#e8edf3]">{domino.headline}</p>
+      </div>
+
+      {/* Sequence Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-5">
         {domino.nodes.map((node, idx) => {
           const isSelected = activeStep === idx;
-
           return (
             <div
               key={node.id}
@@ -47,30 +44,16 @@ export const CausalDominoCascade: React.FC = () => {
                 if (node.companyId) navigate(`/company/${node.companyId}`);
                 else navigate('/domino');
               }}
-              className={`p-4 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between ${
-                isSelected
-                  ? 'border-white/30 bg-white/[0.08] shadow-lg -translate-y-1'
-                  : 'border-white/[0.05] bg-white/[0.02] hover:bg-white/[0.04]'
+              className={`p-3 border-r border-b border-[#1e2d3d] cursor-pointer transition-colors ${
+                isSelected ? 'bg-[#1a2636] border-t-2 border-t-[#ff8c00]' : 'hover:bg-[#141e2d]'
               }`}
             >
-              <div>
-                <div className="flex items-center justify-between mb-2 text-[10px]">
-                  <span className="font-mono text-[#2997ff]">0{node.order}</span>
-                  <span className="text-[#86868b] uppercase tracking-wider">{node.type}</span>
-                </div>
-                <h4 className="text-xs font-medium text-white mb-2 leading-snug">
-                  {node.label}
-                </h4>
-                <p className="text-[11px] text-[#86868b] leading-relaxed">
-                  {node.description}
-                </p>
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="font-mono text-[10px] text-[#ff8c00] font-semibold">0{node.order}</span>
+                <span className="font-mono text-[9px] text-[#4a5a6d] uppercase tracking-wider">{node.type}</span>
               </div>
-
-              {idx < domino.nodes.length - 1 && (
-                <div className="hidden md:flex absolute -right-2.5 top-1/2 -translate-y-1/2 z-10 w-5 h-5 rounded-full bg-[#1c1c1e] border border-white/[0.1] items-center justify-center text-[#86868b]">
-                  <ArrowRight size={10} />
-                </div>
-              )}
+              <h4 className="text-[11px] font-medium text-[#e8edf3] mb-1 leading-snug">{node.label}</h4>
+              <p className="text-[10px] text-[#6b7c93] leading-relaxed">{node.description}</p>
             </div>
           );
         })}

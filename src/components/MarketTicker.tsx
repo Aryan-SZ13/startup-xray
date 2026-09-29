@@ -5,20 +5,19 @@ export const MarketTicker: React.FC = () => {
   const navigate = useNavigate();
 
   const [activeItems, setActiveItems] = useState([
-    { label: 'AI Foundation', change: '+44%', color: 'text-[#30d158]' },
-    { label: 'Robotics & SLAM', change: '+28%', color: 'text-[#30d158]' },
-    { label: 'SpaceTech Launch', change: '+52%', color: 'text-[#30d158]' },
-    { label: 'Developer Tooling (Postman)', change: '$5.6B Val', color: 'text-[#2997ff]' },
-    { label: 'Tactical UAVs (Torus)', change: '+38%', color: 'text-[#30d158]' },
-    { label: 'Quick Commerce (Zepto/Swiggy)', change: '+31%', color: 'text-[#30d158]' },
-    { label: 'CleanTech EV (Ather)', change: '$500M IPO', color: 'text-[#ff9f0a]' },
-    { label: 'Indic Foundation (Sarvam)', change: '2B Model', color: 'text-[#2997ff]' },
-    { label: 'SRM Corridor', change: '350+ Co', color: 'text-[#2997ff]' },
-    { label: 'IIT Madras Park', change: '850+ Co', color: 'text-[#30d158]' },
-    { label: 'Chennai DeepTech', change: '1.5k Co', color: 'text-[#2997ff]' }
+    { label: 'AI Foundation', change: '+44%', positive: true },
+    { label: 'Robotics & SLAM', change: '+28%', positive: true },
+    { label: 'SpaceTech Launch', change: '+52%', positive: true },
+    { label: 'Postman', change: '$5.6B', positive: true },
+    { label: 'Tactical UAVs', change: '+38%', positive: true },
+    { label: 'Quick Commerce', change: '+31%', positive: true },
+    { label: 'Ather Energy', change: '$500M IPO', positive: true },
+    { label: 'Sarvam AI', change: '2B Model', positive: true },
+    { label: 'SRM Corridor', change: '350+ Co', positive: true },
+    { label: 'IIT Madras Park', change: '850+ Co', positive: true },
+    { label: 'Chennai DeepTech', change: '1.5k Co', positive: true }
   ]);
 
-  // Subtle real-time metric update animation
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveItems(prev => {
@@ -36,26 +35,27 @@ export const MarketTicker: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full bg-[#000000]/60 border-b border-white/[0.06] backdrop-blur-xl overflow-hidden py-1.5 select-none text-[11px]">
-      <div className="max-w-[1720px] mx-auto px-4 lg:px-8 flex items-center">
+    <div className="w-full bg-[#0f1823] border-y border-[#1e2d3d] overflow-hidden py-1 select-none">
+      <div className="flex items-center">
         {/* Label */}
-        <div className="flex items-center gap-2 pr-4 border-r border-white/[0.08] shrink-0 text-[#86868b]">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#2997ff] animate-pulse" />
-          <span className="font-medium text-white/90">Market Pulse</span>
+        <div className="flex items-center gap-1.5 px-3 border-r border-[#2a3a4d] shrink-0">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#ff8c00] bb-pulse" />
+          <span className="font-mono font-semibold text-[10px] text-[#ff8c00] tracking-wider uppercase">MKT PULSE</span>
         </div>
 
-        {/* Marquee ticker */}
-        <div className="flex gap-8 overflow-hidden whitespace-nowrap pl-4">
-          <div className="flex gap-8 animate-[marquee_26s_linear_infinite] shrink-0 items-center">
+        {/* Scrolling ticker */}
+        <div className="flex overflow-hidden whitespace-nowrap">
+          <div className="flex animate-[marquee_30s_linear_infinite] shrink-0 items-center">
             {activeItems.concat(activeItems).map((item, idx) => (
-              <div 
+              <div
                 key={idx}
                 onClick={() => navigate('/discover')}
-                className="flex items-center gap-1.5 cursor-pointer opacity-80 hover:opacity-100 transition-opacity"
+                className="flex items-center gap-1.5 px-3 cursor-pointer hover:bg-[#141e2d] transition-colors border-r border-[#1e2d3d]"
               >
-                <span className="text-[#d2d2d7] font-medium">{item.label}</span>
-                <span className={`font-mono text-[10px] ${item.color}`}>{item.change}</span>
-                <span className="text-[#3a3a3c] ml-2">•</span>
+                <span className="font-mono text-[11px] text-[#8899aa]">{item.label}</span>
+                <span className={`font-mono text-[11px] font-semibold ${item.positive ? 'text-[#00c853]' : 'text-[#ff3d3d]'}`}>
+                  {item.change}
+                </span>
               </div>
             ))}
           </div>
