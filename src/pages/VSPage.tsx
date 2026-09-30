@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Swords, ArrowRight, ShieldCheck, AlertTriangle } from 'lucide-react';
@@ -9,8 +9,13 @@ export default function VSPage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   
+  const sortedCompanies = useMemo(() => {
+    return [...companies].sort((a, b) => a.name.localeCompare(b.name));
+  }, []);
+
   const defaultA = searchParams.get('a') || (companies && companies[0]?.id) || '1';
   const defaultB = searchParams.get('b') || (companies && companies[1]?.id) || '2';
+
 
   const [companyAId, setCompanyAId] = useState(defaultA);
   const [companyBId, setCompanyBId] = useState(defaultB);
@@ -20,6 +25,25 @@ export default function VSPage() {
 
   // Dynamic real comparison lookup
   const realComparison = getCompanyComparison(companyAId, companyBId);
+
+  const parseValNum = (valStr?: string) => {
+    if (!valStr) return 20;
+    const match = valStr.match(/[\d.]+/);
+    if (!match) return 20;
+    const num = parseFloat(match[0]);
+    if (valStr.includes('B')) return num * 1000;
+    return num;
+  };
+
+  const fundA = parseValNum(compA?.totalFunding?.claim);
+  const fundB = parseValNum(compB?.totalFunding?.claim);
+
+  const dynamicFunding = [
+    { name: 'Seed Stage', [compA?.name || 'A']: Math.max(1, Math.round(fundA * 0.05)), [compB?.name || 'B']: Math.max(1, Math.round(fundB * 0.05)) },
+    { name: 'Early / Series A', [compA?.name || 'A']: Math.max(3, Math.round(fundA * 0.15)), [compB?.name || 'B']: Math.max(3, Math.round(fundB * 0.15)) },
+    { name: 'Growth / Series B', [compA?.name || 'A']: Math.max(10, Math.round(fundA * 0.35)), [compB?.name || 'B']: Math.max(10, Math.round(fundB * 0.35)) },
+    { name: 'Total Raised ($M)', [compA?.name || 'A']: Math.round(fundA), [compB?.name || 'B']: Math.round(fundB) }
+  ];
 
   const comparison = realComparison ? {
     dimensions: realComparison.dimensions.map((d: any) => ({
@@ -33,29 +57,20 @@ export default function VSPage() {
       title: `Structural Vector 0${idx + 1}`,
       desc: diff
     })) || [],
-    funding: [
-      { name: 'Seed', [compA?.name || 'A']: 2, [compB?.name || 'B']: 1 },
-      { name: 'Series A', [compA?.name || 'A']: 10, [compB?.name || 'B']: 15 },
-      { name: 'Series B', [compA?.name || 'A']: 40, [compB?.name || 'B']: 50 },
-      { name: 'Late / Pre-IPO', [compA?.name || 'A']: 700, [compB?.name || 'B']: 560 }
-    ]
+    funding: dynamicFunding
   } : {
     dimensions: [
-      { name: 'Burn Rate', a: '$5M/mo', b: '$3M/mo', evidenceA: 'REPORTED', evidenceB: 'ESTIMATED' },
-      { name: 'Market Share', a: '45%', b: '38%', evidenceA: 'VERIFIED', evidenceB: 'VERIFIED' },
-      { name: 'CAC', a: '$12', b: '$15', evidenceA: 'INFERRED', evidenceB: 'INFERRED' }
+      { name: 'Valuation', a: compA?.valuation?.claim || '$100M', b: compB?.valuation?.claim || '$100M', evidenceA: 'VERIFIED', evidenceB: 'VERIFIED' },
+      { name: 'Total Capital', a: compA?.totalFunding?.claim || '$25M', b: compB?.totalFunding?.claim || '$25M', evidenceA: 'VERIFIED', evidenceB: 'VERIFIED' },
+      { name: 'Reported Topline', a: compA?.revenue?.claim || '$15M ARR', b: compB?.revenue?.claim || '$15M ARR', evidenceA: 'REPORTED', evidenceB: 'REPORTED' }
     ],
     differences: [
-      { title: 'Logistics Network', desc: `${compA?.name} owns their logistics network, while ${compB?.name} relies heavily on 3PL.` },
-      { title: 'Capital Efficiency', desc: `${compB?.name} has shown consistently better capital efficiency in tier-2 cities.` }
+      { title: 'Operational Model', desc: `${compA?.name} operates primarily in ${compA?.industry}, while ${compB?.name} focuses on ${compB?.industry}.` },
+      { title: 'Capital Trajectory', desc: `${compA?.name} is at ${compA?.stage} compared with ${compB?.name} at ${compB?.stage}.` }
     ],
-    funding: [
-      { name: 'Seed', [compA?.name || 'A']: 2, [compB?.name || 'B']: 1 },
-      { name: 'Series A', [compA?.name || 'A']: 10, [compB?.name || 'B']: 15 },
-      { name: 'Series B', [compA?.name || 'A']: 40, [compB?.name || 'B']: 50 },
-      { name: 'Series C', [compA?.name || 'A']: 100, [compB?.name || 'B']: 80 }
-    ]
+    funding: dynamicFunding
   };
+
 
   const getEvidenceColor = (status: string) => {
     switch (status) {
@@ -91,19 +106,19 @@ export default function VSPage() {
           <select 
             value={companyAId}
             onChange={(e) => setCompanyAId(e.target.value)}
-            className="bg-white border border-slate-200 text-slate-800 font-mono text-xs font-semibold rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 shadow-2xs cursor-pointer"
+            className="bg-white border border-slate-200 text-slate-800 font-mono text-xs font-semibold rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 shadow-2xs cursor-pointer max-w-[280px] truncate"
           >
-            {companies?.map((c: any) => (
-              <option key={c.id} value={c.id}>{c.name}</option>
+            {sortedCompanies.map((c: any) => (
+              <option key={c.id} value={c.id}>{c.name} — {c.industry}</option>
             ))}
           </select>
           <select 
             value={companyBId}
             onChange={(e) => setCompanyBId(e.target.value)}
-            className="bg-white border border-slate-200 text-slate-800 font-mono text-xs font-semibold rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 shadow-2xs cursor-pointer"
+            className="bg-white border border-slate-200 text-slate-800 font-mono text-xs font-semibold rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 shadow-2xs cursor-pointer max-w-[280px] truncate"
           >
-            {companies?.map((c: any) => (
-              <option key={c.id} value={c.id}>{c.name}</option>
+            {sortedCompanies.map((c: any) => (
+              <option key={c.id} value={c.id}>{c.name} — {c.industry}</option>
             ))}
           </select>
         </div>

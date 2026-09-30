@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BrainCircuit, Search, ChevronRight, CheckCircle2, CircleDashed, Loader2, FileText, CheckCircle, XCircle, AlertCircle, HelpCircle } from 'lucide-react';
-import { demoInvestigation, getCompanyById } from '../data';
+import { 
+  BrainCircuit, Search, ChevronRight, CheckCircle2, CircleDashed, Loader2, 
+  FileText, CheckCircle, XCircle, AlertCircle, HelpCircle, Sparkles, Database, Layers, ArrowUpRight
+} from 'lucide-react';
+import { demoInvestigation, getCompanyById, companies } from '../data';
+import { ragAnalyst, RAGAnalysisResult } from '../services/ragAnalyst';
 
 const STAGES = [
-  "Financial Research",
-  "Funding Research",
-  "Operations Research",
-  "Market Research",
-  "Legal Research",
-  "Evidence Reconciliation",
-  "Final Analysis"
+  "Entity & Intent Extraction",
+  "Vector Context Retrieval (525+ Docs)",
+  "Evidence Reranking by Authority",
+  "Adversarial Thesis Synthesis",
+  "Final Due Diligence Generation"
 ];
 
 export default function AnalystPage() {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const companyId = searchParams.get('company');
   const urlQ = searchParams.get('q') || searchParams.get('query') || '';
   const company = companyId ? getCompanyById(companyId) : null;
@@ -25,12 +28,34 @@ export default function AnalystPage() {
   const [isInvestigating, setIsInvestigating] = useState(false);
   const [currentStageIndex, setCurrentStageIndex] = useState(-1);
   const [showResults, setShowResults] = useState(false);
+  const [ragResult, setRagResult] = useState<RAGAnalysisResult | null>(null);
+  const [liveStageLog, setLiveStageLog] = useState<string>('');
+  const [showContextDrawer, setShowContextDrawer] = useState<boolean>(false);
 
-  const startInvestigation = (customQuery: string) => {
+  const startInvestigation = async (customQuery: string) => {
+    if (!customQuery.trim()) return;
     setQuery(customQuery);
     setIsInvestigating(true);
     setShowResults(false);
     setCurrentStageIndex(0);
+    setLiveStageLog('Vectorizing query and scanning embeddings...');
+
+    try {
+      const result = await ragAnalyst.analyze(customQuery, (log) => {
+        setLiveStageLog(log);
+        setCurrentStageIndex((prev) => Math.min(prev + 1, STAGES.length - 1));
+      });
+      setRagResult(result);
+      setCurrentStageIndex(STAGES.length);
+      setTimeout(() => {
+        setIsInvestigating(false);
+        setShowResults(true);
+      }, 350);
+    } catch (e) {
+      console.error(e);
+      setIsInvestigating(false);
+      setShowResults(true);
+    }
   };
 
   useEffect(() => {
@@ -39,19 +64,6 @@ export default function AnalystPage() {
     }
   }, [defaultQ]);
 
-  useEffect(() => {
-    if (isInvestigating && currentStageIndex < STAGES.length) {
-      const timer = setTimeout(() => {
-        setCurrentStageIndex(prev => prev + 1);
-      }, 500); // 500ms per stage
-      return () => clearTimeout(timer);
-    } else if (isInvestigating && currentStageIndex === STAGES.length) {
-      setTimeout(() => {
-        setIsInvestigating(false);
-        setShowResults(true);
-      }, 500);
-    }
-  }, [isInvestigating, currentStageIndex]);
 
   const exampleQuestions = [
     "Why has Swiggy raised so much capital?",
@@ -60,9 +72,40 @@ export default function AnalystPage() {
     "What signals indicate Zepto's growth trajectory?"
   ];
 
+  // Dynamic investigation synthesis if company is specified or query mentions a known company
+  const targetCompany = company || companies.find(c => query.toLowerCase().includes(c.name.toLowerCase()));
+
   // Default demo data if import fails
   const rawResults = demoInvestigation?.findings || (demoInvestigation as any) || {};
-  const results = {
+  const results = targetCompany ? {
+    summary: `${targetCompany.name}'s strategic posture centers on ${targetCompany.companyDNA?.businessModel || targetCompany.industry}. With ${targetCompany.totalFunding?.claim || 'strong capital reserves'} raised at ${targetCompany.stage} stage, synthesis verifies consistent execution toward ${targetCompany.revenue?.claim || 'rapid revenue milestones'}, anchored by ${targetCompany.founders[0]?.name || 'the founding team'} (${targetCompany.founders[0]?.education?.[0] || 'elite institutional pedigree'}).`,
+    evidence: [
+      `Official capitalization recorded at ${targetCompany.totalFunding?.claim || '$50M+'} with latest valuation pegged at ${targetCompany.valuation?.claim || 'undisclosed'}.`,
+      `Headcount stabilized at ${targetCompany.employees?.claim || '50+'} operators across ${targetCompany.headquarters}.`,
+      `Revenue trajectory tracking at ${targetCompany.revenue?.claim || 'confidential audited tier'} according to filings.`
+    ],
+    supportingSignals: targetCompany.signals?.map(s => s.title) || [
+      `Aggressive product cadence in ${targetCompany.industry}`,
+      `Positive talent expansion from top institutional cohorts`
+    ],
+    contradictingEvidence: [
+      `Intense competition from peer operators in ${targetCompany.sector}.`,
+      targetCompany.blindSpots?.[0]?.question || `Burn trajectory sensitivity to customer acquisition shifts.`
+    ],
+    unknowns: [
+      `Exact customer retention decay across newer regional deployments.`,
+      `Runway elasticity beyond ${targetCompany.runway?.claim || '18 months'}.`
+    ],
+    nextQuestions: [
+      `What is ${targetCompany.name}'s marginal contribution margin per enterprise unit?`,
+      `Are follow-on growth syndicates actively pricing future rounds?`
+    ],
+    sources: [
+      'Registrar of Companies / SEC Form D Filings',
+      'Proprietary Venture Capital CapTable Index',
+      'Alternative Data: LinkedIn Talent Flow & Web Signals'
+    ]
+  } : {
     summary: rawResults.executiveSummary || "Investigation reveals a highly capital-intensive operation subsidized by external funding to maintain market share.",
     evidence: rawResults.evidence || [
       "Company filings indicate $20M monthly burn",
@@ -75,6 +118,7 @@ export default function AnalystPage() {
     nextQuestions: rawResults.nextQuestions || ["What is the retention rate in new tier-2 markets?", "Are there pending lawsuits from vendors?"],
     sources: rawResults.sources || ["Ministry of Corporate Affairs filings", "Alternative data: App store reviews", "LinkedIn hiring data"]
   };
+
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 p-6 md:p-8 flex flex-col pb-24">
@@ -144,12 +188,127 @@ export default function AnalystPage() {
             <motion.div 
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm pb-8"
+              className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm pb-8 mb-8"
             >
-              <div className="bg-blue-50/60 p-6 border-b border-blue-100">
-                <div className="text-[10px] font-mono font-bold text-blue-700 uppercase tracking-wider mb-2 border border-blue-200 bg-white inline-block px-2 py-0.5 rounded shadow-2xs">INTELLIGENCE SYNTHESIS</div>
-                <h2 className="text-lg font-bold text-slate-900 leading-relaxed">{results.summary}</h2>
+              <div className="bg-blue-50/60 p-6 border-b border-blue-100 flex flex-col md:flex-row md:items-start justify-between gap-4">
+                <div className="flex-1">
+                  <div className="flex flex-wrap items-center gap-2 mb-2">
+                    <span className="text-[10px] font-mono font-bold text-blue-700 uppercase tracking-wider border border-blue-200 bg-white px-2 py-0.5 rounded shadow-2xs flex items-center gap-1">
+                      <Sparkles size={11} className="text-blue-600" /> RAG ADVERSARIAL SYNTHESIS
+                    </span>
+                    {ragResult && (
+                      <span className="text-[10px] font-mono text-slate-500">
+                        LATENCY: {ragResult.durationMs}ms • THESIS SCORE: {ragResult.thesisScore}/100
+                      </span>
+                    )}
+                  </div>
+                  <h2 className="text-lg font-bold text-slate-900 leading-relaxed">
+                    {ragResult?.verdict || results.summary}
+                  </h2>
+                </div>
+
+                {ragResult && (
+                  <button
+                    onClick={() => setShowContextDrawer(!showContextDrawer)}
+                    className="shrink-0 px-3 py-1.5 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg font-mono text-xs font-bold text-slate-700 flex items-center gap-2 transition-colors cursor-pointer shadow-2xs"
+                  >
+                    <Database size={13} className="text-blue-600" />
+                    <span>{showContextDrawer ? 'HIDE RAG CONTEXT' : `RAG CONTEXT (${ragResult.retrievalContext.retrievedEvidence.length} CHUNKS)`}</span>
+                  </button>
+                )}
               </div>
+
+              {/* RAG Context Inspector Drawer */}
+              {showContextDrawer && ragResult && (
+                <div className="bg-slate-900 text-slate-200 p-6 border-b border-slate-800 text-xs font-mono">
+                  <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-800">
+                    <span className="text-amber-400 font-bold flex items-center gap-1.5 uppercase">
+                      <Layers size={13} /> RETRIEVAL-AUGMENTED CONTEXT (VECTOR TOP-K RETRIEVED)
+                    </span>
+                    <span className="text-slate-400">VECTOR EMBEDDING MATCH: 525 ENTITY SPACE</span>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <h4 className="text-slate-400 uppercase font-bold text-[10px] mb-2">Primary Subject & Vector Neighbors</h4>
+                      <div className="space-y-1.5 mb-4">
+                        {ragResult.retrievalContext.primaryCompany && (
+                          <div className="p-2 bg-slate-800 rounded border border-slate-700 flex justify-between items-center">
+                            <span className="text-white font-bold">{ragResult.retrievalContext.primaryCompany.name}</span>
+                            <span className="text-emerald-400 text-[10px]">PRIMARY FOCUS</span>
+                          </div>
+                        )}
+                        {ragResult.retrievalContext.relatedCompanies.map(rc => (
+                          <div key={rc.id} className="p-2 bg-slate-800/60 rounded border border-slate-700/60 flex justify-between items-center text-slate-300">
+                            <span>{rc.name} ({rc.industry})</span>
+                            <span className="text-blue-400 text-[10px]">NEIGHBOR</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <h4 className="text-slate-400 uppercase font-bold text-[10px] mb-2">Matched Semantic Trigger Terms</h4>
+                      <div className="flex flex-wrap gap-1">
+                        {ragResult.retrievalContext.matchedFeatures.map(feat => (
+                          <span key={feat} className="px-2 py-0.5 bg-slate-800 border border-slate-700 rounded text-slate-300 text-[10px]">
+                            #{feat}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="text-slate-400 uppercase font-bold text-[10px] mb-2">Verified Reranked Evidence Chunks</h4>
+                      <div className="space-y-2 max-h-56 overflow-y-auto pr-2">
+                        {ragResult.retrievalContext.retrievedEvidence.map((ev, i) => (
+                          <div key={i} className="p-2 bg-slate-800/80 rounded border border-slate-700 text-[11px] leading-relaxed">
+                            <div className="flex items-center justify-between text-[9px] text-slate-400 mb-1">
+                              <span className="text-blue-400 font-bold">{ev.companyName}</span>
+                              <span className="px-1.5 py-0.5 bg-slate-700 rounded text-slate-200">{ev.sourceType} • {ev.status}</span>
+                            </div>
+                            <div className="text-slate-200">{ev.claim}</div>
+                            <div className="text-[9px] text-slate-500 mt-1">Source: {ev.source}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Bull vs Bear Case Split */}
+              {ragResult && (
+                <div className="p-6 md:p-8 border-b border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50/50">
+                  <div className="bg-emerald-50/40 border border-emerald-200 rounded-xl p-5">
+                    <h3 className="text-xs font-mono font-bold text-emerald-800 uppercase tracking-wider mb-3 flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                      Bull Case & Conviction Vectors
+                    </h3>
+                    <ul className="space-y-2">
+                      {ragResult.bullCase.map((item, idx) => (
+                        <li key={idx} className="text-xs text-slate-700 flex gap-2 items-start leading-relaxed">
+                          <span className="text-emerald-600 font-bold mt-0.5">▸</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="bg-rose-50/40 border border-rose-200 rounded-xl p-5">
+                    <h3 className="text-xs font-mono font-bold text-rose-800 uppercase tracking-wider mb-3 flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-rose-500"></span>
+                      Bear Case & Operational Exposure
+                    </h3>
+                    <ul className="space-y-2">
+                      {ragResult.bearCase.map((item, idx) => (
+                        <li key={idx} className="text-xs text-slate-700 flex gap-2 items-start leading-relaxed">
+                          <span className="text-rose-600 font-bold mt-0.5">▸</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
               
               <div className="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
@@ -157,7 +316,7 @@ export default function AnalystPage() {
                     <FileText className="w-4 h-4 text-slate-400" /> Hard Evidence & Filings
                   </h3>
                   <ul className="space-y-2.5">
-                    {results.evidence.map((ev: string, i: number) => (
+                    {(ragResult ? ragResult.retrievalContext.retrievedEvidence.map(e => e.claim) : results.evidence).map((ev: string, i: number) => (
                       <li key={i} className="flex gap-2.5 text-xs text-slate-700 items-start leading-relaxed">
                         <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5 shrink-0"></div>
                         {ev}
@@ -172,7 +331,7 @@ export default function AnalystPage() {
                       <CheckCircle className="w-4 h-4 text-emerald-600" /> Corroborating Signals
                     </h3>
                     <ul className="space-y-2">
-                      {results.supportingSignals.map((ev: string, i: number) => (
+                      {(ragResult ? ragResult.supportingSignals : results.supportingSignals).map((ev: string, i: number) => (
                         <li key={i} className="text-xs text-emerald-800 flex gap-2 items-start leading-relaxed">
                           <span className="text-emerald-600 font-bold mt-0.5">•</span> {ev}
                         </li>
@@ -184,7 +343,7 @@ export default function AnalystPage() {
                       <XCircle className="w-4 h-4 text-rose-600" /> Contradicting Evidence
                     </h3>
                     <ul className="space-y-2">
-                      {results.contradictingEvidence.map((ev: string, i: number) => (
+                      {(ragResult ? ragResult.contradictoryEvidence : results.contradictingEvidence).map((ev: string, i: number) => (
                         <li key={i} className="text-xs text-rose-800 flex gap-2 items-start leading-relaxed">
                           <span className="text-rose-600 font-bold mt-0.5">•</span> {ev}
                         </li>
@@ -199,7 +358,7 @@ export default function AnalystPage() {
                       <AlertCircle className="w-4 h-4 text-amber-600" /> Critical Blind Spots
                     </h3>
                     <ul className="space-y-2">
-                      {results.unknowns.map((ev: string, i: number) => (
+                      {(ragResult ? ragResult.blindSpots : results.unknowns).map((ev: string, i: number) => (
                         <li key={i} className="text-xs text-amber-800 flex gap-2 items-start leading-relaxed">
                           <span className="text-amber-600 font-bold mt-0.5">•</span> {ev}
                         </li>
@@ -211,7 +370,7 @@ export default function AnalystPage() {
                       <HelpCircle className="w-4 h-4 text-blue-600" /> Follow-Up Diligence Vectors
                     </h3>
                     <ul className="space-y-2">
-                      {results.nextQuestions.map((ev: string, i: number) => (
+                      {(ragResult ? ragResult.nextQuestions : results.nextQuestions).map((ev: string, i: number) => (
                         <li key={i} className="text-xs text-blue-800 flex gap-2 items-start leading-relaxed">
                           <ChevronRight className="w-3.5 h-3.5 text-blue-600 mt-0.5 shrink-0" /> {ev}
                         </li>
@@ -223,7 +382,7 @@ export default function AnalystPage() {
                 <div className="md:col-span-2 pt-6 border-t border-slate-100">
                   <h3 className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider mb-2">Sources Referenced</h3>
                   <div className="flex flex-wrap gap-2">
-                    {results.sources.map((src: string, i: number) => (
+                    {(ragResult ? ragResult.sources : results.sources).map((src: string, i: number) => (
                       <span key={i} className="text-[11px] font-mono px-2 py-0.5 bg-slate-50 rounded text-slate-600 border border-slate-200">
                         {src}
                       </span>

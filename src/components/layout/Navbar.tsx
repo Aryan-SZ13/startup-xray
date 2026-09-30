@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Search, ChevronDown, Check } from 'lucide-react';
+import { Search, ChevronDown, Check, Radio } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppState } from '../../store/AppContext';
 import { ecosystems } from '../../data/ecosystems';
+import { RealTimeSourcesModal } from '../RealTimeSourcesModal';
 
 const navLinks = [
   { label: 'DISCOVER', path: '/discover' },
@@ -20,7 +21,9 @@ const navLinks = [
 export const Navbar: React.FC = () => {
   const { setCommandPaletteOpen, ecosystem, setEcosystem } = useAppState();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [realtimeModalOpen, setRealtimeModalOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -73,6 +76,17 @@ export const Navbar: React.FC = () => {
 
       {/* Right Controls */}
       <div className="flex items-center gap-2.5 ml-4 flex-shrink-0">
+        {/* Real-time Feeds & AI Telemetry Trigger */}
+        <button
+          onClick={() => setRealtimeModalOpen(true)}
+          className="hidden md:flex items-center gap-1.5 px-2 py-1 bg-slate-100 hover:bg-slate-200/80 border border-slate-200 rounded-md text-[11px] font-mono text-slate-700 transition-colors cursor-pointer shadow-2xs"
+          title="Real-Time Data Ingestion & AI Infrastructure"
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="text-[10px] font-bold text-slate-800">FEEDS</span>
+          <span className="text-[9px] px-1 bg-blue-100 text-blue-700 rounded font-bold">5</span>
+        </button>
+
         {/* Global Search Button */}
         <button
           onClick={() => setCommandPaletteOpen(true)}
@@ -128,6 +142,12 @@ export const Navbar: React.FC = () => {
           </AnimatePresence>
         </div>
       </div>
+
+      <RealTimeSourcesModal
+        isOpen={realtimeModalOpen}
+        onClose={() => setRealtimeModalOpen(false)}
+      />
     </header>
   );
+
 };

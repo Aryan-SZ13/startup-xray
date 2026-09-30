@@ -1,6 +1,7 @@
 import { Company } from './types';
+import { generatedCompanies } from './generatedCompanies';
 
-export const companies: Company[] = [
+const coreCompanies: Company[] = [
   {
     id: 'c_swiggy',
     name: 'Swiggy',
@@ -1022,3 +1023,8 @@ export const companies: Company[] = [
     ]
   }
 ];
+
+const coreCompanyIds = new Set(coreCompanies.map(c => c.id));
+const deduplicatedGenerated = generatedCompanies.filter(c => !coreCompanyIds.has(c.id));
+
+export const companies: Company[] = [...coreCompanies, ...deduplicatedGenerated];

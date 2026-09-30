@@ -1,18 +1,25 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, Eye, Activity, X, Clock, AlertTriangle } from 'lucide-react';
+import { Search, Eye, Activity, X, Clock, AlertTriangle, Sparkles, Cpu, Radio, ArrowRight, ShieldCheck } from 'lucide-react';
 import { useAppState } from '../store/AppContext';
 import { getCompanyById } from '../data';
+import { IntelligenceAPI, RankedSignal } from '../services/api';
 
 const WatchlistPage: React.FC = () => {
   const navigate = useNavigate();
   const { watchlist, removeFromWatchlist } = useAppState();
+  const [activeTab, setActiveTab] = useState<'WATCHLIST' | 'ML_SIGNALS'>('ML_SIGNALS');
+
+  const rankedSignals = useMemo(() => {
+    return IntelligenceAPI.getRankedSignals(30);
+  }, []);
 
   const handleRemove = (companyId: string, e: React.MouseEvent) => {
     e.stopPropagation();
     removeFromWatchlist(companyId);
   };
+
 
   const getImportanceColor = (importance: string) => {
     switch (importance) {
@@ -36,9 +43,119 @@ const WatchlistPage: React.FC = () => {
           <p className="text-slate-600 font-mono text-xs tracking-wider uppercase">
             Active entity monitoring: delta tracking, newly observed signals, and state mutations.
           </p>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-6">
+            <div className="flex items-center gap-2 p-1 bg-white border border-slate-200 rounded-xl shadow-2xs">
+              <button
+                onClick={() => setActiveTab('ML_SIGNALS')}
+                className={`px-4 py-2 rounded-lg font-mono text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
+                  activeTab === 'ML_SIGNALS'
+                    ? 'bg-blue-600 text-white shadow-2xs'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                }`}
+              >
+                <Sparkles size={14} className={activeTab === 'ML_SIGNALS' ? 'text-amber-300' : 'text-blue-600'} />
+                <span>ML-RANKED ALPHA SIGNALS</span>
+                <span className={`px-1.5 py-0.2 rounded text-[10px] ${activeTab === 'ML_SIGNALS' ? 'bg-blue-700 text-white' : 'bg-slate-100 text-slate-700'}`}>
+                  {rankedSignals.length}
+                </span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab('WATCHLIST')}
+                className={`px-4 py-2 rounded-lg font-mono text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
+                  activeTab === 'WATCHLIST'
+                    ? 'bg-blue-600 text-white shadow-2xs'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                }`}
+              >
+                <Eye size={14} />
+                <span>MY RADAR DESK</span>
+                <span className={`px-1.5 py-0.2 rounded text-[10px] ${activeTab === 'WATCHLIST' ? 'bg-blue-700 text-white' : 'bg-slate-100 text-slate-700'}`}>
+                  {watchlist.length}
+                </span>
+              </button>
+            </div>
+
+            <div className="text-xs font-mono text-slate-500">
+              {activeTab === 'ML_SIGNALS' ? '5-Factor Model: Recency (30%) • Confidence (25%) • Impact (20%) • Source (15%) • Early Alpha (10%)' : 'Active entity tracking across corporate filings & delta logs'}
+            </div>
+          </div>
         </header>
 
-        {watchlist.length === 0 ? (
+        {activeTab === 'ML_SIGNALS' ? (
+          <div className="space-y-4">
+            {rankedSignals.map((item, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: Math.min(idx * 0.03, 0.3) }}
+                className="bg-white border border-slate-200 rounded-xl p-5 hover:border-blue-300 hover:shadow-md transition-all flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+              >
+                <div className="space-y-1.5 flex-1 min-w-0">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${
+                      item.tier === 'ALPHA' ? 'bg-purple-50 text-purple-700 border-purple-200' :
+                      item.tier === 'HIGH_CONVICTION' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
+                      item.tier === 'SURGING' ? 'bg-blue-50 text-blue-700 border-blue-200' :
+                      'bg-slate-100 text-slate-600 border-slate-200'
+                    }`}>
+                      {item.tier} • SCORE {item.compositeScore}
+                    </span>
+
+                    <span className="text-[10px] font-mono px-2 py-0.5 bg-slate-100 text-slate-700 rounded font-semibold">
+                      {item.signal.type}
+                    </span>
+
+                    <span className="text-[11px] font-mono text-slate-400">
+                      {item.signal.date}
+                    </span>
+                  </div>
+
+                  <h3 className="text-base font-bold text-slate-900 leading-snug">
+                    {item.signal.title}
+                  </h3>
+
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    {item.signal.description}
+                  </p>
+
+                  <div className="flex flex-wrap items-center gap-3 pt-2 text-[10px] font-mono text-slate-500 border-t border-slate-100">
+                    <span>Recency: <strong className="text-slate-700">{item.breakdown.recencyScore}</strong></span>
+                    <span>•</span>
+                    <span>Confidence: <strong className="text-slate-700">{item.breakdown.confidenceScore}</strong></span>
+                    <span>•</span>
+                    <span>Impact: <strong className="text-slate-700">{item.breakdown.impactScore}</strong></span>
+                    <span>•</span>
+                    <span>Source Veracity: <strong className="text-slate-700">{item.breakdown.sourceScore}</strong></span>
+                  </div>
+                </div>
+
+                <div className="flex md:flex-col items-center md:items-end justify-between w-full md:w-auto shrink-0 gap-2 border-t md:border-t-0 pt-3 md:pt-0 border-slate-100">
+                  <div className="text-left md:text-right">
+                    <div className="font-bold text-sm text-slate-900">{item.companyName}</div>
+                    <div className="text-[10px] font-mono text-slate-400">Target Entity</div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => navigate(`/company/${item.companyId}`)}
+                      className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-lg text-xs font-mono font-bold text-slate-800 transition-colors cursor-pointer"
+                    >
+                      DOSSIER
+                    </button>
+                    <button
+                      onClick={() => navigate(`/analyst?company=${item.companyId}`)}
+                      className="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-lg text-xs font-mono font-bold transition-colors cursor-pointer flex items-center gap-1"
+                    >
+                      <Sparkles size={11} />
+                      <span>RAG</span>
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        ) : watchlist.length === 0 ? (
           <motion.div 
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}

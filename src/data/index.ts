@@ -4,7 +4,7 @@ import { markets } from './markets';
 import { opportunities } from './opportunities';
 import { investigations } from './investigations';
 import { redTeamAnalyses } from './redteam';
-import { comparisons } from './comparisons';
+import { comparisons, generateDynamicComparison } from './comparisons';
 import { networkConnections, networkPaths } from './network';
 import { recommendations, getContextualRecommendations } from './recommendations';
 import { dominoEffects } from './domino';
@@ -68,8 +68,17 @@ export const getCompanyComparison = (companyA: string, companyB: string) => {
   const norm = (id: string) => id?.toLowerCase().replace(/^c_/, '');
   const aNorm = norm(companyA);
   const bNorm = norm(companyB);
-  return comparisons.find(c => 
+  const existing = comparisons.find(c => 
     (norm(c.companyA) === aNorm && norm(c.companyB) === bNorm) || 
     (norm(c.companyA) === bNorm && norm(c.companyB) === aNorm)
   );
+  if (existing) return existing;
+
+  const compA = getCompanyById(companyA);
+  const compB = getCompanyById(companyB);
+  if (compA && compB) {
+    return generateDynamicComparison(compA, compB);
+  }
+  return undefined;
 };
+
